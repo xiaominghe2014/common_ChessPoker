@@ -171,7 +171,26 @@ export  namespace landlordsAlgorithm {
        *   牌型判断函数  begin
        * -----------------------------------
        */
-       
+
+        /**
+        * 是否是单张
+        */
+       export function isSingle(pokers:Array<number>):TypeMsg{
+            if(1===pokers.length){
+                let ws = getPokersWeight(pokers)
+                ws.sort()
+                return {
+                    yes:true,
+                    type:PokerType.SINGLE,
+                    weight:ws[0],
+                    repeated:1
+                }
+            } 
+            return {
+                yes:false
+            }
+       }
+
        /**
         * 是否是对子
         */
@@ -333,7 +352,7 @@ export  namespace landlordsAlgorithm {
          */
         export function isStraight2(pokers:Array<number>):TypeMsg{
             let len = pokers.length
-            if(9<=len&&0===len%3){
+            if(6<=len&&0===len%2){
                 let ws = getPokersWeight(pokers)
                 ws.sort()
                 if(p_2_weight>ws[len-1]){
@@ -362,7 +381,7 @@ export  namespace landlordsAlgorithm {
          */
         export function isStraight3(pokers:Array<number>):TypeMsg{
             let len = pokers.length
-            if(6<=len&&0===len%2){
+            if(9<=len&&0===len%3){
                 let ws = getPokersWeight(pokers)
                 ws.sort()
                 if(p_2_weight>ws[len-1]){
@@ -457,7 +476,7 @@ export  namespace landlordsAlgorithm {
                 let threeArr:Array<Array<number>> = []
                 let three:Array<number> = []
                 for(let i:number=ws[0] ; i < ws[len-1]+1 && i < p_2_weight ; i++){
-                    if(3 <= msg[i].info){
+                    if(3 <= msg.info[i]){
                         three.push(i)
                         startIndex ++
                     }else{
@@ -472,6 +491,15 @@ export  namespace landlordsAlgorithm {
                         three = []
                     }
                 }
+                if(planeLen<=startIndex){
+                    let tmp:Array<number> = []
+                    for(let e of three){
+                        tmp.push(e)
+                    }
+                    threeArr.push(tmp)
+                }
+                startIndex = 0
+                three = []               
 
                 if(threeArr.length){
                     //取最大值
@@ -510,9 +538,8 @@ export  namespace landlordsAlgorithm {
                 let startIndex:number = 0
                 let threeArr:Array<Array<number>> = []
                 let three:Array<number> = []
-                let searchIndex:number = ws[0] 
                 for(let i:number=ws[0] ; i < ws[len-1]+1 && i < p_2_weight ; i++){
-                    if(3 <= msg[i].info){
+                    if(3 <= msg.info[i]){
                         three.push(i)
                         startIndex ++
                     }else{
@@ -527,6 +554,15 @@ export  namespace landlordsAlgorithm {
                         three = []
                     }
                 }
+                if(planeLen<=startIndex){
+                    let tmp:Array<number> = []
+                    for(let e of three){
+                        tmp.push(e)
+                    }
+                    threeArr.push(tmp)
+                }
+                startIndex = 0
+                three = []
                 if(threeArr.length){
                     //筛选
                     let threeArr2:Array<Array<number>> = []
@@ -567,6 +603,76 @@ export  namespace landlordsAlgorithm {
             return {
                 yes:false
             }           
+        }
+
+        /**
+         * 获取牌组类型
+         * @param pokers 
+         */
+        export function getPokersTypes(pokers:Array<number>):Array<TypeMsg>{
+            let res:Array<TypeMsg> = []
+            if(isValidPokersArray(pokers)){
+                let SINGLE = isSingle(pokers)
+                if(SINGLE.yes){
+                    res.push(SINGLE)
+                }
+                let TWINS = isTwins(pokers)
+                if(TWINS.yes){
+                    res.push(TWINS)
+                }
+                let BOMB_KING = isBombKing(pokers)
+                if(BOMB_KING.yes){
+                    res.push(BOMB_KING)
+                }
+                let THREE = isThree(pokers)
+                if(THREE.yes){
+                    res.push(THREE)
+                }
+                let THREE_BAND_1 = isThreeBand1(pokers)
+                if(THREE_BAND_1.yes){
+                    res.push(THREE_BAND_1)
+                }
+                let THREE_BAND_2 = isThreeBand2(pokers)
+                if(THREE_BAND_2.yes){
+                    res.push(THREE_BAND_2)
+                }
+                let BOMB = isBomb(pokers)
+                if(BOMB.yes){
+                    res.push(BOMB)
+                }
+                let STRAIGHT_1 = isStraight1(pokers)
+                if(STRAIGHT_1.yes){
+                    res.push(STRAIGHT_1)
+                }               
+                let STRAIGHT_2 = isStraight2(pokers)
+                if(STRAIGHT_2.yes){
+                    res.push(STRAIGHT_2)
+                }   
+                let STRAIGHT_3 = isStraight3(pokers)
+                if(STRAIGHT_3.yes){
+                    res.push(STRAIGHT_3)
+                }   
+                let FOUR_WITH_2 = isFour2(pokers)
+                if(FOUR_WITH_2.yes){
+                    res.push(FOUR_WITH_2)
+                } 
+                let FOUR_WITH_4 = isFour4(pokers)
+                if(FOUR_WITH_4.yes){
+                    res.push(FOUR_WITH_4)
+                } 
+                let PLANE_WITH_SINGLE = isPlane1(pokers)
+                if(PLANE_WITH_SINGLE.yes){
+                    res.push(PLANE_WITH_SINGLE)
+                } 
+                let PLANE_WITH_TWINS = isPlane2(pokers)
+                if(PLANE_WITH_TWINS.yes){
+                    res.push(PLANE_WITH_TWINS)
+                } 
+            }
+            if(res.length) return res
+            return [{
+                yes:false
+            }]
         }
 
 }
