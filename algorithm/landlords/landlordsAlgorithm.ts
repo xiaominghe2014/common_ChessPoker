@@ -1,7 +1,6 @@
 import {Poker} from '../../model/Poker';
 import { Algorithm } from '../Algorithm';
 import { common } from '../../utils/common';
-import { common } from '../../bin/js/utils/common';
 
 export  namespace landlordsAlgorithm {
 
