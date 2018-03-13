@@ -1,5 +1,7 @@
 import {Poker} from '../../model/Poker';
 import { Algorithm } from '../Algorithm';
+import { common } from '../../utils/common';
+import { common } from '../../bin/js/utils/common';
 
 export  namespace landlordsAlgorithm {
 
@@ -130,6 +132,38 @@ export  namespace landlordsAlgorithm {
        */
       export function shufflePokers(pokers:Array<number>):Array<number>{
          return Algorithm.shuffleArray(pokers)
+      }
+
+
+      /**
+       * 删除指定权值的若干张牌
+       */
+      export function removeWeightFromArray(weight:number,count:number,pokers:Array<number>):number{
+         let tmp:Array<number> = [].concat(pokers)
+         for(let e of tmp){
+            let w:number = getPokerWeight(e)
+            if(w===weight&&count>0){
+                common.removeElementFromArray(e,pokers)
+                count--
+            } 
+         }
+         return count
+      }
+
+
+      /**
+       * 是否全为对子
+       */
+      export function isAllTwins(pokers:Array<number>):boolean{
+          let len = pokers.length
+          if(2<=len&&0===len%2){
+              let msg:PokersMsg = getPokersMsg(pokers)
+              for(let i:number=0;i<msg.info.length;i++){
+                    if(msg.info[i]&&2!=msg.info[i]) return false
+              }
+              return true
+          }
+          return false
       }
 
 
@@ -405,4 +439,135 @@ export  namespace landlordsAlgorithm {
                 yes:false
             }
         }
+
+        /**
+         * 是否飞机带单
+         * 1.如果为飞机，则长度 为 len / 4
+         * 2.先寻找所有的连续次数为 len / 4 或者以上的三张
+         * 3.优先获取权值较大的满足条件的 三张
+         * 4.判断是否存在，以及 返回
+         */
+        export function isPlane1(pokers:Array<number>):TypeMsg{
+            let len = pokers.length
+            if(8<=len&&0==len%4){
+                let ws = getPokersWeight(pokers)
+                ws.sort()
+                let msg:PokersMsg = getPokersMsg(pokers)
+                let planeLen:number = len / 4
+                let startIndex:number = 0
+                let threeArr:Array<Array<number>> = []
+                let three:Array<number> = []
+                for(let i:number=ws[0] ; i < ws[len-1]+1 && i < p_2_weight ; i++){
+                    if(3 <= msg[i].info){
+                        three.push(i)
+                        startIndex ++
+                    }else{
+                        if(planeLen<=startIndex){
+                            let tmp:Array<number> = []
+                            for(let e of three){
+                                tmp.push(e)
+                            }
+                            threeArr.push(tmp)
+                        }
+                        startIndex = 0
+                        three = []
+                    }
+                }
+
+                if(threeArr.length){
+                    //取最大值
+                    let max:number = 0
+                    for(let e of threeArr){
+                        let lenE = e.length
+                        max = e[lenE-1]>max?e[lenE-1]:max
+                    }
+                    return {
+                        yes:true,
+                        type:PokerType.PLANE_WITH_SINGLE,
+                        weight:max,
+                        repeated:len/4
+                    }
+                }
+            }
+            return {
+                yes:false
+            }
+        }
+
+        /**
+         * 是否是飞机双
+         * 1.如果为飞机，则长度 为 len / 5
+         * 2.先寻找所有的连续次数为 len / 5 或者以上的三张
+         * 3.筛选排除满足条件的三张之后剩余的是否全为对子
+         * 4.判断是否存在，以及 返回
+         */
+        export function isPlane2(pokers:Array<number>):TypeMsg{
+            let len = pokers.length
+            if(10<=len&&0==len%5){
+                let ws = getPokersWeight(pokers)
+                ws.sort()
+                let msg:PokersMsg = getPokersMsg(pokers)
+                let planeLen:number = len / 5
+                let startIndex:number = 0
+                let threeArr:Array<Array<number>> = []
+                let three:Array<number> = []
+                let searchIndex:number = ws[0] 
+                for(let i:number=ws[0] ; i < ws[len-1]+1 && i < p_2_weight ; i++){
+                    if(3 <= msg[i].info){
+                        three.push(i)
+                        startIndex ++
+                    }else{
+                        if(planeLen<=startIndex){
+                            let tmp:Array<number> = []
+                            for(let e of three){
+                                tmp.push(e)
+                            }
+                            threeArr.push(tmp)
+                        }
+                        startIndex = 0
+                        three = []
+                    }
+                }
+                if(threeArr.length){
+                    //筛选
+                    let threeArr2:Array<Array<number>> = []
+                    let three2:Array<number> = []
+                    let threeArrLen:number = threeArr.length
+                    for(let k:number=0;k<threeArrLen;k++){
+                        let t = [].concat(threeArr[k])
+                        while(planeLen<=t.length){
+                            let tmpPokers:Array<number>= [].concat(pokers)
+                            for(let j:number=0;j<planeLen;j++){
+                                three2.push(t[t.length-j-1])
+                                removeWeightFromArray(t[t.length-j-1],3,tmpPokers)
+                            }
+                            if(isAllTwins(tmpPokers)){
+                                three2.sort()
+                                threeArr2.push([].concat(three2))
+                            }
+                            three2 = []
+                            common.removeElementFromArray(t[t.length-1],t)
+                        }
+                    }
+                    if(threeArr2.length){
+                        //取最大值
+                        let max:number = -1
+                        for(let e of threeArr2){
+                            let lenE = e.length
+                            max = e[lenE-1]>max?e[lenE-1]:max
+                        }
+                        return {
+                            yes:true,
+                            type:PokerType.PLANE_WITH_TWINS,
+                            weight:max,
+                            repeated:len/5
+                        }
+                    }
+                }                              
+            }
+            return {
+                yes:false
+            }           
+        }
+
 }
