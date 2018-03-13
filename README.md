@@ -1,2 +1,2 @@
-# common_algorithm
-常用算法实现
+# common_chessPoker
+常用棋牌算法和逻辑实现
