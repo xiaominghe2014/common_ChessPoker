@@ -1,0 +1,24 @@
+{
+  "name": "common-chess-poker",
+  "version": "0.0.0",
+  "description": "Programming designed for chess and poker",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaominghe2014/common_ChessPoker"
+  },
+  "author": "Ximena <xiaominghe2014@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=7.4.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "postinstall": "tsc",
+    "prepublish": "tsc"
+  },
+  "dependencies": {
+    "@types/node": "^9.4.7",
+    "typescript": "^2.7.2"
+  }
+}

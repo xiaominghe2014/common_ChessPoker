@@ -1,15 +1,17 @@
-import { Poker } from '../model/Poker';
-import { common } from '../utils/common';
-import { Algorithm } from '../algorithm/Algorithm';
+import * as Poker from '../model/Poker';
+import * as common from '../utils/common';
+import * as Algorithm  from '../algorithm/Algorithm';
 import { qp_log } from '../utils/log';
-import { landlordsAlgorithm as landlords } from '../algorithm/landlords/landlordsAlgorithm';
+/// <reference path="../algorithm/landlords/landlordsAlgorithm.ts"/>
+import { landlords } from '../algorithm/landlords/landlordsAlgorithm';
 
 function test():void{
 
     let mPair:Poker.CardPair = new Poker.CardPair()
     qp_log('mPair',mPair)
 
-    let mCards:Array<Poker.Card> = [].concat(mPair.cards).concat(mPair.cards)
+    let mCards:Array<Poker.Card> = []
+    mCards = mCards.concat(mPair.cards).concat(mPair.cards)
     qp_log('mCards',mCards);
 
     Algorithm.pokerDefaultSort(mCards)

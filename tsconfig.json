@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "build",
+    "target": "es5",
+    "sourceMap": true,
+    "skipDefaultLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators" : true,
+    "noImplicitAny": true,
+    "strictNullChecks": true
+  },
+  "include": [ "*/**/*.ts" ],
+  "exclude": [
+      "node_modules"
+  ]
+}
