@@ -27,12 +27,13 @@
 //     return data
 // }
 Object.defineProperty(exports, "__esModule", { value: true });
-function qp_log() {
+function qp_log(message) {
     var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
     }
     //let info:LogInfo = getLogInfo();
+    args.unshift(message);
     console.log("==================================");
     args.forEach(function (arg) { return console.log(arg); });
     console.log("==================================");

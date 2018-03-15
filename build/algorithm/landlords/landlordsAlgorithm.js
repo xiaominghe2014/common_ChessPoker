@@ -132,7 +132,7 @@ var landlords;
         if (2 <= len && 0 === len % 2) {
             var msg = getPokersMsg(pokers);
             for (var i = 0; i < msg.info.length; i++) {
-                if (msg.info[i] && 2 != msg.info[i])
+                if (msg.info[i] && 0 != msg.info[i] % 2)
                     return false;
             }
             return true;

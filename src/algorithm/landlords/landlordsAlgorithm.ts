@@ -159,7 +159,7 @@ export namespace landlords {
         if (2 <= len && 0 === len % 2) {
             let msg: PokersMsg = getPokersMsg(pokers)
             for (let i: number = 0; i < msg.info.length; i++) {
-                if (msg.info[i] && 2 != msg.info[i]) return false
+                if (msg.info[i] && 0 != msg.info[i]%2) return false
             }
             return true
         }

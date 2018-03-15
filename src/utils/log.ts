@@ -26,8 +26,9 @@
 //     return data
 // }
 
-export function qp_log (...args:any[]):void {
+export function qp_log (message?:any,...args:any[]):void {
     //let info:LogInfo = getLogInfo();
+    args.unshift(message);
     console.log("==================================");
     args.forEach((arg)=>console.log(arg));
     console.log("==================================");

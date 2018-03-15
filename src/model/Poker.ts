@@ -9,8 +9,8 @@ import * as common from '../utils/common';
 export const enum Color {
     SPADE, //黑桃
     HEART, //红桃
-    DIAMOND,//方块
     CLUB,//梅花
+    DIAMOND,//方块
     KING, //王
     BACK //牌背
 }

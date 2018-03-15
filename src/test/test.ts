@@ -50,6 +50,22 @@ function test():void{
     qp_log(out3)
     let msg3:Array<landlords.TypeMsg> = landlords.getPokersTypes(Algorithm.pokersToArray(out3))
     qp_log(msg3)
+
+
+    let out4:Array<Poker.Card> = []
+    for(let i:number = 0 ; i< 3 ; i++){
+        out4.push({color:Poker.Color.SPADE,value:Poker.Value.v_3})
+        out4.push({color:Poker.Color.CLUB,value:Poker.Value.v_4})
+        out4.push({color:Poker.Color.DIAMOND,value:Poker.Value.v_5})
+        out4.push({color:Poker.Color.HEART,value:Poker.Value.v_6})
+        out4.push({color:Poker.Color.SPADE,value:Poker.Value.v_7})
+        out4.push({color:Poker.Color.CLUB,value:Poker.Value.v_8})
+    }
+    out4.push({color:Poker.Color.SPADE,value:Poker.Value.v_7})
+    out4.push({color:Poker.Color.CLUB,value:Poker.Value.v_8})
+    qp_log(out4)
+    let msg4:Array<landlords.TypeMsg> = landlords.getPokersTypes(Algorithm.pokersToArray(out4))
+    qp_log(msg4)
 }
 
 test()

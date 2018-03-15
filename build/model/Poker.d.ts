@@ -6,8 +6,8 @@
 export declare const enum Color {
     SPADE = 0,
     HEART = 1,
-    DIAMOND = 2,
-    CLUB = 3,
+    CLUB = 2,
+    DIAMOND = 3,
     KING = 4,
     BACK = 5,
 }

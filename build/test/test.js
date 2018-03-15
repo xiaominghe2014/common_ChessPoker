@@ -36,13 +36,27 @@ function test() {
     var out3 = [];
     for (var i = 0; i < 5; i++) {
         out3.push({ color: 0 /* SPADE */, value: 0 /* v_3 */ });
-        out3.push({ color: 3 /* CLUB */, value: 1 /* v_4 */ });
-        out3.push({ color: 2 /* DIAMOND */, value: 2 /* v_5 */ });
+        out3.push({ color: 2 /* CLUB */, value: 1 /* v_4 */ });
+        out3.push({ color: 3 /* DIAMOND */, value: 2 /* v_5 */ });
         out3.push({ color: 1 /* HEART */, value: 3 /* v_6 */ });
     }
     log_1.qp_log(out3);
     var msg3 = landlordsAlgorithm_1.landlords.getPokersTypes(Algorithm.pokersToArray(out3));
     log_1.qp_log(msg3);
+    var out4 = [];
+    for (var i = 0; i < 3; i++) {
+        out4.push({ color: 0 /* SPADE */, value: 0 /* v_3 */ });
+        out4.push({ color: 2 /* CLUB */, value: 1 /* v_4 */ });
+        out4.push({ color: 3 /* DIAMOND */, value: 2 /* v_5 */ });
+        out4.push({ color: 1 /* HEART */, value: 3 /* v_6 */ });
+        out4.push({ color: 0 /* SPADE */, value: 4 /* v_7 */ });
+        out4.push({ color: 2 /* CLUB */, value: 5 /* v_8 */ });
+    }
+    out4.push({ color: 0 /* SPADE */, value: 4 /* v_7 */ });
+    out4.push({ color: 2 /* CLUB */, value: 5 /* v_8 */ });
+    log_1.qp_log(out4);
+    var msg4 = landlordsAlgorithm_1.landlords.getPokersTypes(Algorithm.pokersToArray(out4));
+    log_1.qp_log(msg4);
 }
 test();
 //# sourceMappingURL=test.js.map
