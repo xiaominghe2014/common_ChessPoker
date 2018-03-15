@@ -15,7 +15,14 @@ if [ -d `pwd`/${BUILD_DIR} ]; then
 fi
 
 echo "build starting"
+
+if [ hash tsc ]; then
+	npm install typescript -g
+fi
+
 tsc --pretty -p .
 echo "buld finished"
 echo "test ................"
 node `pwd`/${BUILD_DIR}/test/test.js
+
+

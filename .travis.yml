@@ -1,0 +1,5 @@
+language: node_js
+nodejs:
+  - '0.8'
+scripts:
+  - sh ./auto_build.sh
