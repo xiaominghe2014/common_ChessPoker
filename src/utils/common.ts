@@ -69,3 +69,14 @@ export function isAEqualB(a: any, b: any): boolean {
 export function getDefaultArray(len: number, defaultValue: any = 0): Array<any> {
     return [...Array(len)].map(_ => defaultValue);
 }
+
+/**
+ * 赋值数组
+ */
+export function getCopyArray<T>(arr:Array<T>):Array<T>{
+    let res = [] as Array<T>
+    for(let e of arr){
+        res.push(e)
+    }
+    return res
+}

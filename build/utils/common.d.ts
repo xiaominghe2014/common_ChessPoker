@@ -22,3 +22,7 @@ export declare function isAEqualB(a: any, b: any): boolean;
  * 获取一个固定长度的原始数组
  */
 export declare function getDefaultArray(len: number, defaultValue?: any): Array<any>;
+/**
+ * 赋值数组
+ */
+export declare function getCopyArray<T>(arr: Array<T>): Array<T>;

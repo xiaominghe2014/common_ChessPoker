@@ -1,9 +1,11 @@
+
 import * as Poker from '../model/Poker';
 import * as common from '../utils/common';
 import * as Algorithm  from '../algorithm/Algorithm';
 import { qp_log } from '../utils/log';
-/// <reference path="../algorithm/landlords/landlordsAlgorithm.ts"/>
-import { landlords } from '../algorithm/landlords/landlordsAlgorithm';
+import landlords  from '../algorithm/landlords/landlordsAlgorithm';
+
+
 
 function test():void{
 
@@ -19,7 +21,7 @@ function test():void{
 
     Algorithm.rmArrayRepeat(mCards)
     qp_log('mCards---rmArrayRepeat',mCards)
-
+    
     let pokers = landlords.getPokers()
     qp_log(pokers);
     landlords.shufflePokers(pokers)

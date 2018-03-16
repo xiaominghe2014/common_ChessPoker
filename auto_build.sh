@@ -14,6 +14,8 @@ if [ -d `pwd`/${BUILD_DIR} ]; then
 	echo "remove cache finished"
 fi
 
+npm i
+
 echo "build starting"
 
 if [ hash tsc ]; then
@@ -21,8 +23,10 @@ if [ hash tsc ]; then
 fi
 
 tsc --pretty -p .
+
 echo "buld finished"
 echo "test ................"
+
 node `pwd`/${BUILD_DIR}/test/test.js
 
 

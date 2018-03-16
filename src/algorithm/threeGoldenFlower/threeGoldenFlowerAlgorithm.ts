@@ -2,7 +2,7 @@ import * as Poker from '../../model/Poker';
 import * as Algorithm from '../Algorithm';
 import * as common from '../../utils/common';
 
-export namespace threeGoldenFlower {
+namespace threeGoldenFlower {
 
     export const enum PokerType {
         SINGLE, //单张
@@ -107,16 +107,16 @@ export namespace threeGoldenFlower {
     export function isSameColorStraight(pokers: Array<number>): TypeMsg {
         let sameColor = isSameColor(pokers)
         let staright = isStraight(pokers)
-        if(sameColor.yes && staright.yes){
+        if (sameColor.yes && staright.yes) {
             return {
-                yes:true,
-                type:PokerType.SAME_COLOR_STRAIGHT,
-                weight:staright.weight
+                yes: true,
+                type: PokerType.SAME_COLOR_STRAIGHT,
+                weight: staright.weight
             }
         }
         return {
             yes: false
-        }        
+        }
     }
 
     /**
@@ -147,24 +147,24 @@ export namespace threeGoldenFlower {
     export function isStraight(pokers: Array<number>): TypeMsg {
         let ws: Array<number> = getPokersWeight(pokers)
         ws.sort()
-        if(ws[0]+2===ws[1]+1&&ws[0]+2==ws[2]){
+        if (ws[0] + 2 === ws[1] + 1 && ws[0] + 2 == ws[2]) {
             return {
-                yes:true,
-                type:PokerType.STRAIGHT,
-                weight:ws[2]
+                yes: true,
+                type: PokerType.STRAIGHT,
+                weight: ws[2]
             }
         }
         let cards: Array<Poker.Card> = pokersToCards(pokers)
-        cards.sort((a,b)=>{
-            return a.value-b.value
+        cards.sort((a, b) => {
+            return a.value - b.value
         })
-        if(Poker.Value.v_3 === cards[0].value
-        &&Poker.Value.v_A === cards[1].value
-        &&Poker.Value.v_2 === cards[2].value){
+        if (Poker.Value.v_3 === cards[0].value
+            && Poker.Value.v_A === cards[1].value
+            && Poker.Value.v_2 === cards[2].value) {
             return {
-                yes:true,
-                type:PokerType.STRAIGHT,
-                weight:ws[1]
+                yes: true,
+                type: PokerType.STRAIGHT,
+                weight: ws[1]
             }
         }
         return {
@@ -178,7 +178,7 @@ export namespace threeGoldenFlower {
     export function isTwins(pokers: Array<number>): TypeMsg {
         let ws: Array<number> = getPokersWeight(pokers)
         ws.sort()
-        if (ws[0] === ws[1]||ws[1]===ws[2]) return {
+        if (ws[0] === ws[1] || ws[1] === ws[2]) return {
             yes: true,
             type: PokerType.TWINS,
             weight: ws[1]
@@ -191,19 +191,19 @@ export namespace threeGoldenFlower {
     /**
      * 是否为异色2,3,5
      */
-    export function is235(pokers: Array<number>): TypeMsg{
+    export function is235(pokers: Array<number>): TypeMsg {
         let cards: Array<Poker.Card> = pokersToCards(pokers)
-        cards.sort((a,b)=>{
-            return a.value-b.value
+        cards.sort((a, b) => {
+            return a.value - b.value
         })
-        if(Poker.Value.v_3 === cards[0].value
-        &&Poker.Value.v_5 === cards[1].value
-        &&Poker.Value.v_2 === cards[2].value
-        &&cards[0].color!=cards[1].color
-        &&cards[0].color!=cards[2].color
-        &&cards[1].color!=cards[2].color){
+        if (Poker.Value.v_3 === cards[0].value
+            && Poker.Value.v_5 === cards[1].value
+            && Poker.Value.v_2 === cards[2].value
+            && cards[0].color != cards[1].color
+            && cards[0].color != cards[2].color
+            && cards[1].color != cards[2].color) {
             return {
-                yes:true
+                yes: true
             }
         }
         return {
@@ -212,3 +212,5 @@ export namespace threeGoldenFlower {
     }
 
 }
+
+export default threeGoldenFlower

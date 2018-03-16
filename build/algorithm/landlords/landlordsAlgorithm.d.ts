@@ -1,4 +1,4 @@
-export declare namespace landlords {
+declare namespace landlords {
     const enum PokerType {
         SINGLE = 0,
         TWINS = 1,
@@ -24,7 +24,12 @@ export declare namespace landlords {
         type?: PokerType;
         weight?: number;
         repeated?: number;
+        pokers?: Array<number>;
     }
+    /**
+     * 相同牌型比较大小
+     */
+    function sameTypeSort(a: TypeMsg, b: TypeMsg): number;
     /**
      * 是否是有效的牌值
      */
@@ -139,4 +144,84 @@ export declare namespace landlords {
      * @param pokers
      */
     function getPokersTypes(pokers: Array<number>): Array<TypeMsg>;
+    /**-----------------------------------
+     *
+     *   指定牌型获取  begin
+     * -----------------------------------
+     */
+    /**
+     * 获取所有的单牌，按照权值组合
+     * @param pokers
+     */
+    function getAllSingle(pokers: Array<number>): Array<TypeMsg>;
+    /**
+     * 获取所有得对子
+     * @param pokers
+     */
+    function getAllTwins(pokers: Array<number>): Array<TypeMsg>;
+    /**
+     * 获取所有的王炸
+     * @param pokers
+     */
+    function getAllBombKing(pokers: Array<number>): Array<TypeMsg>;
+    /**
+     * 获取所有的三张
+     * @param pokers
+     */
+    function getAllThree(pokers: Array<number>): Array<TypeMsg>;
+    /**
+     * 获取所有的三带一
+     */
+    function getAllThreeBand1(pokers: Array<number>): Array<TypeMsg>;
+    /**
+     * 获取所有的三带二
+     * @param pokers
+     */
+    function getAllThreeBand2(pokers: Array<number>): Array<TypeMsg>;
+    /**
+     * 获取所有的炸弹
+     * @param pokers
+     */
+    function getAllBomb(pokers: Array<number>): Array<TypeMsg>;
+    /**
+     * 获取所有指定长度的单顺
+     * @param len
+     * @param pokers
+     */
+    function getAllStraight1(len: number, pokers: Array<number>): Array<TypeMsg>;
+    /**
+     * 获取所有指定长度的双顺
+     * @param len
+     * @param pokers
+     */
+    function getAllStraight2(len: number, pokers: Array<number>): Array<TypeMsg>;
+    /**
+     * 获取所有指定长度的三顺
+     * @param len
+     * @param pokers
+     */
+    function getAllStraight3(len: number, pokers: Array<number>): Array<TypeMsg>;
+    /**
+     * 获取所有的4带2
+     * @param pokers
+     */
+    function getAllFour2(pokers: Array<number>): Array<TypeMsg>;
+    /**
+     * 获取所有的4带2对
+     * @param pokers
+     */
+    function getAllFour4(pokers: Array<number>): Array<TypeMsg>;
+    /**
+     * 获取所有指定长度的飞机单
+     * @param len
+     * @param pokers
+     */
+    function getAllPlane1(len: number, pokers: Array<number>): Array<TypeMsg>;
+    /**
+     * 获取所有指定长度的飞机双
+     * @param len
+     * @param pokers
+     */
+    function getAllPlane2(len: number, pokers: Array<number>): Array<TypeMsg>;
 }
+export default landlords;

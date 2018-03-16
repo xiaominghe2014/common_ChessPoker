@@ -1,5 +1,5 @@
 import * as Poker from '../../model/Poker';
-export declare namespace threeGoldenFlower {
+declare namespace threeGoldenFlower {
     const enum PokerType {
         SINGLE = 0,
         TWINS = 1,
@@ -68,3 +68,4 @@ export declare namespace threeGoldenFlower {
      */
     function is235(pokers: Array<number>): TypeMsg;
 }
+export default threeGoldenFlower;

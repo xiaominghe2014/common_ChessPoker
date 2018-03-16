@@ -1,40 +1,41 @@
 "use strict";
-// import path =  require('path');
-// export class LogInfo{
-//     method:string;
-//     path:string;
-//     line:string;
-//     pos:string;
-//     file:string;
-// }
+Object.defineProperty(exports, "__esModule", { value: true });
+var path = require("path");
+var LogInfo = /** @class */ (function () {
+    function LogInfo() {
+    }
+    return LogInfo;
+}());
+exports.LogInfo = LogInfo;
 /**
  * 日志函数
  */
-// export function getLogInfo():LogInfo{
-//     let stackList = (new Error()).stack.split('\n').slice(3)
-//     let stackReg = /at\s+(.*)\s+\((.*):(\d*):(\d*)\)/i;
-//     let stackReg2 = /at\s+()(.*):(\d*):(\d*)/i;
-//     let s = stackList[0]
-//     let sp = stackReg.exec(s) || stackReg2.exec(s)
-//     let data:LogInfo = new LogInfo()
-//     if (sp && sp.length === 5) {
-//         data.method = sp[1];
-//         data.path = sp[2];
-//         data.line = sp[3];
-//         data.pos = sp[4];
-//         data.file = path.basename(data.path);
-//     }
-//     return data
-// }
-Object.defineProperty(exports, "__esModule", { value: true });
+function getLogInfo() {
+    var stackList = ((new Error()).stack || "").split('\n').slice(3);
+    var stackReg = /at\s+(.*)\s+\((.*):(\d*):(\d*)\)/i;
+    var stackReg2 = /at\s+()(.*):(\d*):(\d*)/i;
+    var s = stackList[0];
+    var sp = stackReg.exec(s) || stackReg2.exec(s);
+    var data = new LogInfo();
+    if (sp && sp.length === 5) {
+        data.method = sp[1];
+        data.path = sp[2];
+        data.line = sp[3];
+        data.pos = sp[4];
+        data.file = path.basename(data.path);
+    }
+    return data;
+}
+exports.getLogInfo = getLogInfo;
 function qp_log(message) {
     var args = [];
     for (var _i = 1; _i < arguments.length; _i++) {
         args[_i - 1] = arguments[_i];
     }
-    //let info:LogInfo = getLogInfo();
+    var info = getLogInfo();
     args.unshift(message);
     console.log("==================================");
+    console.log(info.path, info.method, info.line);
     args.forEach(function (arg) { return console.log(arg); });
     console.log("==================================");
 }

@@ -12,11 +12,6 @@
   "engines": {
     "node": ">=7.4.0"
   },
-  "scripts": {
-    "build": "tsc",
-    "postinstall": "tsc",
-    "prepublish": "tsc"
-  },
   "dependencies": {
     "@types/node": "^9.4.7",
     "typescript": "^2.7.2"

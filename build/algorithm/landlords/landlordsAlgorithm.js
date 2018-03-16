@@ -9,6 +9,15 @@ var landlords;
     var king_big = 66;
     var p_2_weight = 12;
     /**
+     * 相同牌型比较大小
+     */
+    function sameTypeSort(a, b) {
+        var weightA = a.weight || 0 + (a.repeated || 0) * 100;
+        var weightB = b.weight || 0 + (b.repeated || 0) * 100;
+        return weightA - weightB;
+    }
+    landlords.sameTypeSort = sameTypeSort;
+    /**
      * 是否是有效的牌值
      */
     function isValidPokerNumber(poker) {
@@ -156,7 +165,8 @@ var landlords;
                 yes: true,
                 type: 0 /* SINGLE */,
                 weight: ws[0],
-                repeated: 1
+                repeated: 1,
+                pokers: pokers
             };
         }
         return {
@@ -176,7 +186,8 @@ var landlords;
                     yes: true,
                     type: 1 /* TWINS */,
                     weight: ws[0],
-                    repeated: 1
+                    repeated: 1,
+                    pokers: pokers
                 };
             }
         }
@@ -198,7 +209,8 @@ var landlords;
                         yes: true,
                         type: 2 /* BOMB_KING */,
                         weight: ws[0],
-                        repeated: 1
+                        repeated: 1,
+                        pokers: pokers
                     };
                 }
             }
@@ -220,7 +232,8 @@ var landlords;
                     yes: true,
                     type: 3 /* THREE */,
                     weight: ws[0],
-                    repeated: 1
+                    repeated: 1,
+                    pokers: pokers
                 };
             }
         }
@@ -241,7 +254,8 @@ var landlords;
                     yes: true,
                     type: 4 /* THREE_BAND_1 */,
                     weight: ws[1],
-                    repeated: 1
+                    repeated: 1,
+                    pokers: pokers
                 };
             }
         }
@@ -262,7 +276,8 @@ var landlords;
                     yes: true,
                     type: 5 /* BOMB */,
                     weight: ws[0],
-                    repeated: 1
+                    repeated: 1,
+                    pokers: pokers
                 };
             }
         }
@@ -283,7 +298,8 @@ var landlords;
                     yes: true,
                     type: 6 /* THREE_BAND_2 */,
                     weight: ws[2],
-                    repeated: 1
+                    repeated: 1,
+                    pokers: pokers
                 };
             }
         }
@@ -311,7 +327,8 @@ var landlords;
                     yes: true,
                     type: 7 /* STRAIGHT_1 */,
                     weight: ws[0],
-                    repeated: len
+                    repeated: len,
+                    pokers: pokers
                 };
             }
         }
@@ -340,7 +357,8 @@ var landlords;
                     yes: true,
                     type: 8 /* STRAIGHT_2 */,
                     weight: ws[0],
-                    repeated: len
+                    repeated: len,
+                    pokers: pokers
                 };
             }
         }
@@ -369,7 +387,8 @@ var landlords;
                     yes: true,
                     type: 9 /* STRAIGHT_3 */,
                     weight: ws[0],
-                    repeated: len
+                    repeated: len,
+                    pokers: pokers
                 };
             }
         }
@@ -391,7 +410,8 @@ var landlords;
                     yes: true,
                     type: 10 /* FOUR_WITH_2 */,
                     weight: ws[2],
-                    repeated: 1
+                    repeated: 1,
+                    pokers: pokers
                 };
             }
         }
@@ -421,7 +441,8 @@ var landlords;
                         yes: true,
                         type: 11 /* FOUR_WITH_4 */,
                         weight: ws[indexArr[i][0]],
-                        repeated: 1
+                        repeated: 1,
+                        pokers: pokers
                     };
                 }
             }
@@ -488,7 +509,8 @@ var landlords;
                     yes: true,
                     type: 12 /* PLANE_WITH_SINGLE */,
                     weight: max,
-                    repeated: len / 4
+                    repeated: len / 4,
+                    pokers: pokers
                 };
             }
         }
@@ -579,7 +601,8 @@ var landlords;
                         yes: true,
                         type: 13 /* PLANE_WITH_TWINS */,
                         weight: max,
-                        repeated: len / 5
+                        repeated: len / 5,
+                        pokers: pokers
                     };
                 }
             }
@@ -660,5 +683,388 @@ var landlords;
             }];
     }
     landlords.getPokersTypes = getPokersTypes;
-})(landlords = exports.landlords || (exports.landlords = {}));
+    /**-----------------------------------
+     *
+     *   指定牌型获取  begin
+     * -----------------------------------
+     */
+    /**
+     * 获取所有的单牌，按照权值组合
+     * @param pokers
+     */
+    function getAllSingle(pokers) {
+        var res = [];
+        if (pokers.length) {
+            var msg = getPokersMsg(pokers);
+            for (var i in msg.info) {
+                if (msg.info[i]) {
+                    res.push(isSingle([msg.cards[i][0]]));
+                }
+            }
+        }
+        return res;
+    }
+    landlords.getAllSingle = getAllSingle;
+    /**
+     * 获取所有得对子
+     * @param pokers
+     */
+    function getAllTwins(pokers) {
+        var res = [];
+        if (2 <= pokers.length) {
+            var msg = getPokersMsg(pokers);
+            for (var i in msg.info) {
+                if (2 <= msg.info[i]) {
+                    res.push(isTwins([msg.cards[i][0], msg.cards[i][1]]));
+                }
+            }
+        }
+        return res;
+    }
+    landlords.getAllTwins = getAllTwins;
+    /**
+     * 获取所有的王炸
+     * @param pokers
+     */
+    function getAllBombKing(pokers) {
+        var res = [];
+        if (2 <= pokers.length) {
+            var msg = getPokersMsg(pokers);
+            if (2 <= msg.info[13]) {
+                res.push(isBombKing([king_small, king_small]));
+            }
+            if (msg.info[13] && msg.info[14]) {
+                res.push(isBombKing([king_small, king_big]));
+            }
+            if (2 <= msg.info[13]) {
+                res.push(isBombKing([king_big, king_big]));
+            }
+        }
+        return res;
+    }
+    landlords.getAllBombKing = getAllBombKing;
+    /**
+     * 获取所有的三张
+     * @param pokers
+     */
+    function getAllThree(pokers) {
+        var res = [];
+        var msg = getPokersMsg(pokers);
+        for (var i in msg.info) {
+            if (3 <= msg.info[i]) {
+                res.push(isThree([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2]]));
+            }
+        }
+        return res;
+    }
+    landlords.getAllThree = getAllThree;
+    /**
+     * 获取所有的三带一
+     */
+    function getAllThreeBand1(pokers) {
+        var res = [];
+        var pLen = pokers.length;
+        if (4 <= pLen) {
+            var msg = getPokersMsg(pokers);
+            for (var i in msg.info) {
+                if (3 <= msg.info[i]) {
+                    var tmp = [];
+                    tmp = tmp.concat(pokers);
+                    common.removeAFromB([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2]], tmp);
+                    if (tmp.length) {
+                        tmp.sort((function (a, b) {
+                            return getPokerWeight(a) - getPokerWeight(b);
+                        }));
+                        res.push(isThreeBand1([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2], tmp[0]]));
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    landlords.getAllThreeBand1 = getAllThreeBand1;
+    /**
+     * 获取所有的三带二
+     * @param pokers
+     */
+    function getAllThreeBand2(pokers) {
+        var res = [];
+        var pLen = pokers.length;
+        if (5 <= pLen) {
+            var msg = getPokersMsg(pokers);
+            for (var i in msg.info) {
+                if (3 <= msg.info[i]) {
+                    var tmp = [];
+                    tmp = tmp.concat(pokers);
+                    common.removeAFromB([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2]], tmp);
+                    if (tmp.length) {
+                        var twins = getAllTwins(tmp);
+                        if (twins.length) {
+                            var two = twins[0].pokers || [];
+                            res.push(isThreeBand2([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2]].concat(two)));
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    landlords.getAllThreeBand2 = getAllThreeBand2;
+    /**
+     * 获取所有的炸弹
+     * @param pokers
+     */
+    function getAllBomb(pokers) {
+        var res = [];
+        var pLen = pokers.length;
+        if (4 <= pLen) {
+            var msg = getPokersMsg(pokers);
+            for (var i in msg.info) {
+                if (4 <= msg.info[i]) {
+                    res.push(isBomb([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2], msg.cards[i][3]]));
+                }
+            }
+        }
+        return res;
+    }
+    landlords.getAllBomb = getAllBomb;
+    /**
+     * 获取所有指定长度的单顺
+     * @param len
+     * @param pokers
+     */
+    function getAllStraight1(len, pokers) {
+        var res = [];
+        var pLen = pokers.length;
+        if (len <= pLen) {
+            var msg = getPokersMsg(pokers);
+            var start = 0;
+            var searchIndex = 0;
+            var indexArr = [];
+            for (var i = 0; i < p_2_weight; i++) {
+                if (msg.info[i]) {
+                    start++;
+                    indexArr.push(msg.cards[i][0]);
+                    if (len === start) {
+                        res.push(isStraight1(common.getCopyArray(indexArr)));
+                        start = 0;
+                        indexArr = [];
+                        searchIndex++;
+                        i = searchIndex - 1;
+                    }
+                }
+                else {
+                    searchIndex++;
+                    start = 0;
+                    indexArr = [];
+                }
+            }
+        }
+        return res;
+    }
+    landlords.getAllStraight1 = getAllStraight1;
+    /**
+     * 获取所有指定长度的双顺
+     * @param len
+     * @param pokers
+     */
+    function getAllStraight2(len, pokers) {
+        var res = [];
+        var pLen = pokers.length;
+        if (len <= pLen && 0 === len % 2) {
+            var msg = getPokersMsg(pokers);
+            var start = 0;
+            var searchIndex = 0;
+            var indexArr = [];
+            for (var i = 0; i < p_2_weight; i++) {
+                if (2 <= msg.info[i]) {
+                    start++;
+                    indexArr.push(msg.cards[i][0]);
+                    indexArr.push(msg.cards[i][1]);
+                    if (len === start) {
+                        res.push(isStraight2(common.getCopyArray(indexArr)));
+                        start = 0;
+                        indexArr = [];
+                        searchIndex++;
+                        i = searchIndex - 1;
+                    }
+                }
+                else {
+                    searchIndex++;
+                    start = 0;
+                    indexArr = [];
+                }
+            }
+        }
+        return res;
+    }
+    landlords.getAllStraight2 = getAllStraight2;
+    /**
+     * 获取所有指定长度的三顺
+     * @param len
+     * @param pokers
+     */
+    function getAllStraight3(len, pokers) {
+        var res = [];
+        var pLen = pokers.length;
+        if (len <= pLen && 0 === len % 3) {
+            var msg = getPokersMsg(pokers);
+            var start = 0;
+            var searchIndex = 0;
+            var indexArr = [];
+            for (var i = 0; i < p_2_weight; i++) {
+                if (3 <= msg.info[i]) {
+                    start++;
+                    indexArr.push(msg.cards[i][0]);
+                    indexArr.push(msg.cards[i][1]);
+                    indexArr.push(msg.cards[i][2]);
+                    if (len === start) {
+                        res.push(isStraight3(common.getCopyArray(indexArr)));
+                        start = 0;
+                        indexArr = [];
+                        searchIndex++;
+                        i = searchIndex - 1;
+                    }
+                }
+                else {
+                    searchIndex++;
+                    start = 0;
+                    indexArr = [];
+                }
+            }
+        }
+        return res;
+    }
+    landlords.getAllStraight3 = getAllStraight3;
+    /**
+     * 获取所有的4带2
+     * @param pokers
+     */
+    function getAllFour2(pokers) {
+        var res = [];
+        var pLen = pokers.length;
+        if (6 <= pLen) {
+            var msg = getPokersMsg(pokers);
+            for (var i in msg.info) {
+                if (4 <= msg.info[i]) {
+                    var tmp = [];
+                    tmp = tmp.concat(pokers);
+                    common.removeAFromB([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2], msg.cards[i][3]], tmp);
+                    if (2 <= tmp.length) {
+                        tmp.sort((function (a, b) {
+                            return getPokerWeight(a) - getPokerWeight(b);
+                        }));
+                        res.push(isFour2([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2], msg.cards[i][3],
+                            tmp[0], tmp[1]]));
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    landlords.getAllFour2 = getAllFour2;
+    /**
+     * 获取所有的4带2对
+     * @param pokers
+     */
+    function getAllFour4(pokers) {
+        var res = [];
+        var pLen = pokers.length;
+        if (8 <= pLen) {
+            var msg = getPokersMsg(pokers);
+            for (var i in msg.info) {
+                if (4 <= msg.info[i]) {
+                    var tmp = [];
+                    tmp = tmp.concat(pokers);
+                    common.removeAFromB([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2], msg.cards[i][3]], tmp);
+                    if (4 <= tmp.length) {
+                        var twins = getAllTwins(tmp);
+                        if (2 <= twins.length) {
+                            var two0 = twins[0].pokers || [];
+                            var two1 = twins[1].pokers || [];
+                            res.push(isFour4([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2], msg.cards[i][3],
+                                two0[0], two0[1], two1[0], two1[1]
+                            ]));
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    landlords.getAllFour4 = getAllFour4;
+    /**
+     * 获取所有指定长度的飞机单
+     * @param len
+     * @param pokers
+     */
+    function getAllPlane1(len, pokers) {
+        var res = [];
+        var pLen = pokers.length;
+        if (8 <= len && 0 === len % 4 && len <= pLen) {
+            var straight3 = getAllStraight3(len, pokers);
+            for (var _i = 0, straight3_1 = straight3; _i < straight3_1.length; _i++) {
+                var msg = straight3_1[_i];
+                if (msg.yes) {
+                    var tmp = [];
+                    tmp = tmp.concat(pokers);
+                    common.removeAFromB(msg.pokers || [], tmp);
+                    var planeLen = len / 4;
+                    if (planeLen <= tmp.length) {
+                        var singles = getAllSingle(tmp);
+                        if (planeLen <= singles.length) {
+                            var si = [];
+                            for (var _a = 0, singles_1 = singles; _a < singles_1.length; _a++) {
+                                var s = singles_1[_a];
+                                if (planeLen >= si.length) {
+                                    si = si.concat(s.pokers || []);
+                                }
+                            }
+                            res.push(isPlane1((msg.pokers || []).concat(si)));
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    landlords.getAllPlane1 = getAllPlane1;
+    /**
+     * 获取所有指定长度的飞机双
+     * @param len
+     * @param pokers
+     */
+    function getAllPlane2(len, pokers) {
+        var res = [];
+        var pLen = pokers.length;
+        if (10 <= len && 0 === len % 5 && len <= pLen) {
+            var straight3 = getAllStraight3(len, pokers);
+            for (var _i = 0, straight3_2 = straight3; _i < straight3_2.length; _i++) {
+                var msg = straight3_2[_i];
+                if (msg.yes) {
+                    var tmp = [];
+                    tmp = tmp.concat(pokers);
+                    common.removeAFromB(msg.pokers || [], tmp);
+                    var planeLen = len / 5;
+                    if (planeLen <= tmp.length) {
+                        var twins = getAllTwins(tmp);
+                        if (planeLen <= twins.length) {
+                            var tw = [];
+                            for (var _a = 0, twins_1 = twins; _a < twins_1.length; _a++) {
+                                var t = twins_1[_a];
+                                if (planeLen >= tw.length) {
+                                    tw = tw.concat(t.pokers || []);
+                                }
+                            }
+                            res.push(isPlane2((msg.pokers || []).concat(tw)));
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    landlords.getAllPlane2 = getAllPlane2;
+})(landlords || (landlords = {}));
+exports.default = landlords;
 //# sourceMappingURL=landlordsAlgorithm.js.map

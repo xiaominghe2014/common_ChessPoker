@@ -76,4 +76,16 @@ function getDefaultArray(len, defaultValue) {
     return Array(len).slice().map(function (_) { return defaultValue; });
 }
 exports.getDefaultArray = getDefaultArray;
+/**
+ * 赋值数组
+ */
+function getCopyArray(arr) {
+    var res = [];
+    for (var _i = 0, arr_1 = arr; _i < arr_1.length; _i++) {
+        var e = arr_1[_i];
+        res.push(e);
+    }
+    return res;
+}
+exports.getCopyArray = getCopyArray;
 //# sourceMappingURL=common.js.map

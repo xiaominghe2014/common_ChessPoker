@@ -2,7 +2,7 @@ import * as Poker from '../../model/Poker';
 import * as Algorithm from '../Algorithm';
 import * as common from '../../utils/common';
 
-export namespace landlords {
+namespace landlords {
 
     const king_small: number = 65
     const king_big: number = 66
@@ -38,6 +38,16 @@ export namespace landlords {
         type?: PokerType;//牌型
         weight?: number;//牌型之内牌的权值
         repeated?: number;//几连
+        pokers?: Array<number>;
+    }
+
+    /**
+     * 相同牌型比较大小
+     */
+    export function sameTypeSort(a: TypeMsg, b: TypeMsg) {
+        let weightA = a.weight || 0 + (a.repeated || 0) * 100
+        let weightB = b.weight || 0 + (b.repeated || 0) * 100
+        return weightA - weightB
     }
 
     /**
@@ -159,7 +169,7 @@ export namespace landlords {
         if (2 <= len && 0 === len % 2) {
             let msg: PokersMsg = getPokersMsg(pokers)
             for (let i: number = 0; i < msg.info.length; i++) {
-                if (msg.info[i] && 0 != msg.info[i]%2) return false
+                if (msg.info[i] && 0 != msg.info[i] % 2) return false
             }
             return true
         }
@@ -184,7 +194,8 @@ export namespace landlords {
                 yes: true,
                 type: PokerType.SINGLE,
                 weight: ws[0],
-                repeated: 1
+                repeated: 1,
+                pokers: pokers
             }
         }
         return {
@@ -204,7 +215,8 @@ export namespace landlords {
                     yes: true,
                     type: PokerType.TWINS,
                     weight: ws[0],
-                    repeated: 1
+                    repeated: 1,
+                    pokers: pokers
                 }
             }
         }
@@ -226,7 +238,8 @@ export namespace landlords {
                         yes: true,
                         type: PokerType.BOMB_KING,
                         weight: ws[0],
-                        repeated: 1
+                        repeated: 1,
+                        pokers: pokers
                     }
                 }
             }
@@ -248,7 +261,8 @@ export namespace landlords {
                     yes: true,
                     type: PokerType.THREE,
                     weight: ws[0],
-                    repeated: 1
+                    repeated: 1,
+                    pokers: pokers
                 }
             }
         }
@@ -269,7 +283,8 @@ export namespace landlords {
                     yes: true,
                     type: PokerType.THREE_BAND_1,
                     weight: ws[1],
-                    repeated: 1
+                    repeated: 1,
+                    pokers: pokers
                 }
             }
         }
@@ -290,7 +305,8 @@ export namespace landlords {
                     yes: true,
                     type: PokerType.BOMB,
                     weight: ws[0],
-                    repeated: 1
+                    repeated: 1,
+                    pokers: pokers
                 }
             }
         }
@@ -311,7 +327,8 @@ export namespace landlords {
                     yes: true,
                     type: PokerType.THREE_BAND_2,
                     weight: ws[2],
-                    repeated: 1
+                    repeated: 1,
+                    pokers: pokers
                 }
             }
         }
@@ -339,7 +356,8 @@ export namespace landlords {
                     yes: true,
                     type: PokerType.STRAIGHT_1,
                     weight: ws[0],
-                    repeated: len
+                    repeated: len,
+                    pokers: pokers
                 }
             }
         }
@@ -368,7 +386,8 @@ export namespace landlords {
                     yes: true,
                     type: PokerType.STRAIGHT_2,
                     weight: ws[0],
-                    repeated: len
+                    repeated: len,
+                    pokers: pokers
                 }
             }
         }
@@ -397,7 +416,8 @@ export namespace landlords {
                     yes: true,
                     type: PokerType.STRAIGHT_3,
                     weight: ws[0],
-                    repeated: len
+                    repeated: len,
+                    pokers: pokers
                 }
             }
         }
@@ -419,7 +439,8 @@ export namespace landlords {
                     yes: true,
                     type: PokerType.FOUR_WITH_2,
                     weight: ws[2],
-                    repeated: 1
+                    repeated: 1,
+                    pokers: pokers
                 }
             }
         }
@@ -449,7 +470,8 @@ export namespace landlords {
                         yes: true,
                         type: PokerType.FOUR_WITH_4,
                         weight: ws[indexArr[i][0]],
-                        repeated: 1
+                        repeated: 1,
+                        pokers: pokers
                     }
                 }
             }
@@ -513,7 +535,8 @@ export namespace landlords {
                     yes: true,
                     type: PokerType.PLANE_WITH_SINGLE,
                     weight: max,
-                    repeated: len / 4
+                    repeated: len / 4,
+                    pokers: pokers
                 }
             }
         }
@@ -600,7 +623,8 @@ export namespace landlords {
                         yes: true,
                         type: PokerType.PLANE_WITH_TWINS,
                         weight: max,
-                        repeated: len / 5
+                        repeated: len / 5,
+                        pokers: pokers
                     }
                 }
             }
@@ -680,4 +704,387 @@ export namespace landlords {
         }]
     }
 
+    /**-----------------------------------
+     *
+     *   指定牌型获取  begin
+     * -----------------------------------
+     */
+
+    /**
+     * 获取所有的单牌，按照权值组合
+     * @param pokers 
+     */
+    export function getAllSingle(pokers: Array<number>): Array<TypeMsg> {
+        let res = [] as Array<TypeMsg>
+        if (pokers.length) {
+            let msg = getPokersMsg(pokers)
+            for (let i in msg.info) {
+                if (msg.info[i]) {
+                    res.push(isSingle([msg.cards[i][0]]))
+                }
+            }
+        }
+        return res
+    }
+
+    /**
+     * 获取所有得对子
+     * @param pokers 
+     */
+    export function getAllTwins(pokers: Array<number>): Array<TypeMsg> {
+        let res = [] as Array<TypeMsg>
+        if (2 <= pokers.length) {
+            let msg = getPokersMsg(pokers)
+            for (let i in msg.info) {
+                if (2 <= msg.info[i]) {
+                    res.push(isTwins([msg.cards[i][0], msg.cards[i][1]]))
+                }
+            }
+        }
+        return res
+    }
+
+    /**
+     * 获取所有的王炸
+     * @param pokers 
+     */
+    export function getAllBombKing(pokers: Array<number>): Array<TypeMsg> {
+        let res = [] as Array<TypeMsg>
+        if (2 <= pokers.length) {
+            let msg = getPokersMsg(pokers)
+            if (2 <= msg.info[13]) {
+                res.push(isBombKing([king_small, king_small]))
+            }
+            if (msg.info[13] && msg.info[14]) {
+                res.push(isBombKing([king_small, king_big]))
+            }
+            if (2 <= msg.info[13]) {
+                res.push(isBombKing([king_big, king_big]))
+            }
+        }
+        return res
+    }
+
+    /**
+     * 获取所有的三张
+     * @param pokers 
+     */
+    export function getAllThree(pokers: Array<number>): Array<TypeMsg> {
+        let res = [] as Array<TypeMsg>
+        let msg = getPokersMsg(pokers)
+        for (let i in msg.info) {
+            if (3 <= msg.info[i]) {
+                res.push(isThree([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2]]))
+            }
+        }
+        return res
+    }
+
+    /**
+     * 获取所有的三带一
+     */
+    export function getAllThreeBand1(pokers: Array<number>): Array<TypeMsg> {
+        let res = [] as Array<TypeMsg>
+        let pLen = pokers.length
+        if (4 <= pLen) {
+            let msg = getPokersMsg(pokers)
+            for (let i in msg.info) {
+                if (3 <= msg.info[i]) {
+                    let tmp: Array<number> = []
+                    tmp = tmp.concat(pokers)
+                    common.removeAFromB([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2]], tmp)
+                    if (tmp.length) {
+                        tmp.sort(((a, b) => {
+                            return getPokerWeight(a) - getPokerWeight(b)
+                        }))
+                        res.push(isThreeBand1([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2], tmp[0]]))
+                    }
+                }
+            }
+        }
+        return res
+    }
+
+    /**
+     * 获取所有的三带二
+     * @param pokers 
+     */
+    export function getAllThreeBand2(pokers: Array<number>): Array<TypeMsg> {
+        let res = [] as Array<TypeMsg>
+        let pLen = pokers.length
+        if (5 <= pLen) {
+            let msg = getPokersMsg(pokers)
+            for (let i in msg.info) {
+                if (3 <= msg.info[i]) {
+                    let tmp: Array<number> = []
+                    tmp = tmp.concat(pokers)
+                    common.removeAFromB([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2]], tmp)
+                    if (tmp.length) {
+                        let twins = getAllTwins(tmp)
+                        if (twins.length) {
+                            let two = twins[0].pokers || []
+                            res.push(isThreeBand2([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2]].concat(two)))
+                        }
+                    }
+                }
+            }
+        }
+        return res
+    }
+
+    /**
+     * 获取所有的炸弹
+     * @param pokers 
+     */
+    export function getAllBomb(pokers: Array<number>): Array<TypeMsg> {
+        let res = [] as Array<TypeMsg>
+        let pLen = pokers.length
+        if (4 <= pLen) {
+            let msg = getPokersMsg(pokers)
+            for (let i in msg.info) {
+                if (4 <= msg.info[i]) {
+                    res.push(isBomb([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2], msg.cards[i][3]]))
+                }
+            }
+        }
+        return res
+    }
+
+
+    /**
+     * 获取所有指定长度的单顺
+     * @param len
+     * @param pokers 
+     */
+    export function getAllStraight1(len: number, pokers: Array<number>): Array<TypeMsg> {
+        let res = [] as Array<TypeMsg>
+        let pLen = pokers.length
+        if (/*5 <= len && */len <= pLen) {
+            let msg = getPokersMsg(pokers)
+            let start = 0
+            let searchIndex = 0
+            let indexArr = [] as Array<number>
+            for (let i = 0; i < p_2_weight; i++) {
+                if (msg.info[i]) {
+                    start++
+                    indexArr.push(msg.cards[i][0])
+                    if (len === start) {
+                        res.push(isStraight1(common.getCopyArray(indexArr)))
+                        start = 0
+                        indexArr = []
+                        searchIndex++
+                        i = searchIndex - 1
+                    }
+                } else {
+                    searchIndex++
+                    start = 0
+                    indexArr = []
+                }
+            }
+        }
+        return res
+    }
+
+    /**
+     * 获取所有指定长度的双顺
+     * @param len
+     * @param pokers 
+     */
+    export function getAllStraight2(len: number, pokers: Array<number>): Array<TypeMsg> {
+        let res = [] as Array<TypeMsg>
+        let pLen = pokers.length
+        if (/*6 <= len && */len <= pLen && 0 === len % 2) {
+            let msg = getPokersMsg(pokers)
+            let start = 0
+            let searchIndex = 0
+            let indexArr = [] as Array<number>
+            for (let i = 0; i < p_2_weight; i++) {
+                if (2 <= msg.info[i]) {
+                    start++
+                    indexArr.push(msg.cards[i][0])
+                    indexArr.push(msg.cards[i][1])
+                    if (len === start) {
+                        res.push(isStraight2(common.getCopyArray(indexArr)))
+                        start = 0
+                        indexArr = []
+                        searchIndex++
+                        i = searchIndex - 1
+                    }
+                } else {
+                    searchIndex++
+                    start = 0
+                    indexArr = []
+                }
+            }
+        }
+        return res
+    }
+
+    /**
+     * 获取所有指定长度的三顺
+     * @param len
+     * @param pokers 
+     */
+    export function getAllStraight3(len: number, pokers: Array<number>): Array<TypeMsg> {
+        let res = [] as Array<TypeMsg>
+        let pLen = pokers.length
+        if (/*9 <= len && */len <= pLen && 0 === len % 3) {
+            let msg = getPokersMsg(pokers)
+            let start = 0
+            let searchIndex = 0
+            let indexArr = [] as Array<number>
+            for (let i = 0; i < p_2_weight; i++) {
+                if (3 <= msg.info[i]) {
+                    start++
+                    indexArr.push(msg.cards[i][0])
+                    indexArr.push(msg.cards[i][1])
+                    indexArr.push(msg.cards[i][2])
+                    if (len === start) {
+                        res.push(isStraight3(common.getCopyArray(indexArr)))
+                        start = 0
+                        indexArr = []
+                        searchIndex++
+                        i = searchIndex - 1
+                    }
+                } else {
+                    searchIndex++
+                    start = 0
+                    indexArr = []
+                }
+            }
+        }
+        return res
+    }
+
+    /**
+     * 获取所有的4带2
+     * @param pokers 
+     */
+    export function getAllFour2(pokers: Array<number>): Array<TypeMsg> {
+        let res = [] as Array<TypeMsg>
+        let pLen = pokers.length
+        if (6 <= pLen) {
+            let msg = getPokersMsg(pokers)
+            for (let i in msg.info) {
+                if (4 <= msg.info[i]) {
+                    let tmp: Array<number> = []
+                    tmp = tmp.concat(pokers)
+                    common.removeAFromB([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2], msg.cards[i][3]], tmp)
+                    if (2 <= tmp.length) {
+                        tmp.sort(((a, b) => {
+                            return getPokerWeight(a) - getPokerWeight(b)
+                        }))
+                        res.push(isFour2([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2], msg.cards[i][3],
+                        tmp[0], tmp[1]]))
+                    }
+                }
+            }
+        }
+        return res
+    }
+
+    /**
+     * 获取所有的4带2对
+     * @param pokers 
+     */
+    export function getAllFour4(pokers: Array<number>): Array<TypeMsg> {
+        let res = [] as Array<TypeMsg>
+        let pLen = pokers.length
+        if (8 <= pLen) {
+            let msg = getPokersMsg(pokers)
+            for (let i in msg.info) {
+                if (4 <= msg.info[i]) {
+                    let tmp: Array<number> = []
+                    tmp = tmp.concat(pokers)
+                    common.removeAFromB([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2], msg.cards[i][3]], tmp)
+                    if (4 <= tmp.length) {
+                        let twins = getAllTwins(tmp)
+                        if (2 <= twins.length) {
+                            let two0 = twins[0].pokers || []
+                            let two1 = twins[1].pokers || []
+                            res.push(isFour4([msg.cards[i][0], msg.cards[i][1], msg.cards[i][2], msg.cards[i][3],
+                            two0[0], two0[1], two1[0], two1[1]
+                            ]))
+                        }
+                    }
+                }
+            }
+        }
+        return res
+    }
+
+    /**
+     * 获取所有指定长度的飞机单
+     * @param len 
+     * @param pokers 
+     */
+    export function getAllPlane1(len: number, pokers: Array<number>): Array<TypeMsg> {
+        let res = [] as Array<TypeMsg>
+        let pLen = pokers.length
+        if (8 <= len && 0 === len % 4 && len <= pLen) {
+            let straight3 = getAllStraight3(len, pokers)
+            for (let msg of straight3) {
+                if (msg.yes) {
+                    let tmp: Array<number> = []
+                    tmp = tmp.concat(pokers)
+                    common.removeAFromB(msg.pokers || [], tmp)
+                    const planeLen = len / 4
+                    if (planeLen <= tmp.length) {
+                        let singles = getAllSingle(tmp)
+                        if (planeLen <= singles.length) {
+                            let si = [] as Array<number>
+                            for (let s of singles) {
+                                if (planeLen >= si.length) {
+                                    si = si.concat(s.pokers || [])
+                                }
+                            }
+                            res.push(isPlane1(
+                                (msg.pokers || []).concat(si)
+                            ))
+                        }
+                    }
+                }
+            }
+        }
+        return res
+    }
+
+
+    /**
+     * 获取所有指定长度的飞机双
+     * @param len 
+     * @param pokers 
+     */
+    export function getAllPlane2(len: number, pokers: Array<number>): Array<TypeMsg> {
+        let res = [] as Array<TypeMsg>
+        let pLen = pokers.length
+        if (10 <= len && 0 === len % 5 && len <= pLen) {
+            let straight3 = getAllStraight3(len, pokers)
+            for (let msg of straight3) {
+                if (msg.yes) {
+                    let tmp: Array<number> = []
+                    tmp = tmp.concat(pokers)
+                    common.removeAFromB(msg.pokers || [], tmp)
+                    const planeLen = len / 5
+                    if (planeLen <= tmp.length) {
+                        let twins = getAllTwins(tmp)
+                        if (planeLen <= twins.length) {
+                            let tw = [] as Array<number>
+                            for (let t of twins) {
+                                if (planeLen >= tw.length) {
+                                    tw = tw.concat(t.pokers || [])
+                                }
+                            }
+                            res.push(isPlane2(
+                                (msg.pokers || []).concat(tw)
+                            ))
+                        }
+                    }
+                }
+            }
+        }
+        return res
+    }
 }
+
+export default landlords

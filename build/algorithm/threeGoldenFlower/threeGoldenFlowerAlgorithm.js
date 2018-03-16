@@ -200,5 +200,6 @@ var threeGoldenFlower;
         };
     }
     threeGoldenFlower.is235 = is235;
-})(threeGoldenFlower = exports.threeGoldenFlower || (exports.threeGoldenFlower = {}));
+})(threeGoldenFlower || (threeGoldenFlower = {}));
+exports.default = threeGoldenFlower;
 //# sourceMappingURL=threeGoldenFlowerAlgorithm.js.map

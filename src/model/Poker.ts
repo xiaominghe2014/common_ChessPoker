@@ -66,3 +66,4 @@ export class CardPair {
         common.removeAFromB<Card>(this.moveCards, this.cards)
     }
 }
+
