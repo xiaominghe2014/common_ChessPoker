@@ -49,6 +49,11 @@ export declare function getMaxContinuousSum(arr: Array<number>, max: number, cou
  */
 export declare function binarySearch(key: number, arr: Array<number>): number;
 /**
+ * n的全排列
+ * @param n
+ */
+export declare function ANN(n: number): Array<Array<number>>;
+/**
  * 8皇后问题
  */
 export declare function get8Queen(): Array<Array<number>>;

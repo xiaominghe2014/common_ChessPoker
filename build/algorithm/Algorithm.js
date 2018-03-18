@@ -142,49 +142,69 @@ function binarySearch(key, arr) {
 }
 exports.binarySearch = binarySearch;
 /**
+ * n的全排列
+ * @param n
+ */
+function ANN(n) {
+    var arr = common.range(n), buf = [];
+    var used = [], res = [];
+    var dfs = function (low, hight) {
+        if (low === void 0) { low = 0; }
+        if (hight === void 0) { hight = n; }
+        if (low === hight) {
+            var r = [];
+            for (var _i = 0, _a = common.range(n); _i < _a.length; _i++) {
+                var i = _a[_i];
+                r[i] = buf[i];
+            }
+            res.push(r);
+        }
+        else {
+            for (var _b = 0, _c = common.range(n); _b < _c.length; _b++) {
+                var i = _c[_b];
+                if (!used[i]) {
+                    _d = [true, arr[i]], used[i] = _d[0], buf[low] = _d[1];
+                    dfs(low + 1, n);
+                    used[i] = false;
+                }
+            }
+        }
+        var _d;
+    };
+    dfs();
+    return res;
+}
+exports.ANN = ANN;
+/**
  * 8皇后问题
  */
 function get8Queen() {
     var result = [];
-    for (var i = 0; i < 8; i++) {
-        for (var j = 0; j < 7; j++) {
-            for (var k = 0; k < 6; k++) {
-                for (var l = 0; l < 5; l++) {
-                    for (var m = 0; m < 4; m++) {
-                        for (var n = 0; n < 3; n++) {
-                            var _loop_1 = function (o) {
-                                var choice = [0, 1, 2, 3, 4, 5, 6, 7];
-                                var index = [i, j, k, l, m, n, o, 0];
-                                var res = [];
-                                var line0 = [];
-                                var line1 = [];
-                                var check = function () {
-                                    for (var ll = 0; ll < line0.length; ll++) {
-                                        for (var jj = 0; jj < line0.length; jj++) {
-                                            if (ll !== jj && (line0[ll] === line0[jj] || line1[ll] === line1[jj]))
-                                                return false;
-                                        }
-                                    }
-                                    return true;
-                                };
-                                while (index.length && check()) {
-                                    line0.push(8 - index.length + choice[index[0]]);
-                                    line1.push(8 - index.length - choice[index[0]]);
-                                    res.push(choice[index[0]]);
-                                    choice.splice(index[0], 1);
-                                    index.splice(0, 1);
-                                    if (8 === res.length && check())
-                                        result.push(res);
-                                }
-                            };
-                            for (var o = 0; o < 2; o++) {
-                                _loop_1(o);
-                            }
-                        }
-                    }
+    var a88 = ANN(8);
+    var _loop_1 = function (e) {
+        var line0 = [], line1 = [];
+        var check = function () {
+            for (var _i = 0, _a = common.range(8); _i < _a.length; _i++) {
+                var j = _a[_i];
+                for (var _b = 0, _c = common.range(8); _b < _c.length; _b++) {
+                    var k = _c[_b];
+                    if (j !== k && (line0[j] === line0[k] || line1[j] === line1[k]))
+                        return false;
                 }
             }
+            return true;
+        };
+        for (var _i = 0, _a = common.range(8); _i < _a.length; _i++) {
+            var i = _a[_i];
+            _b = [e[i] + i, e[i] - i], line0[i] = _b[0], line1[i] = _b[1];
         }
+        if (check())
+            result.push(e);
+        var _b;
+    };
+    for (var _i = 0, a88_1 = a88; _i < a88_1.length; _i++) {
+        var e = a88_1[_i];
+        _loop_1(e);
     }
     return result;
 }

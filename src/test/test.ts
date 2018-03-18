@@ -70,7 +70,7 @@ function test():void{
     qp_log(out4)
     let msg4:Array<landlords.TypeMsg> = landlords.getPokersTypes(Algorithm.pokersToArray(out4))
     qp_log(msg4)
-    
+
     qp_log(Algorithm.get8Queen())
 }
 

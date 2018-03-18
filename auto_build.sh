@@ -8,13 +8,13 @@ fi
 
 echo "Build dir:"${BUILD_DIR}
 
-if [ -d `pwd`/${BUILD_DIR} ]; then
-	echo "remove build cache starting"
-	rm -vrf `pwd`/${BUILD_DIR}
-	echo "remove cache finished"
-fi
+# if [ -d `pwd`/${BUILD_DIR} ]; then
+# 	echo "remove build cache starting"
+# 	rm -vrf `pwd`/${BUILD_DIR}
+# 	echo "remove cache finished"
+# fi
 
-# npm i
+# npm install @types/node
 
 # echo "build starting"
 
@@ -25,7 +25,7 @@ fi
 # tsc --pretty -p .
 
 # echo "buld finished"
-# echo "test ................"
+echo "test ................"
 
 node `pwd`/${BUILD_DIR}/test/test.js
 

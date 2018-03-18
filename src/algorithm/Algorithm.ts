@@ -144,45 +144,53 @@ export function binarySearch(key: number, arr: Array<number>): number {
 
 
 /**
- * 8皇后问题
+ * n的全排列
+ * @param n 
  */
-export function get8Queen(): Array<Array<number>> {
-    let result = [] as Array<Array<number>>
-    for (let i = 0; i < 8; i++) {
-        for (let j = 0; j < 7; j++) {
-            for (let k = 0; k < 6; k++) {
-                for (let l = 0; l < 5; l++) {
-                    for (let m = 0; m < 4; m++) {
-                        for (let n = 0; n < 3; n++) {
-                            for (let o = 0; o < 2; o++) {
-                                let choice: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7]
-                                let index: Array<number> = [i, j, k, l, m, n, o, 0]
-                                let res = [] as Array<number>
-                                let line0 = [] as Array<number>
-                                let line1 = [] as Array<number>
-                                let check = (): boolean => {
-                                    for (let ll = 0; ll < line0.length; ll++) {
-                                        for (let jj = 0; jj < line0.length; jj++) {
-                                            if (ll !== jj && (line0[ll] === line0[jj] || line1[ll] === line1[jj])) return false
-                                        }
-                                    }
-                                    return true
-                                }
-                                while (index.length && check()) {
-                                    line0.push(8 - index.length + choice[index[0]])
-                                    line1.push(8 - index.length - choice[index[0]])
-                                    res.push(choice[index[0]])
-                                    choice.splice(index[0], 1)
-                                    index.splice(0, 1)
-                                    if (8 === res.length && check()) result.push(res)
-                                }
-                            }
-
-                        }
-                    }
+export function ANN(n: number): Array<Array<number>> {
+    let arr = common.range(n), buf = [] as Array<number>
+    let used = [] as Array<boolean>, res = [] as Array<Array<number>>
+    const dfs = (low: number = 0, hight: number = n) => {
+        if (low === hight) {
+            let r = [] as Array<number>
+            for (let i of common.range(n)) {
+                r[i] = buf[i]
+            }
+            res.push(r)
+        } else {
+            for (let i of common.range(n)) {
+                if (!used[i]) {
+                    [used[i], buf[low]] = [true, arr[i]]
+                    dfs(low + 1, n)
+                    used[i] = false
                 }
             }
         }
+    }
+    dfs()
+    return res
+}
+
+
+/**
+ * 8皇后问题
+ */
+export function get8Queen(): Array<Array<number>> {
+    let result = [] as Array<Array<number>>, a88 = ANN(8)
+    for (let e of a88) {
+        let line0 = [] as Array<number>, line1 = [] as Array<number>
+        let check = (): boolean => {
+            for (let j of common.range(8)) {
+                for (let k of common.range(8)) {
+                    if (j !== k && (line0[j] === line0[k] || line1[j] === line1[k])) return false
+                }
+            }
+            return true
+        }
+        for (let i of common.range(8)) {
+            [line0[i], line1[i]] = [e[i] + i, e[i] - i]
+        }
+        if (check()) result.push(e)
     }
     return result
 }
