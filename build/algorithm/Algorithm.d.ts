@@ -48,3 +48,7 @@ export declare function getMaxContinuousSum(arr: Array<number>, max: number, cou
  * 有序数组的二分查找
  */
 export declare function binarySearch(key: number, arr: Array<number>): number;
+/**
+ * 8皇后问题
+ */
+export declare function get8Queen(): Array<Array<number>>;

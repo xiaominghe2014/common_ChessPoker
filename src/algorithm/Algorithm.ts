@@ -3,6 +3,7 @@ import * as common from '../utils/common';
 
 
 
+
 export interface ArrayMessage {
     element: any;
     count: number;
@@ -139,4 +140,49 @@ export function binarySearch(key: number, arr: Array<number>): number {
         else return mid
     }
     return -1
+}
+
+
+/**
+ * 8皇后问题
+ */
+export function get8Queen(): Array<Array<number>> {
+    let result = [] as Array<Array<number>>
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 7; j++) {
+            for (let k = 0; k < 6; k++) {
+                for (let l = 0; l < 5; l++) {
+                    for (let m = 0; m < 4; m++) {
+                        for (let n = 0; n < 3; n++) {
+                            for (let o = 0; o < 2; o++) {
+                                let choice: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7]
+                                let index: Array<number> = [i, j, k, l, m, n, o, 0]
+                                let res = [] as Array<number>
+                                let line0 = [] as Array<number>
+                                let line1 = [] as Array<number>
+                                let check = (): boolean => {
+                                    for (let ll = 0; ll < line0.length; ll++) {
+                                        for (let jj = 0; jj < line0.length; jj++) {
+                                            if (ll !== jj && (line0[ll] === line0[jj] || line1[ll] === line1[jj])) return false
+                                        }
+                                    }
+                                    return true
+                                }
+                                while (index.length && check()) {
+                                    line0.push(8 - index.length + choice[index[0]])
+                                    line1.push(8 - index.length - choice[index[0]])
+                                    res.push(choice[index[0]])
+                                    choice.splice(index[0], 1)
+                                    index.splice(0, 1)
+                                    if (8 === res.length && check()) result.push(res)
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return result
 }

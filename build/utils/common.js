@@ -73,7 +73,11 @@ exports.isAEqualB = isAEqualB;
  */
 function getDefaultArray(len, defaultValue) {
     if (defaultValue === void 0) { defaultValue = 0; }
-    return Array(len).slice().map(function (_) { return defaultValue; });
+    var arr = [];
+    for (var i = 0; i < len; i++) {
+        arr.push(defaultValue);
+    }
+    return arr;
 }
 exports.getDefaultArray = getDefaultArray;
 /**
@@ -88,4 +92,18 @@ function getCopyArray(arr) {
     return res;
 }
 exports.getCopyArray = getCopyArray;
+/**
+ * range
+ * @param len
+ * @param start
+ */
+function range(len, start) {
+    if (start === void 0) { start = 0; }
+    var arr = [];
+    for (var i = 0; i < len; i++) {
+        arr.push(i + start);
+    }
+    return arr;
+}
+exports.range = range;
 //# sourceMappingURL=common.js.map

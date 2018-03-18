@@ -4,6 +4,8 @@ import * as common from '../utils/common';
 import * as Algorithm  from '../algorithm/Algorithm';
 import { qp_log } from '../utils/log';
 import landlords  from '../algorithm/landlords/landlordsAlgorithm';
+import { range } from '../../build/utils/common';
+
 
 
 
@@ -68,6 +70,8 @@ function test():void{
     qp_log(out4)
     let msg4:Array<landlords.TypeMsg> = landlords.getPokersTypes(Algorithm.pokersToArray(out4))
     qp_log(msg4)
+    
+    qp_log(Algorithm.get8Queen())
 }
 
 test()

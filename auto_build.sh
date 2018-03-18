@@ -14,18 +14,18 @@ if [ -d `pwd`/${BUILD_DIR} ]; then
 	echo "remove cache finished"
 fi
 
-npm i
+# npm i
 
-echo "build starting"
+# echo "build starting"
 
-if [ hash tsc ]; then
-	npm install typescript -g
-fi
+# if [ hash tsc ]; then
+# 	npm install typescript -g
+# fi
 
-tsc --pretty -p .
+# tsc --pretty -p .
 
-echo "buld finished"
-echo "test ................"
+# echo "buld finished"
+# echo "test ................"
 
 node `pwd`/${BUILD_DIR}/test/test.js
 

@@ -56,6 +56,7 @@ function test() {
     log_1.qp_log(out4);
     var msg4 = landlordsAlgorithm_1.default.getPokersTypes(Algorithm.pokersToArray(out4));
     log_1.qp_log(msg4);
+    log_1.qp_log(Algorithm.get8Queen());
 }
 test();
 //# sourceMappingURL=test.js.map

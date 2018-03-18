@@ -141,4 +141,52 @@ function binarySearch(key, arr) {
     return -1;
 }
 exports.binarySearch = binarySearch;
+/**
+ * 8皇后问题
+ */
+function get8Queen() {
+    var result = [];
+    for (var i = 0; i < 8; i++) {
+        for (var j = 0; j < 7; j++) {
+            for (var k = 0; k < 6; k++) {
+                for (var l = 0; l < 5; l++) {
+                    for (var m = 0; m < 4; m++) {
+                        for (var n = 0; n < 3; n++) {
+                            var _loop_1 = function (o) {
+                                var choice = [0, 1, 2, 3, 4, 5, 6, 7];
+                                var index = [i, j, k, l, m, n, o, 0];
+                                var res = [];
+                                var line0 = [];
+                                var line1 = [];
+                                var check = function () {
+                                    for (var ll = 0; ll < line0.length; ll++) {
+                                        for (var jj = 0; jj < line0.length; jj++) {
+                                            if (ll !== jj && (line0[ll] === line0[jj] || line1[ll] === line1[jj]))
+                                                return false;
+                                        }
+                                    }
+                                    return true;
+                                };
+                                while (index.length && check()) {
+                                    line0.push(8 - index.length + choice[index[0]]);
+                                    line1.push(8 - index.length - choice[index[0]]);
+                                    res.push(choice[index[0]]);
+                                    choice.splice(index[0], 1);
+                                    index.splice(0, 1);
+                                    if (8 === res.length && check())
+                                        result.push(res);
+                                }
+                            };
+                            for (var o = 0; o < 2; o++) {
+                                _loop_1(o);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return result;
+}
+exports.get8Queen = get8Queen;
 //# sourceMappingURL=Algorithm.js.map

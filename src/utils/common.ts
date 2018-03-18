@@ -67,7 +67,11 @@ export function isAEqualB(a: any, b: any): boolean {
  * 获取一个固定长度的原始数组
  */
 export function getDefaultArray(len: number, defaultValue: any = 0): Array<any> {
-    return [...Array(len)].map(_ => defaultValue);
+    let arr = [] as Array<any>
+    for(let i = 0 ; i< len ; i++){
+        arr.push(defaultValue)
+    }
+    return arr
 }
 
 /**
@@ -79,4 +83,18 @@ export function getCopyArray<T>(arr:Array<T>):Array<T>{
         res.push(e)
     }
     return res
+}
+
+
+/**
+ * range
+ * @param len 
+ * @param start 
+ */
+export function range(len: number, start: any = 0): Array<any> {
+    let arr = [] as Array<any>
+    for(let i = 0 ; i< len ; i++){
+        arr.push(i+start)
+    }
+    return arr
 }

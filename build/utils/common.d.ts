@@ -26,3 +26,9 @@ export declare function getDefaultArray(len: number, defaultValue?: any): Array<
  * 赋值数组
  */
 export declare function getCopyArray<T>(arr: Array<T>): Array<T>;
+/**
+ * range
+ * @param len
+ * @param start
+ */
+export declare function range(len: number, start?: any): Array<any>;
