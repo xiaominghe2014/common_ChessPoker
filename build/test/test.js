@@ -1,62 +1,63 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Poker = require("../model/Poker");
 var Algorithm = require("../algorithm/Algorithm");
 var log_1 = require("../utils/log");
-var landlordsAlgorithm_1 = require("../algorithm/landlords/landlordsAlgorithm");
 function test() {
-    var mPair = new Poker.CardPair();
-    log_1.qp_log('mPair', mPair);
-    var mCards = [];
-    mCards = mCards.concat(mPair.cards).concat(mPair.cards);
-    log_1.qp_log('mCards', mCards);
-    Algorithm.pokerDefaultSort(mCards);
-    log_1.qp_log('mCards--pokerDefaultSort', mCards);
-    Algorithm.rmArrayRepeat(mCards);
-    log_1.qp_log('mCards---rmArrayRepeat', mCards);
-    var pokers = landlordsAlgorithm_1.default.getPokers();
-    log_1.qp_log(pokers);
-    landlordsAlgorithm_1.default.shufflePokers(pokers);
-    log_1.qp_log(pokers);
-    var out1 = [];
-    for (var i = 0; i < 9; i++) {
-        out1.push({ color: 0 /* SPADE */, value: 0 /* v_3 */ + Math.floor(i / 3) });
-    }
-    log_1.qp_log(out1);
-    var msg1 = landlordsAlgorithm_1.default.getPokersTypes(Algorithm.pokersToArray(out1));
-    log_1.qp_log(msg1);
-    var out2 = [];
-    for (var i = 0; i < 12; i++) {
-        out2.push({ color: 0 /* SPADE */, value: 0 /* v_3 */ + Math.floor(i / 4) });
-    }
-    log_1.qp_log(out2);
-    var msg2 = landlordsAlgorithm_1.default.getPokersTypes(Algorithm.pokersToArray(out2));
-    log_1.qp_log(msg2);
-    var out3 = [];
-    for (var i = 0; i < 5; i++) {
-        out3.push({ color: 0 /* SPADE */, value: 0 /* v_3 */ });
-        out3.push({ color: 2 /* CLUB */, value: 1 /* v_4 */ });
-        out3.push({ color: 3 /* DIAMOND */, value: 2 /* v_5 */ });
-        out3.push({ color: 1 /* HEART */, value: 3 /* v_6 */ });
-    }
-    log_1.qp_log(out3);
-    var msg3 = landlordsAlgorithm_1.default.getPokersTypes(Algorithm.pokersToArray(out3));
-    log_1.qp_log(msg3);
-    var out4 = [];
-    for (var i = 0; i < 3; i++) {
-        out4.push({ color: 0 /* SPADE */, value: 0 /* v_3 */ });
-        out4.push({ color: 2 /* CLUB */, value: 1 /* v_4 */ });
-        out4.push({ color: 3 /* DIAMOND */, value: 2 /* v_5 */ });
-        out4.push({ color: 1 /* HEART */, value: 3 /* v_6 */ });
-        out4.push({ color: 0 /* SPADE */, value: 4 /* v_7 */ });
-        out4.push({ color: 2 /* CLUB */, value: 5 /* v_8 */ });
-    }
-    out4.push({ color: 0 /* SPADE */, value: 4 /* v_7 */ });
-    out4.push({ color: 2 /* CLUB */, value: 5 /* v_8 */ });
-    log_1.qp_log(out4);
-    var msg4 = landlordsAlgorithm_1.default.getPokersTypes(Algorithm.pokersToArray(out4));
-    log_1.qp_log(msg4);
+    // let mPair:Poker.CardPair = new Poker.CardPair()
+    // qp_log('mPair',mPair)
+    // let mCards:Array<Poker.Card> = []
+    // mCards = mCards.concat(mPair.cards).concat(mPair.cards)
+    // qp_log('mCards',mCards);
+    // Algorithm.pokerDefaultSort(mCards)
+    // qp_log('mCards--pokerDefaultSort',mCards)
+    // Algorithm.rmArrayRepeat(mCards)
+    // qp_log('mCards---rmArrayRepeat',mCards)
+    // let pokers = landlords.getPokers()
+    // qp_log(pokers);
+    // landlords.shufflePokers(pokers)
+    // qp_log(pokers);
+    // let out1:Array<Poker.Card> = []
+    // for(let i:number = 0 ; i< 9 ; i++){
+    //     out1.push({color:Poker.Color.SPADE,value:Poker.Value.v_3+Math.floor(i/3)})
+    // }
+    // qp_log(out1)
+    // let msg1:Array<landlords.TypeMsg> = landlords.getPokersTypes(Algorithm.pokersToArray(out1))
+    // qp_log(msg1)
+    // let out2:Array<Poker.Card> = []
+    // for(let i:number = 0 ; i< 12 ; i++){
+    //     out2.push({color:Poker.Color.SPADE,value:Poker.Value.v_3+Math.floor(i/4)})
+    // }
+    // qp_log(out2)
+    // let msg2:Array<landlords.TypeMsg> = landlords.getPokersTypes(Algorithm.pokersToArray(out2))
+    // qp_log(msg2)
+    // let out3:Array<Poker.Card> = []
+    // for(let i:number = 0 ; i< 5 ; i++){
+    //     out3.push({color:Poker.Color.SPADE,value:Poker.Value.v_3})
+    //     out3.push({color:Poker.Color.CLUB,value:Poker.Value.v_4})
+    //     out3.push({color:Poker.Color.DIAMOND,value:Poker.Value.v_5})
+    //     out3.push({color:Poker.Color.HEART,value:Poker.Value.v_6})
+    // }
+    // qp_log(out3)
+    // let msg3:Array<landlords.TypeMsg> = landlords.getPokersTypes(Algorithm.pokersToArray(out3))
+    // qp_log(msg3)
+    // let out4:Array<Poker.Card> = []
+    // for(let i:number = 0 ; i< 3 ; i++){
+    //     out4.push({color:Poker.Color.SPADE,value:Poker.Value.v_3})
+    //     out4.push({color:Poker.Color.CLUB,value:Poker.Value.v_4})
+    //     out4.push({color:Poker.Color.DIAMOND,value:Poker.Value.v_5})
+    //     out4.push({color:Poker.Color.HEART,value:Poker.Value.v_6})
+    //     out4.push({color:Poker.Color.SPADE,value:Poker.Value.v_7})
+    //     out4.push({color:Poker.Color.CLUB,value:Poker.Value.v_8})
+    // }
+    // out4.push({color:Poker.Color.SPADE,value:Poker.Value.v_7})
+    // out4.push({color:Poker.Color.CLUB,value:Poker.Value.v_8})
+    // qp_log(out4)
+    // let msg4:Array<landlords.TypeMsg> = landlords.getPokersTypes(Algorithm.pokersToArray(out4))
+    // qp_log(msg4)
     log_1.qp_log(Algorithm.get8Queen());
+    //for(let i = 3 ; i < 6 ; i++){
+    //Algorithm.AllN(8)
+    //}
 }
 test();
 //# sourceMappingURL=test.js.map

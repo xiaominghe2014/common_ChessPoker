@@ -176,7 +176,7 @@ export function ANN(n: number): Array<Array<number>> {
  * 8皇后问题
  */
 export function get8Queen(): Array<Array<number>> {
-    let result = [] as Array<Array<number>>, a88 = ANN(8)
+    let result = [] as Array<Array<number>>, a88 = AllN(8);//ANN(8)
     for (let e of a88) {
         let line0 = [] as Array<number>, line1 = [] as Array<number>
         let check = (): boolean => {
@@ -193,4 +193,47 @@ export function get8Queen(): Array<Array<number>> {
         if (check()) result.push(e)
     }
     return result
+}
+
+
+export function AllN(n: number, cur: Array<number> = [], res: Array<Array<number>> = []): Array<Array<number>> {
+    //console.log(cur)
+    if (0 === cur.length) {
+        for (let i = 0; i < n; i++) {
+            cur.push(i)
+        }
+        res.push(([] as Array<number>).concat(cur))
+        return AllN(n, cur, res)
+    }
+    let next = (): number => {
+        //从最后两位开始向前检测降序
+        for (let i = n-1; i >0; i--) {
+            if (cur[i]>cur[i-1]) return i-1
+        }
+        return -1
+    }
+
+    let start: number = next()
+    if(-1===start) return res
+    let min = cur[start]
+    let sets = cur.slice(start)
+    let v2Sets = sets.filter((e) => e > min)
+    let v2 = -1
+    for (let e of v2Sets) {
+        if (-1 === v2) v2 = e
+        else if (e < v2) v2 = e
+    }
+    cur[start] = v2
+    for (let vIdx = 0; vIdx < sets.length; vIdx++) {
+        if (sets[vIdx] === v2) {
+            sets.splice(vIdx, 1)
+            break
+        }
+    }
+    sets.sort()
+    for (let i = start + 1; i < n; i++) {
+        cur[i] = sets[i - start - 1]
+    }
+    res.push(([] as Array<number>).concat(cur))
+    return AllN(n, cur, res)
 }

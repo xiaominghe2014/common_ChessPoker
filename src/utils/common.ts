@@ -68,7 +68,7 @@ export function isAEqualB(a: any, b: any): boolean {
  */
 export function getDefaultArray(len: number, defaultValue: any = 0): Array<any> {
     let arr = [] as Array<any>
-    for(let i = 0 ; i< len ; i++){
+    for (let i = 0; i < len; i++) {
         arr.push(defaultValue)
     }
     return arr
@@ -77,9 +77,9 @@ export function getDefaultArray(len: number, defaultValue: any = 0): Array<any> 
 /**
  * 赋值数组
  */
-export function getCopyArray<T>(arr:Array<T>):Array<T>{
+export function getCopyArray<T>(arr: Array<T>): Array<T> {
     let res = [] as Array<T>
-    for(let e of arr){
+    for (let e of arr) {
         res.push(e)
     }
     return res
@@ -93,8 +93,21 @@ export function getCopyArray<T>(arr:Array<T>):Array<T>{
  */
 export function range(len: number, start: any = 0): Array<any> {
     let arr = [] as Array<any>
-    for(let i = 0 ; i< len ; i++){
-        arr.push(i+start)
+    for (let i = 0; i < len; i++) {
+        arr.push(i + start)
     }
     return arr
+}
+
+/**
+ * 尾调用函数专用
+ * @param func 
+ * @param arg 
+ */
+export function tailCall(func: any, arg: any):any {
+    let value = func(arg);
+    while (typeof value === "function") {
+        value = value();
+    }
+    return value;
 }

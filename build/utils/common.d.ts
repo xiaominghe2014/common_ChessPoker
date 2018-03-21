@@ -32,3 +32,9 @@ export declare function getCopyArray<T>(arr: Array<T>): Array<T>;
  * @param start
  */
 export declare function range(len: number, start?: any): Array<any>;
+/**
+ * 尾调用函数专用
+ * @param func
+ * @param arg
+ */
+export declare function tailCall(func: any, arg: any): any;

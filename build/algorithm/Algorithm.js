@@ -179,8 +179,7 @@ exports.ANN = ANN;
  * 8皇后问题
  */
 function get8Queen() {
-    var result = [];
-    var a88 = ANN(8);
+    var result = [], a88 = AllN(8); //ANN(8)
     var _loop_1 = function (e) {
         var line0 = [], line1 = [];
         var check = function () {
@@ -209,4 +208,52 @@ function get8Queen() {
     return result;
 }
 exports.get8Queen = get8Queen;
+function AllN(n, cur, res) {
+    if (cur === void 0) { cur = []; }
+    if (res === void 0) { res = []; }
+    //console.log(cur)
+    if (0 === cur.length) {
+        for (var i = 0; i < n; i++) {
+            cur.push(i);
+        }
+        res.push([].concat(cur));
+        return AllN(n, cur, res);
+    }
+    var next = function () {
+        //从最后两位开始向前检测降序
+        for (var i = n - 1; i > 0; i--) {
+            if (cur[i] > cur[i - 1])
+                return i - 1;
+        }
+        return -1;
+    };
+    var start = next();
+    if (-1 === start)
+        return res;
+    var min = cur[start];
+    var sets = cur.slice(start);
+    var v2Sets = sets.filter(function (e) { return e > min; });
+    var v2 = -1;
+    for (var _i = 0, v2Sets_1 = v2Sets; _i < v2Sets_1.length; _i++) {
+        var e = v2Sets_1[_i];
+        if (-1 === v2)
+            v2 = e;
+        else if (e < v2)
+            v2 = e;
+    }
+    cur[start] = v2;
+    for (var vIdx = 0; vIdx < sets.length; vIdx++) {
+        if (sets[vIdx] === v2) {
+            sets.splice(vIdx, 1);
+            break;
+        }
+    }
+    sets.sort();
+    for (var i = start + 1; i < n; i++) {
+        cur[i] = sets[i - start - 1];
+    }
+    res.push([].concat(cur));
+    return AllN(n, cur, res);
+}
+exports.AllN = AllN;
 //# sourceMappingURL=Algorithm.js.map

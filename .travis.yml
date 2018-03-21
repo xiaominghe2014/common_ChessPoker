@@ -2,4 +2,4 @@ language: node_js
 nodejs:
   - '0.8'
 scripts:
-  - sh ./auto_build.sh
+  - node --harmony-tailcalls `pwd`/build/test/test.js

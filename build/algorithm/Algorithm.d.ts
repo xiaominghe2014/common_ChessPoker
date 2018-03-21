@@ -57,3 +57,4 @@ export declare function ANN(n: number): Array<Array<number>>;
  * 8皇后问题
  */
 export declare function get8Queen(): Array<Array<number>>;
+export declare function AllN(n: number, cur?: Array<number>, res?: Array<Array<number>>): Array<Array<number>>;

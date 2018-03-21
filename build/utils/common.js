@@ -106,4 +106,17 @@ function range(len, start) {
     return arr;
 }
 exports.range = range;
+/**
+ * 尾调用函数专用
+ * @param func
+ * @param arg
+ */
+function tailCall(func, arg) {
+    var value = func(arg);
+    while (typeof value === "function") {
+        value = value();
+    }
+    return value;
+}
+exports.tailCall = tailCall;
 //# sourceMappingURL=common.js.map
