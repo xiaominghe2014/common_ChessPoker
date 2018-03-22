@@ -70,10 +70,12 @@ function test(): void {
     // let msg4:Array<landlords.TypeMsg> = landlords.getPokersTypes(Algorithm.pokersToArray(out4))
     // qp_log(msg4)
 
-    qp_log(Algorithm.get8Queen())
+    //qp_log(Algorithm.get8Queen())
+    //qp_log(Algorithm.dfsQueen(8))
     //for(let i = 3 ; i < 6 ; i++){
     //Algorithm.AllN(8)
     //}
+    qp_log(Algorithm.combination([1,2,3,4,5],3))
 }
 
 test()

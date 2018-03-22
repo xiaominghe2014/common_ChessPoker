@@ -58,3 +58,9 @@ export declare function ANN(n: number): Array<Array<number>>;
  */
 export declare function get8Queen(): Array<Array<number>>;
 export declare function AllN(n: number, cur?: Array<number>, res?: Array<Array<number>>): Array<Array<number>>;
+/**
+ * dfs计算N皇后问题
+ */
+export declare function dfsQueen(n: number): number[][];
+export declare function arrangement<T>(arrN: Array<T>, m: number): Array<Array<T>>;
+export declare function combination<T>(arrN: Array<T>, m: number): Array<Array<T>>;

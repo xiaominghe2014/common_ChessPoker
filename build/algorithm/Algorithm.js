@@ -211,7 +211,6 @@ exports.get8Queen = get8Queen;
 function AllN(n, cur, res) {
     if (cur === void 0) { cur = []; }
     if (res === void 0) { res = []; }
-    //console.log(cur)
     if (0 === cur.length) {
         for (var i = 0; i < n; i++) {
             cur.push(i);
@@ -256,4 +255,145 @@ function AllN(n, cur, res) {
     return AllN(n, cur, res);
 }
 exports.AllN = AllN;
+/**
+ * dfs计算N皇后问题
+ */
+function dfsQueen(n) {
+    var res = [];
+    var arr = common.range(n);
+    var buf = [];
+    var used = common.getDefaultArray(n, false);
+    var line0 = common.getDefaultArray(n, 2 * n);
+    var line1 = common.getDefaultArray(n, 2 * n);
+    var dfs = function (low, hight) {
+        if (low === void 0) { low = 0; }
+        if (hight === void 0) { hight = n; }
+        if (low === hight) {
+            var r = [];
+            for (var _i = 0, _a = common.range(n); _i < _a.length; _i++) {
+                var i = _a[_i];
+                r[i] = buf[i];
+            }
+            res.push(r);
+        }
+        else {
+            for (var _b = 0, _c = common.range(n); _b < _c.length; _b++) {
+                var i = _c[_b];
+                var next = true;
+                for (var _d = 0, line0_1 = line0; _d < line0_1.length; _d++) {
+                    var e = line0_1[_d];
+                    if (e == low + arr[i])
+                        next = false;
+                }
+                for (var _e = 0, line1_1 = line1; _e < line1_1.length; _e++) {
+                    var e = line1_1[_e];
+                    if (e == low - arr[i])
+                        next = false;
+                }
+                if (!used[i] && next) {
+                    used[i] = true, line0[i] = (low + arr[i]), line1[i] = (low - arr[i]);
+                    buf[low] = arr[i], dfs(low + 1, n);
+                    used[i] = false, line0[i] = 2 * n, line1[i] = 2 * n;
+                }
+            }
+        }
+    };
+    dfs();
+    return res;
+}
+exports.dfsQueen = dfsQueen;
+//排列
+function arrangement(arrN, m) {
+    var n = arrN.length;
+    var len = n - m;
+    var res = [];
+    if (0 > len)
+        return res;
+    var buf = [];
+    var used = common.getDefaultArray(n, false);
+    var dfs = function (low, hight) {
+        if (low === void 0) { low = 0; }
+        if (hight === void 0) { hight = m; }
+        if (low === hight) {
+            var r = [];
+            for (var _i = 0, _a = common.range(m); _i < _a.length; _i++) {
+                var i = _a[_i];
+                r[i] = buf[i];
+            }
+            res.push(r);
+        }
+        else {
+            for (var _b = 0, _c = common.range(n); _b < _c.length; _b++) {
+                var i = _c[_b];
+                if (!used[i]) {
+                    used[i] = true;
+                    buf[low] = arrN[i];
+                    dfs(low + 1, hight);
+                    used[i] = false;
+                }
+            }
+        }
+    };
+    dfs();
+    return res;
+}
+exports.arrangement = arrangement;
+//组合
+function combination(arrN, m) {
+    var n = arrN.length;
+    var len = n - m;
+    var res = [];
+    if (0 > len)
+        return res;
+    if (0 == len) {
+        res.push([].concat(arrN));
+        return res;
+    }
+    //n,n-1,n-2,...,n-m-1
+    var buf = [];
+    var used = common.getDefaultArray(n, false);
+    var first = common.getDefaultArray(m, []);
+    var dfs = function (low, hight) {
+        if (low === void 0) { low = 0; }
+        if (hight === void 0) { hight = m; }
+        if (low === hight) {
+            var r = [];
+            for (var _i = 0, _a = common.range(m); _i < _a.length; _i++) {
+                var i = _a[_i];
+                r[i] = buf[i];
+            }
+            res.push(r);
+        }
+        else {
+            for (var _b = 0, _c = common.range(n); _b < _c.length; _b++) {
+                var i = _c[_b];
+                var next = true;
+                for (var l = 0; l < m && next; l++) {
+                    if (l < low) {
+                        for (var _d = 0, _e = first[l]; _d < _e.length; _d++) {
+                            var e = _e[_d];
+                            if (e === arrN[i]) {
+                                next = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (!used[i] && next) {
+                    used[i] = true;
+                    buf[low] = arrN[i];
+                    first[low] = first[low].concat(arrN[i]);
+                    for (var j = low + 1; j < m; j++) {
+                        first[j] = [];
+                    }
+                    dfs(low + 1, hight);
+                    used[i] = false;
+                }
+            }
+        }
+    };
+    dfs();
+    return res;
+}
+exports.combination = combination;
 //# sourceMappingURL=Algorithm.js.map

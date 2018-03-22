@@ -197,7 +197,6 @@ export function get8Queen(): Array<Array<number>> {
 
 
 export function AllN(n: number, cur: Array<number> = [], res: Array<Array<number>> = []): Array<Array<number>> {
-    //console.log(cur)
     if (0 === cur.length) {
         for (let i = 0; i < n; i++) {
             cur.push(i)
@@ -207,14 +206,14 @@ export function AllN(n: number, cur: Array<number> = [], res: Array<Array<number
     }
     let next = (): number => {
         //从最后两位开始向前检测降序
-        for (let i = n-1; i >0; i--) {
-            if (cur[i]>cur[i-1]) return i-1
+        for (let i = n - 1; i > 0; i--) {
+            if (cur[i] > cur[i - 1]) return i - 1
         }
         return -1
     }
 
     let start: number = next()
-    if(-1===start) return res
+    if (-1 === start) return res
     let min = cur[start]
     let sets = cur.slice(start)
     let v2Sets = sets.filter((e) => e > min)
@@ -236,4 +235,120 @@ export function AllN(n: number, cur: Array<number> = [], res: Array<Array<number
     }
     res.push(([] as Array<number>).concat(cur))
     return AllN(n, cur, res)
+}
+
+
+/**
+ * dfs计算N皇后问题
+ */
+export function dfsQueen(n: number) {
+    let res: Array<Array<number>> = []
+    let arr = common.range(n)
+    let buf = [] as Array<number>
+    let used: Array<boolean> = common.getDefaultArray(n, false)
+    let line0: Array<number> = common.getDefaultArray(n, 2 * n)
+    let line1: Array<number> = common.getDefaultArray(n, 2 * n)
+    let dfs = (low: number = 0, hight: number = n) => {
+        if (low === hight) {
+            let r = [] as Array<number>
+            for (let i of common.range(n)) {
+                r[i] = buf[i]
+            }
+            res.push(r)
+        } else {
+            for (let i of common.range(n)) {
+                let next = true
+                for (let e of line0) {
+                    if (e == low + arr[i]) next = false
+                }
+                for (let e of line1) {
+                    if (e == low - arr[i]) next = false
+                }
+                if (!used[i] && next) {
+                    used[i] = true, line0[i] = (low + arr[i]), line1[i] = (low - arr[i])
+                    buf[low] = arr[i], dfs(low + 1, n)
+                    used[i] = false, line0[i] = 2 * n, line1[i] = 2 * n
+                }
+            }
+        }
+    }
+    dfs()
+    return res
+}
+
+//排列
+export function arrangement<T>(arrN: Array<T>, m: number): Array<Array<T>> {
+    let n = arrN.length
+    let len = n - m
+    let res: Array<Array<T>> = []
+    if (0 > len) return res
+    let buf = [] as Array<T>
+    let used: Array<boolean> = common.getDefaultArray(n, false)
+    let dfs = (low: number = 0, hight: number = m) => {
+        if (low === hight) {
+            let r = [] as Array<T>
+            for (let i of common.range(m)) {
+                r[i] = buf[i]
+            }
+            res.push(r)
+        } else {
+            for (let i of common.range(n)) {
+                if (!used[i] ) {
+                    used[i] = true
+                    buf[low] = arrN[i]
+                    dfs(low + 1, hight)
+                    used[i] = false
+                }
+            }
+        }
+    }
+    dfs()
+    return res
+}
+//组合
+export function combination<T>(arrN: Array<T>, m: number): Array<Array<T>> {
+    let n = arrN.length
+    let len = n - m
+    let res: Array<Array<T>> = []
+    if (0 > len) return res
+    if (0 == len) { res.push(([] as Array<T>).concat(arrN)); return res }
+    //n,n-1,n-2,...,n-m-1
+    let buf = [] as Array<T>
+    let used: Array<boolean> = common.getDefaultArray(n, false)
+    let first: Array<Array<T>> = common.getDefaultArray(m, [])
+    let dfs = (low: number = 0, hight: number = m) => {
+        if (low === hight) {
+            let r = [] as Array<T>
+            for (let i of common.range(m)) {
+                r[i] = buf[i]
+            }
+            res.push(r)
+        } else {
+            for (let i of common.range(n)) {
+                let next = true
+                for (let l = 0; l < m && next; l++) {
+                    if (l < low) {
+                        for (let e of first[l]) {
+                            if (e === arrN[i]) {
+                                next = false
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (!used[i] && next) {
+                    used[i] = true
+                    buf[low] = arrN[i]
+                    first[low] = first[low].concat(arrN[i])
+                    for (let j = low + 1; j < m; j++) {
+                        first[j] = []
+                    }
+                    dfs(low + 1, hight)
+                    used[i] = false
+                }
+            }
+        }
+    }
+    dfs()
+    return res
 }
