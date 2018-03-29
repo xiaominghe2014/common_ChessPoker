@@ -101,7 +101,7 @@ namespace mahjong {
                 if (0 == allNotSame3.length) return false
                 for (let r of allNotSame3) {
                     let allStraight = removeStraight(r)
-                    return r.length
+                    return 0 === r.length
                 }
             }
         }

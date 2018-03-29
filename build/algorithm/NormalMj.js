@@ -124,7 +124,7 @@ var mahjong;
                 for (var _a = 0, allNotSame3_1 = allNotSame3; _a < allNotSame3_1.length; _a++) {
                     var r_1 = allNotSame3_1[_a];
                     var allStraight = removeStraight(r_1);
-                    return r_1.length;
+                    return 0 === r_1.length;
                 }
             }
         }
