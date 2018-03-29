@@ -1,4 +1,5 @@
 import * as Poker from '../model/Poker';
+
 import * as common from '../utils/common';
 
 
@@ -293,7 +294,7 @@ export function arrangement<T>(arrN: Array<T>, m: number): Array<Array<T>> {
             res.push(r)
         } else {
             for (let i of common.range(n)) {
-                if (!used[i] ) {
+                if (!used[i]) {
                     used[i] = true
                     buf[low] = arrN[i]
                     dfs(low + 1, hight)
@@ -352,3 +353,5 @@ export function combination<T>(arrN: Array<T>, m: number): Array<Array<T>> {
     dfs()
     return res
 }
+
+

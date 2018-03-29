@@ -75,7 +75,7 @@ function test(): void {
     //for(let i = 3 ; i < 6 ; i++){
     //Algorithm.AllN(8)
     //}
-    qp_log(Algorithm.combination([1,2,3,4,5],3))
+    qp_log(Algorithm.AllN(3))
 }
 
 test()
