@@ -92,7 +92,7 @@ namespace mahjong {
     export function normalHu(arrN: Array<number>): boolean {
         let tmp = ([] as Array<number>).concat(arrN)
         let len = tmp.length
-        if (13 === len) {
+        if (14 === len) {
             tmp.sort()
             let allNotTwin = removeTwins(arrN)
             if (0 == allNotTwin.length) return false

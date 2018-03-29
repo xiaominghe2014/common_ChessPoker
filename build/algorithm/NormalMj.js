@@ -111,7 +111,7 @@ var mahjong;
     function normalHu(arrN) {
         var tmp = [].concat(arrN);
         var len = tmp.length;
-        if (13 === len) {
+        if (14 === len) {
             tmp.sort();
             var allNotTwin = removeTwins(arrN);
             if (0 == allNotTwin.length)
