@@ -1,15 +1,17 @@
 import * as common from '../utils/common';
+import * as MJ from '../model/mahjong'
+/// <reference path='../model/mahjong.ts'/>
 
 namespace mahjong {
     /**-----------------------
      *  麻将相关算法
      *------------------------
      */
-    export function numberToMj(mj: number, isOffSet: boolean = true): Mj {
-        if (isValidMjNumber(mj)) {
-            let color = getColor(mj);
-            let value = mj - MjBits[color]
-                + isOffSet ? ColorOffSet[color] : 0;
+    export function numberToMj(mj: number, isOffSet: boolean = true): MJ.Mj {
+        if (MJ.isValidMjNumber(mj)) {
+            let color = MJ.getColor(mj);
+            let value = mj - MJ.MjBits[color]
+                + (isOffSet ? MJ.ColorOffSet[color] : 0);
             return {
                 color: color,
                 value: value,
@@ -23,17 +25,17 @@ namespace mahjong {
         }
     }
 
-    export function arrToMj(arr: Array<number>, isOffSet: boolean = true): Array<Mj> {
-        let res: Array<Mj> = []
+    export function arrToMj(arr: Array<number>, isOffSet: boolean = true): Array<MJ.Mj> {
+        let res: Array<MJ.Mj> = []
         for (let mj of arr) {
             res.push(numberToMj(mj, isOffSet))
         }
         return res
     }
 
-    export function arrMjMessage(arr: Array<Mj>): ArrMjMsg {
-        let msg: ArrMjMsg = new ArrMjMsg;
-        for (let i =  ; i < MAX_VALUE ； i++s){
+    export function arrMjMessage(arr: Array<MJ.Mj>): MJ.ArrMjMsg {
+        let msg: MJ.ArrMjMsg = {count:[],mj:[]};
+        for (let i =  0; i < MJ.MAX_VALUE ; i++){
             msg.count.push(0)
             msg.mj.push([])
         }
@@ -46,12 +48,12 @@ namespace mahjong {
 
     //所有去掉将牌的牌
     export function removeTwins(arrN: Array<number>): Array<Array<number>> {
-        let res::Array<Array<number>> = []
+        let res:Array<Array<number>> = []
         let msg = arrMjMessage(arrToMj(arrN))
-        for (let m of msg) {
-            if (m.count >= 2) {
+        for (let i of msg.count) {
+            if (msg.count[i] >= 2) {
                 let r = ([] as Array<number>).concat(arrN);
-                common.removeAFromB([m.mj[0].num, m.mj[1].num], r);
+                common.removeAFromB([msg.mj[i][0].num, msg.mj[i][1].num], r);
                 if (r.length) res.push(r)
             }
         }
@@ -60,12 +62,12 @@ namespace mahjong {
 
     //所有去掉刻子的牌
     export function removeSame3(arrN: Array<number>): Array<Array<number>> {
-        let res::Array<Array<number>> = []
+        let res:Array<Array<number>> = []
         let msg = arrMjMessage(arrToMj(arrN))
-        for (let m of msg) {
-            if (m.count >= 3) {
-                let r = ([] as Array<number>).concat(arrN)
-                common.removeAFromB([m.mj[0].num, m.mj[1].num, m.mj[2].num], r)
+        for (let i of msg.count) {
+            if (msg.count[i] >= 3) {
+                let r = ([] as Array<number>).concat(arrN);
+                common.removeAFromB([msg.mj[i][0].num, msg.mj[i][1].num,msg.mj[i][2].num], r);
                 if (r.length) res.push(r)
             }
         }
@@ -74,16 +76,15 @@ namespace mahjong {
 
     //所有去掉顺子的牌
     export function removeStraight(arrN: Array<number>): Array<Array<number>> {
-        let res::Array<Array<number>> = []
+        let res:Array<Array<number>> = []
         let msg = arrMjMessage(arrToMj(arrN))
         for (let i = 0; i < 9 - 2; i++) {
 
-            if (msg[i].count && sg[i + 1].count && sg[i + 2].count) {
+            if (msg.count[i] && msg.count[i + 1] && msg.count[i + 2]) {
                 let r = ([] as Array<number>).concat(arrN)
-                common.removeAFromB([msg[i].mj[0].num, msg[i + 1].mj[0].num, msg[i + 2].mj[0].num], r)
+                common.removeAFromB([msg.mj[i][0].num, msg.mj[i+1][0].num, msg.mj[i+2][0].num], r)
                 if (r.length) res.push(r)
             }
-
         }
         return res
     }

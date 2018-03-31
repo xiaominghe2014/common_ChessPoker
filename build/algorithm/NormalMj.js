@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = require("../utils/common");
+var MJ = require("../model/mahjong");
+/// <reference path='../model/mahjong.ts'/>
 var mahjong;
 (function (mahjong) {
     /**-----------------------
@@ -9,10 +11,10 @@ var mahjong;
      */
     function numberToMj(mj, isOffSet) {
         if (isOffSet === void 0) { isOffSet = true; }
-        if (isValidMjNumber(mj)) {
-            var color = getColor(mj);
-            var value = mj - MjBits[color]
-                + isOffSet ? ColorOffSet[color] : 0;
+        if (MJ.isValidMjNumber(mj)) {
+            var color = MJ.getColor(mj);
+            var value = mj - MJ.MjBits[color]
+                + (isOffSet ? MJ.ColorOffSet[color] : 0);
             return {
                 color: color,
                 value: value,
@@ -37,12 +39,8 @@ var mahjong;
     }
     mahjong.arrToMj = arrToMj;
     function arrMjMessage(arr) {
-        var msg = new ArrMjMsg;
-        for (var i = ; i < MAX_VALUE; )
-            ;
-        i++;
-        s;
-        {
+        var msg = { count: [], mj: [] };
+        for (var i = 0; i < MJ.MAX_VALUE; i++) {
             msg.count.push(0);
             msg.mj.push([]);
         }
@@ -56,15 +54,13 @@ var mahjong;
     mahjong.arrMjMessage = arrMjMessage;
     //所有去掉将牌的牌
     function removeTwins(arrN) {
-        var res, Array;
-        ;
-        [];
+        var res = [];
         var msg = arrMjMessage(arrToMj(arrN));
-        for (var _i = 0, msg_1 = msg; _i < msg_1.length; _i++) {
-            var m = msg_1[_i];
-            if (m.count >= 2) {
+        for (var _i = 0, _a = msg.count; _i < _a.length; _i++) {
+            var i = _a[_i];
+            if (msg.count[i] >= 2) {
                 var r = [].concat(arrN);
-                common.removeAFromB([m.mj[0].num, m.mj[1].num], r);
+                common.removeAFromB([msg.mj[i][0].num, msg.mj[i][1].num], r);
                 if (r.length)
                     res.push(r);
             }
@@ -74,15 +70,13 @@ var mahjong;
     mahjong.removeTwins = removeTwins;
     //所有去掉刻子的牌
     function removeSame3(arrN) {
-        var res, Array;
-        ;
-        [];
+        var res = [];
         var msg = arrMjMessage(arrToMj(arrN));
-        for (var _i = 0, msg_2 = msg; _i < msg_2.length; _i++) {
-            var m = msg_2[_i];
-            if (m.count >= 3) {
+        for (var _i = 0, _a = msg.count; _i < _a.length; _i++) {
+            var i = _a[_i];
+            if (msg.count[i] >= 3) {
                 var r = [].concat(arrN);
-                common.removeAFromB([m.mj[0].num, m.mj[1].num, m.mj[2].num], r);
+                common.removeAFromB([msg.mj[i][0].num, msg.mj[i][1].num, msg.mj[i][2].num], r);
                 if (r.length)
                     res.push(r);
             }
@@ -92,14 +86,12 @@ var mahjong;
     mahjong.removeSame3 = removeSame3;
     //所有去掉顺子的牌
     function removeStraight(arrN) {
-        var res, Array;
-        ;
-        [];
+        var res = [];
         var msg = arrMjMessage(arrToMj(arrN));
         for (var i = 0; i < 9 - 2; i++) {
-            if (msg[i].count && sg[i + 1].count && sg[i + 2].count) {
+            if (msg.count[i] && msg.count[i + 1] && msg.count[i + 2]) {
                 var r = [].concat(arrN);
-                common.removeAFromB([msg[i].mj[0].num, msg[i + 1].mj[0].num, msg[i + 2].mj[0].num], r);
+                common.removeAFromB([msg.mj[i][0].num, msg.mj[i + 1][0].num, msg.mj[i + 2][0].num], r);
                 if (r.length)
                     res.push(r);
             }

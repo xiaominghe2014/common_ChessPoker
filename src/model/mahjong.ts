@@ -1,5 +1,5 @@
 
-namespace mahjong {
+//namespace mahjong {
 
     export const enum Color {
         CHAR, //万
@@ -68,4 +68,4 @@ namespace mahjong {
         count: Array<number>,
         mj: Array<Array<Mj>>
     }
-}
+//}
