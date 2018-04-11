@@ -26,11 +26,23 @@ export function getLogInfo(): LogInfo {
     return data
 }
 
-export function qp_log(message?: any, ...args: any[]): void {
-    let info:LogInfo = getLogInfo();
-    args.unshift(message);
+export function qp_log(message: string, ...args: any[]): void {
+    let info: LogInfo = getLogInfo();
+    //args.unshift(message);
     console.log("==================================");
-    console.log(info.path,info.method,info.line)
-    args.forEach((arg) => console.log(arg));
+    console.log(info.path, info.method, info.line)
+    while (args.length) {
+        let value = args.shift()
+        if (value instanceof Object) {
+            try {
+                value = JSON.stringify(value);
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        message = message.replace('{}', value)
+    }
+    console.log(message)
+    //args.forEach((arg) => console.log(arg));
     console.log("==================================");
 }

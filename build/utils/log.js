@@ -33,10 +33,23 @@ function qp_log(message) {
         args[_i - 1] = arguments[_i];
     }
     var info = getLogInfo();
-    args.unshift(message);
+    //args.unshift(message);
     console.log("==================================");
     console.log(info.path, info.method, info.line);
-    args.forEach(function (arg) { return console.log(arg); });
+    while (args.length) {
+        var value = args.shift();
+        if (value instanceof Object) {
+            try {
+                value = JSON.stringify(value);
+            }
+            catch (error) {
+                console.error(error);
+            }
+        }
+        message = message.replace('{}', value);
+    }
+    console.log(message);
+    //args.forEach((arg) => console.log(arg));
     console.log("==================================");
 }
 exports.qp_log = qp_log;

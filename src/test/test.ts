@@ -71,11 +71,11 @@ function test(): void {
     // qp_log(msg4)
 
     //qp_log(Algorithm.get8Queen())
-    //qp_log(Algorithm.dfsQueen(8))
+    qp_log("dfsQueen 8 is:{}",Algorithm.dfsQueen(8))
     //for(let i = 3 ; i < 6 ; i++){
     //Algorithm.AllN(8)
     //}
-    qp_log(Algorithm.AllN(3))
+    qp_log("AllN(3):{}",Algorithm.AllN(3))
 }
 
 test()

@@ -55,11 +55,11 @@ function test() {
     // let msg4:Array<landlords.TypeMsg> = landlords.getPokersTypes(Algorithm.pokersToArray(out4))
     // qp_log(msg4)
     //qp_log(Algorithm.get8Queen())
-    //qp_log(Algorithm.dfsQueen(8))
+    log_1.qp_log("dfsQueen 8 is:{}", Algorithm.dfsQueen(8));
     //for(let i = 3 ; i < 6 ; i++){
     //Algorithm.AllN(8)
     //}
-    log_1.qp_log(Algorithm.AllN(3));
+    log_1.qp_log("AllN(3):{}", Algorithm.AllN(3));
 }
 test();
 //# sourceMappingURL=test.js.map
