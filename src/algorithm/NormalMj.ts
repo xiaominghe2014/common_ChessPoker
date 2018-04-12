@@ -89,7 +89,7 @@ namespace mahjong {
         return res
     }
 
-    //麻将通用胡发判断
+    //麻将普通胡判断
     export function normalHu(arrN: Array<number>): boolean {
         let tmp = ([] as Array<number>).concat(arrN)
         let len = tmp.length
@@ -100,20 +100,20 @@ namespace mahjong {
             if (0 == allNotTwin.length) return false
             //去掉刻子\顺子
             for (let r of allNotTwin) {
-                let allNotSame3 = removeSame3(r)
-                if (0 == allNotSame3.length) return false
-                for (let r of allNotSame3) {
-                    let allStraight = removeStraight(r)
-                    return 0 === r.length
+                let rm1 = removeSame3(r)
+                if (0 == rm1.length) return false
+                for (let r of rm1) {
+                    let rm2 = removeStraight(r)
+                    if(0 === rm2.length) return true
                 }
             }
             //去掉顺子\刻子
-            for (let r of t) {
-                let allStraight = removeSame3(r)
-                if (0 == allStraight.length) return false
-                for (let r of allStraight) {
-                    let allNotSame3 = removeStraight(r)
-                    return 0 === r.length
+            for (let r of allNotTwin) {
+                let rm1 = removeStraight(r)
+                if (0 == rm1.length) return false
+                for (let r of rm1) {
+                    let rm2 = removeSame3(r)
+                    if(0 === rm2.length) return true
                 }
             }
         }

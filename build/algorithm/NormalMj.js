@@ -99,7 +99,7 @@ var mahjong;
         return res;
     }
     mahjong.removeStraight = removeStraight;
-    //麻将通用胡发判断
+    //麻将普通胡判断
     function normalHu(arrN) {
         var tmp = [].concat(arrN);
         var len = tmp.length;
@@ -112,25 +112,27 @@ var mahjong;
             //去掉刻子\顺子
             for (var _i = 0, allNotTwin_1 = allNotTwin; _i < allNotTwin_1.length; _i++) {
                 var r = allNotTwin_1[_i];
-                var allNotSame3 = removeSame3(r);
-                if (0 == allNotSame3.length)
+                var rm1 = removeSame3(r);
+                if (0 == rm1.length)
                     return false;
-                for (var _a = 0, allNotSame3_1 = allNotSame3; _a < allNotSame3_1.length; _a++) {
-                    var r_1 = allNotSame3_1[_a];
-                    var allStraight = removeStraight(r_1);
-                    return 0 === r_1.length;
+                for (var _a = 0, rm1_1 = rm1; _a < rm1_1.length; _a++) {
+                    var r_1 = rm1_1[_a];
+                    var rm2 = removeStraight(r_1);
+                    if (0 === rm2.length)
+                        return true;
                 }
             }
             //去掉顺子\刻子
-            for (var _b = 0, t_1 = t; _b < t_1.length; _b++) {
-                var r = t_1[_b];
-                var allStraight = removeSame3(r);
-                if (0 == allStraight.length)
+            for (var _b = 0, allNotTwin_2 = allNotTwin; _b < allNotTwin_2.length; _b++) {
+                var r = allNotTwin_2[_b];
+                var rm1 = removeStraight(r);
+                if (0 == rm1.length)
                     return false;
-                for (var _c = 0, allStraight_1 = allStraight; _c < allStraight_1.length; _c++) {
-                    var r_2 = allStraight_1[_c];
-                    var allNotSame3 = removeStraight(r_2);
-                    return 0 === r_2.length;
+                for (var _c = 0, rm1_2 = rm1; _c < rm1_2.length; _c++) {
+                    var r_2 = rm1_2[_c];
+                    var rm2 = removeSame3(r_2);
+                    if (0 === rm2.length)
+                        return true;
                 }
             }
         }
