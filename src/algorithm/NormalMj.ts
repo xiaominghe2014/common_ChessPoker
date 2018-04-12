@@ -34,8 +34,8 @@ namespace mahjong {
     }
 
     export function arrMjMessage(arr: Array<MJ.Mj>): MJ.ArrMjMsg {
-        let msg: MJ.ArrMjMsg = {count:[],mj:[]};
-        for (let i =  0; i < MJ.MAX_VALUE ; i++){
+        let msg: MJ.ArrMjMsg = { count: [], mj: [] };
+        for (let i = 0; i < MJ.MAX_VALUE; i++) {
             msg.count.push(0)
             msg.mj.push([])
         }
@@ -48,7 +48,7 @@ namespace mahjong {
 
     //所有去掉将牌的牌
     export function removeTwins(arrN: Array<number>): Array<Array<number>> {
-        let res:Array<Array<number>> = []
+        let res: Array<Array<number>> = []
         let msg = arrMjMessage(arrToMj(arrN))
         for (let i of msg.count) {
             if (msg.count[i] >= 2) {
@@ -62,12 +62,12 @@ namespace mahjong {
 
     //所有去掉刻子的牌
     export function removeSame3(arrN: Array<number>): Array<Array<number>> {
-        let res:Array<Array<number>> = []
+        let res: Array<Array<number>> = []
         let msg = arrMjMessage(arrToMj(arrN))
         for (let i of msg.count) {
             if (msg.count[i] >= 3) {
                 let r = ([] as Array<number>).concat(arrN);
-                common.removeAFromB([msg.mj[i][0].num, msg.mj[i][1].num,msg.mj[i][2].num], r);
+                common.removeAFromB([msg.mj[i][0].num, msg.mj[i][1].num, msg.mj[i][2].num], r);
                 if (r.length) res.push(r)
             }
         }
@@ -76,13 +76,13 @@ namespace mahjong {
 
     //所有去掉顺子的牌
     export function removeStraight(arrN: Array<number>): Array<Array<number>> {
-        let res:Array<Array<number>> = []
+        let res: Array<Array<number>> = []
         let msg = arrMjMessage(arrToMj(arrN))
         for (let i = 0; i < 9 - 2; i++) {
 
             if (msg.count[i] && msg.count[i + 1] && msg.count[i + 2]) {
                 let r = ([] as Array<number>).concat(arrN)
-                common.removeAFromB([msg.mj[i][0].num, msg.mj[i+1][0].num, msg.mj[i+2][0].num], r)
+                common.removeAFromB([msg.mj[i][0].num, msg.mj[i + 1][0].num, msg.mj[i + 2][0].num], r)
                 if (r.length) res.push(r)
             }
         }
@@ -96,12 +96,23 @@ namespace mahjong {
         if (14 === len) {
             tmp.sort()
             let allNotTwin = removeTwins(arrN)
+            let t = ([] as Array<Array<number>>).concat(allNotTwin)
             if (0 == allNotTwin.length) return false
+            //去掉刻子\顺子
             for (let r of allNotTwin) {
                 let allNotSame3 = removeSame3(r)
                 if (0 == allNotSame3.length) return false
                 for (let r of allNotSame3) {
                     let allStraight = removeStraight(r)
+                    return 0 === r.length
+                }
+            }
+            //去掉顺子\刻子
+            for (let r of t) {
+                let allStraight = removeSame3(r)
+                if (0 == allStraight.length) return false
+                for (let r of allStraight) {
+                    let allNotSame3 = removeStraight(r)
                     return 0 === r.length
                 }
             }

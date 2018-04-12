@@ -106,8 +106,10 @@ var mahjong;
         if (14 === len) {
             tmp.sort();
             var allNotTwin = removeTwins(arrN);
+            var t = [].concat(allNotTwin);
             if (0 == allNotTwin.length)
                 return false;
+            //去掉刻子\顺子
             for (var _i = 0, allNotTwin_1 = allNotTwin; _i < allNotTwin_1.length; _i++) {
                 var r = allNotTwin_1[_i];
                 var allNotSame3 = removeSame3(r);
@@ -117,6 +119,18 @@ var mahjong;
                     var r_1 = allNotSame3_1[_a];
                     var allStraight = removeStraight(r_1);
                     return 0 === r_1.length;
+                }
+            }
+            //去掉顺子\刻子
+            for (var _b = 0, t_1 = t; _b < t_1.length; _b++) {
+                var r = t_1[_b];
+                var allStraight = removeSame3(r);
+                if (0 == allStraight.length)
+                    return false;
+                for (var _c = 0, allStraight_1 = allStraight; _c < allStraight_1.length; _c++) {
+                    var r_2 = allStraight_1[_c];
+                    var allNotSame3 = removeStraight(r_2);
+                    return 0 === r_2.length;
                 }
             }
         }

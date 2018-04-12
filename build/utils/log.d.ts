@@ -9,4 +9,4 @@ export declare class LogInfo {
  * 日志函数
  */
 export declare function getLogInfo(): LogInfo;
-export declare function qp_log(message: string, ...args: any[]): void;
+export declare function log(message: string, ...args: any[]): void;

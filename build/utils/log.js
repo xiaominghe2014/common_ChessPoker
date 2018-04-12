@@ -27,15 +27,12 @@ function getLogInfo() {
     return data;
 }
 exports.getLogInfo = getLogInfo;
-function qp_log(message) {
+function log(message) {
     var args = [];
     for (var _i = 1; _i < arguments.length; _i++) {
         args[_i - 1] = arguments[_i];
     }
     var info = getLogInfo();
-    //args.unshift(message);
-    console.log("==================================");
-    console.log(info.path, info.method, info.line);
     while (args.length) {
         var value = args.shift();
         if (value instanceof Object) {
@@ -48,9 +45,7 @@ function qp_log(message) {
         }
         message = message.replace('{}', value);
     }
-    console.log(message);
-    //args.forEach((arg) => console.log(arg));
-    console.log("==================================");
+    console.log("[", info.file, info.method, info.line, "]", message);
 }
-exports.qp_log = qp_log;
+exports.log = log;
 //# sourceMappingURL=log.js.map
