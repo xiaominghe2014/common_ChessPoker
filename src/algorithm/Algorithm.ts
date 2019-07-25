@@ -354,4 +354,14 @@ export function combination<T>(arrN: Array<T>, m: number): Array<Array<T>> {
     return res
 }
 
+/**
+ * 无限循环队列
+ * @param total 
+ */
+export function* cycleQueue(total:number):IterableIterator<number>{
+    const queue = Array(total).fill(0).map((v,i)=>v=i)
+    for(let i = 0;; i = (i+1)%total){
+        yield queue[i]
+    }
+}
 

@@ -111,3 +111,11 @@ export function tailCall(func: any, arg: any):any {
     }
     return value;
 }
+
+/**
+ * 固定元素更改 decorator
+ */
+export function freezed(constructor:Function):void{
+    Object.freeze(constructor);
+    Object.freeze(constructor.prototype);
+}
