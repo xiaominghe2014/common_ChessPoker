@@ -386,3 +386,22 @@ export function* descQueue(total:number){
     }
 }
 
+/**
+ * 区间序列
+ * @param from 起始位
+ * @param to 目标位
+ * @param step 步长
+ */
+export function* range(from:number,to:number,step:number){
+    let max = Math.max(from, to)
+    if(max===from){
+        while((from-=step)&&from>=to){
+            yield from
+        }
+    }else{
+        while((from+=step)&&from<=to){
+            yield from
+        }
+    }
+}
+
