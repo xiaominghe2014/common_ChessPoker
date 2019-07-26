@@ -365,3 +365,24 @@ export function* cycleQueue(total:number):IterableIterator<number>{
     }
 }
 
+/**
+ * 升序队列
+ * @param total /0,1,2,3...,total-1/
+ */
+export function* asceQueue(total:number){
+    let i = total
+    while(total--){
+        yield i-total-1
+    }
+}
+
+/**
+ * 降序队列
+ * @param total /total-1,total-2,...,3,2,1,0/
+ */
+export function* descQueue(total:number){
+    while(total--){
+        yield total
+    }
+}
+
