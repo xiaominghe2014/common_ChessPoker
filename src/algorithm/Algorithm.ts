@@ -369,7 +369,7 @@ export function* cycleQueue(total:number):IterableIterator<number>{
  * 升序队列
  * @param total /0,1,2,3...,total-1/
  */
-export function* asceQueue(total:number){
+export function* asceQueue(total:number):IterableIterator<number>{
     let i = total
     while(total--){
         yield i-total-1
@@ -380,7 +380,7 @@ export function* asceQueue(total:number){
  * 降序队列
  * @param total /total-1,total-2,...,3,2,1,0/
  */
-export function* descQueue(total:number){
+export function* descQueue(total:number):IterableIterator<number>{
     while(total--){
         yield total
     }
@@ -392,16 +392,35 @@ export function* descQueue(total:number){
  * @param to 目标位
  * @param step 步长
  */
-export function* range(from:number,to:number,step:number){
+export function* rangeIterator(from:number,to:number,step:number):IterableIterator<number>{
     let max = Math.max(from, to)
     if(max===from){
-        while((from-=step)&&from>=to){
+        while(from>=to){
             yield from
+            from-=step
         }
     }else{
-        while((from+=step)&&from<=to){
+        while(from<=to){
             yield from
+            from+=step
         }
     }
+}
+
+/**
+ * 区间序列[from,to]
+ * @param from 起始位
+ * @param to 目标位
+ * @param step 步长
+ */
+export function range(from:number,to:number,step:number=1):Array<number>{
+    let res:Array<number> = []
+    let iter = rangeIterator(from,to,step)
+    let n = iter.next()
+    while(!n.done){
+        res.push(n.value)
+        n = iter.next()
+    }
+    return res
 }
 
