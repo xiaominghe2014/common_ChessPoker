@@ -414,6 +414,9 @@ export function* rangeIterator(from:number,to:number,step:number):IterableIterat
  * @param step 步长
  */
 export function range(from:number,to:number,step:number=1):Array<number>{
+    if(step<=0){
+        throw Error("步长必须大于0")
+    }
     let res:Array<number> = []
     let iter = rangeIterator(from,to,step)
     let n = iter.next()
