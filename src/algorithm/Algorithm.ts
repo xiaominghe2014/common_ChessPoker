@@ -427,3 +427,50 @@ export function range(from:number,to:number,step:number=1):Array<number>{
     return res
 }
 
+/**
+* @notice 此处暂时只考虑方阵
+* 高斯消元解线性方程组
+* @param matricLeft 
+* @param matricRight 
+* @returns 
+*/ 
+ export function gaussSlutions(matricLeft:Array<Array<number>>,matricRight:Array<number>){
+    let len = matricLeft.length
+    let iter = new Array(len).fill(true)
+    for(let i = 0 ; i < len ; i ++){
+        //消元
+        //取出第i个不为0第行，消元
+        let diss = -1
+        for(let s = 0 ; s < len ; s++){
+            if(iter[s] && matricLeft[s][s]!=0){
+                diss = s
+                break
+            } 
+        }
+        if(diss==-1){
+            //非满秩，则无唯一解
+            return null
+        }
+        iter[diss] = false
+
+        let coefficient = matricLeft[diss][diss]
+        //本身系数归一
+        if(coefficient!=1){
+            for(let j = 0 ; j < len ; j ++){
+                matricLeft[diss][j] /=  coefficient
+            }
+            matricRight[diss] /= coefficient
+        }
+
+        for(let k = 0 ; k< len ; k++){
+            if(matricLeft[k][diss] == 0 || k==diss) continue
+            //第k行消元
+            let factor = -matricLeft[k][diss]
+            matricRight[k] += factor*matricRight[diss]
+            for(let l = 0 ; l< len ; l++){
+                matricLeft[k][l] += factor*matricLeft[diss][l]
+            }
+        }
+    }
+    return matricRight
+}
