@@ -84,7 +84,7 @@ function test(): void {
         [9,-5,3,6]
     ],[37,34,13,26])
 
-    console.log(ans)
+    log("gaussSlutions:{}",ans)
 }
 
 test()
