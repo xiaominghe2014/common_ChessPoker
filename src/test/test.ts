@@ -76,6 +76,15 @@ function test(): void {
     //Algorithm.AllN(8)
     //}
     log("AllN(3):{}",Algorithm.AllN(3))
+
+    let ans = Algorithm.gaussSlutions([
+        [1,0,5,8],
+        [3,2,3,3],
+        [-1,-3,5,7],
+        [9,-5,3,6]
+    ],[37,34,13,26])
+
+    console.log(ans)
 }
 
 test()
