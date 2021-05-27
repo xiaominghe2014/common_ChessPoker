@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.log = exports.getLogInfo = exports.LogInfo = void 0;
 var path = require("path");
 var LogInfo = /** @class */ (function () {
     function LogInfo() {

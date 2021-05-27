@@ -64,3 +64,40 @@ export declare function AllN(n: number, cur?: Array<number>, res?: Array<Array<n
 export declare function dfsQueen(n: number): number[][];
 export declare function arrangement<T>(arrN: Array<T>, m: number): Array<Array<T>>;
 export declare function combination<T>(arrN: Array<T>, m: number): Array<Array<T>>;
+/**
+ * 无限循环队列
+ * @param total
+ */
+export declare function cycleQueue(total: number): IterableIterator<number>;
+/**
+ * 升序队列
+ * @param total /0,1,2,3...,total-1/
+ */
+export declare function asceQueue(total: number): IterableIterator<number>;
+/**
+ * 降序队列
+ * @param total /total-1,total-2,...,3,2,1,0/
+ */
+export declare function descQueue(total: number): IterableIterator<number>;
+/**
+ * 区间序列
+ * @param from 起始位
+ * @param to 目标位
+ * @param step 步长
+ */
+export declare function rangeIterator(from: number, to: number, step: number): IterableIterator<number>;
+/**
+ * 区间序列[from,to]
+ * @param from 起始位
+ * @param to 目标位
+ * @param step 步长
+ */
+export declare function range(from: number, to: number, step?: number): Array<number>;
+/**
+* @notice 此处暂时只考虑方阵
+* 高斯消元解线性方程组
+* @param matricLeft
+* @param matricRight
+* @returns
+*/
+export declare function gaussSlutions(matricLeft: Array<Array<number>>, matricRight: Array<number>): number[] | null;

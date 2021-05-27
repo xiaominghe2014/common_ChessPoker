@@ -836,7 +836,7 @@ var landlords;
     function getAllStraight1(len, pokers) {
         var res = [];
         var pLen = pokers.length;
-        if (len <= pLen) {
+        if ( /*5 <= len && */len <= pLen) {
             var msg = getPokersMsg(pokers);
             var start = 0;
             var searchIndex = 0;
@@ -871,7 +871,7 @@ var landlords;
     function getAllStraight2(len, pokers) {
         var res = [];
         var pLen = pokers.length;
-        if (len <= pLen && 0 === len % 2) {
+        if ( /*6 <= len && */len <= pLen && 0 === len % 2) {
             var msg = getPokersMsg(pokers);
             var start = 0;
             var searchIndex = 0;
@@ -907,7 +907,7 @@ var landlords;
     function getAllStraight3(len, pokers) {
         var res = [];
         var pLen = pokers.length;
-        if (len <= pLen && 0 === len % 3) {
+        if ( /*9 <= len && */len <= pLen && 0 === len % 3) {
             var msg = getPokersMsg(pokers);
             var start = 0;
             var searchIndex = 0;

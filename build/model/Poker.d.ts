@@ -9,7 +9,7 @@ export declare const enum Color {
     CLUB = 2,
     DIAMOND = 3,
     KING = 4,
-    BACK = 5,
+    BACK = 5
 }
 export declare const enum Value {
     v_3 = 0,
@@ -27,7 +27,7 @@ export declare const enum Value {
     v_2 = 12,
     v_king_small = 13,
     v_king_big = 14,
-    v_back = 15,
+    v_back = 15
 }
 export interface Card {
     color: Color;
@@ -41,5 +41,5 @@ export declare class CardPair {
     moveCards: Array<Card>;
     constructor(moveCards?: Array<Card>);
     getCards(): Array<Card>;
-    private initDefaultCards();
+    private initDefaultCards;
 }

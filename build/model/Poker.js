@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CardPair = void 0;
 var common = require("../utils/common");
 /**
  * 一副牌

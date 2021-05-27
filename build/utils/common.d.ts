@@ -38,3 +38,7 @@ export declare function range(len: number, start?: any): Array<any>;
  * @param arg
  */
 export declare function tailCall(func: any, arg: any): any;
+/**
+ * 固定元素更改 decorator
+ */
+export declare function freezed(constructor: Function): void;

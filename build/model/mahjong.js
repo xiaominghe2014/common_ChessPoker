@@ -1,6 +1,7 @@
 "use strict";
 //namespace mahjong {
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MAX_VALUE = exports.getColor = exports.isValidMjNumber = exports.ColorOffSet = exports.MjBits = exports.totalValueCount = void 0;
 //值的个数
 exports.totalValueCount = 42;
 //花色范围

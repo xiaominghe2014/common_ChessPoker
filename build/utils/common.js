@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.freezed = exports.tailCall = exports.range = exports.getCopyArray = exports.getDefaultArray = exports.isAEqualB = exports.getType = exports.removeAFromB = exports.removeElementFromArray = exports.getElementIndex = void 0;
 /**
  * 获取数组元素索引
  */
@@ -119,4 +120,12 @@ function tailCall(func, arg) {
     return value;
 }
 exports.tailCall = tailCall;
+/**
+ * 固定元素更改 decorator
+ */
+function freezed(constructor) {
+    Object.freeze(constructor);
+    Object.freeze(constructor.prototype);
+}
+exports.freezed = freezed;
 //# sourceMappingURL=common.js.map

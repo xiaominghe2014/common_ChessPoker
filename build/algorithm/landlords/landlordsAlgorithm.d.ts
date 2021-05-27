@@ -13,7 +13,7 @@ declare namespace landlords {
         FOUR_WITH_2 = 10,
         FOUR_WITH_4 = 11,
         PLANE_WITH_SINGLE = 12,
-        PLANE_WITH_TWINS = 13,
+        PLANE_WITH_TWINS = 13
     }
     interface PokersMsg {
         info: Array<number>;

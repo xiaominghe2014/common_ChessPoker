@@ -5,7 +5,7 @@ export declare const enum Color {
     WIND = 3,
     DRAGON = 4,
     FLOWER = 5,
-    SEASON = 6,
+    SEASON = 6
 }
 export declare const enum Value {
     C1 = 0,
@@ -49,7 +49,7 @@ export declare const enum Value {
     S_C = 38,
     S_X = 39,
     S_Q = 40,
-    S_D = 41,
+    S_D = 41
 }
 export declare const totalValueCount: number;
 export declare const MjBits: Value[];

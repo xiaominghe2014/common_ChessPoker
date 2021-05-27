@@ -1,5 +1,33 @@
 "use strict";
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.gaussSlutions = exports.range = exports.rangeIterator = exports.descQueue = exports.asceQueue = exports.cycleQueue = exports.combination = exports.arrangement = exports.dfsQueen = exports.AllN = exports.get8Queen = exports.ANN = exports.binarySearch = exports.getMaxContinuousSum = exports.pokerDefaultSort = exports.arrayToPokers = exports.pokersToArray = exports.numberToPoker = exports.pokerToNumber = exports.rmArrayRepeat = exports.getArrayMessage = exports.shuffleArray = void 0;
 var common = require("../utils/common");
 /**
  * 数组随机排序
@@ -149,27 +177,27 @@ function ANN(n) {
     var arr = common.range(n), buf = [];
     var used = [], res = [];
     var dfs = function (low, hight) {
+        var _a;
         if (low === void 0) { low = 0; }
         if (hight === void 0) { hight = n; }
         if (low === hight) {
             var r = [];
-            for (var _i = 0, _a = common.range(n); _i < _a.length; _i++) {
-                var i = _a[_i];
+            for (var _i = 0, _b = common.range(n); _i < _b.length; _i++) {
+                var i = _b[_i];
                 r[i] = buf[i];
             }
             res.push(r);
         }
         else {
-            for (var _b = 0, _c = common.range(n); _b < _c.length; _b++) {
-                var i = _c[_b];
+            for (var _c = 0, _d = common.range(n); _c < _d.length; _c++) {
+                var i = _d[_c];
                 if (!used[i]) {
-                    _d = [true, arr[i]], used[i] = _d[0], buf[low] = _d[1];
+                    _a = [true, arr[i]], used[i] = _a[0], buf[low] = _a[1];
                     dfs(low + 1, n);
                     used[i] = false;
                 }
             }
         }
-        var _d;
     };
     dfs();
     return res;
@@ -181,6 +209,7 @@ exports.ANN = ANN;
 function get8Queen() {
     var result = [], a88 = AllN(8); //ANN(8)
     var _loop_1 = function (e) {
+        var _a;
         var line0 = [], line1 = [];
         var check = function () {
             for (var _i = 0, _a = common.range(8); _i < _a.length; _i++) {
@@ -193,13 +222,12 @@ function get8Queen() {
             }
             return true;
         };
-        for (var _i = 0, _a = common.range(8); _i < _a.length; _i++) {
-            var i = _a[_i];
-            _b = [e[i] + i, e[i] - i], line0[i] = _b[0], line1[i] = _b[1];
+        for (var _i = 0, _b = common.range(8); _i < _b.length; _i++) {
+            var i = _b[_i];
+            _a = [e[i] + i, e[i] - i], line0[i] = _a[0], line1[i] = _a[1];
         }
         if (check())
             result.push(e);
-        var _b;
     };
     for (var _i = 0, a88_1 = a88; _i < a88_1.length; _i++) {
         var e = a88_1[_i];
@@ -396,4 +424,169 @@ function combination(arrN, m) {
     return res;
 }
 exports.combination = combination;
+/**
+ * 无限循环队列
+ * @param total
+ */
+function cycleQueue(total) {
+    var queue, i;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                queue = Array(total).fill(0).map(function (v, i) { return v = i; });
+                i = 0;
+                _a.label = 1;
+            case 1: return [4 /*yield*/, queue[i]];
+            case 2:
+                _a.sent();
+                _a.label = 3;
+            case 3:
+                i = (i + 1) % total;
+                return [3 /*break*/, 1];
+            case 4: return [2 /*return*/];
+        }
+    });
+}
+exports.cycleQueue = cycleQueue;
+/**
+ * 升序队列
+ * @param total /0,1,2,3...,total-1/
+ */
+function asceQueue(total) {
+    var i;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                i = total;
+                _a.label = 1;
+            case 1:
+                if (!total--) return [3 /*break*/, 3];
+                return [4 /*yield*/, i - total - 1];
+            case 2:
+                _a.sent();
+                return [3 /*break*/, 1];
+            case 3: return [2 /*return*/];
+        }
+    });
+}
+exports.asceQueue = asceQueue;
+/**
+ * 降序队列
+ * @param total /total-1,total-2,...,3,2,1,0/
+ */
+function descQueue(total) {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!total--) return [3 /*break*/, 2];
+                return [4 /*yield*/, total];
+            case 1:
+                _a.sent();
+                return [3 /*break*/, 0];
+            case 2: return [2 /*return*/];
+        }
+    });
+}
+exports.descQueue = descQueue;
+/**
+ * 区间序列
+ * @param from 起始位
+ * @param to 目标位
+ * @param step 步长
+ */
+function rangeIterator(from, to, step) {
+    var max;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                max = Math.max(from, to);
+                if (!(max === from)) return [3 /*break*/, 4];
+                _a.label = 1;
+            case 1:
+                if (!(from >= to)) return [3 /*break*/, 3];
+                return [4 /*yield*/, from];
+            case 2:
+                _a.sent();
+                from -= step;
+                return [3 /*break*/, 1];
+            case 3: return [3 /*break*/, 6];
+            case 4:
+                if (!(from <= to)) return [3 /*break*/, 6];
+                return [4 /*yield*/, from];
+            case 5:
+                _a.sent();
+                from += step;
+                return [3 /*break*/, 4];
+            case 6: return [2 /*return*/];
+        }
+    });
+}
+exports.rangeIterator = rangeIterator;
+/**
+ * 区间序列[from,to]
+ * @param from 起始位
+ * @param to 目标位
+ * @param step 步长
+ */
+function range(from, to, step) {
+    if (step === void 0) { step = 1; }
+    if (step <= 0) {
+        throw Error("步长必须大于0");
+    }
+    var res = [];
+    var iter = rangeIterator(from, to, step);
+    var n = iter.next();
+    while (!n.done) {
+        res.push(n.value);
+        n = iter.next();
+    }
+    return res;
+}
+exports.range = range;
+/**
+* @notice 此处暂时只考虑方阵
+* 高斯消元解线性方程组
+* @param matricLeft
+* @param matricRight
+* @returns
+*/
+function gaussSlutions(matricLeft, matricRight) {
+    var len = matricLeft.length;
+    var resolve = new Array(0);
+    for (var i = 0; i < len; i++) {
+        //任取第i个元素不为0的行消元
+        var diss = -1;
+        for (var s = 0; s < len; s++) {
+            if (resolve.indexOf(s) == -1 && matricLeft[s][i] != 0) {
+                diss = s;
+                break;
+            }
+        }
+        if (diss == -1) {
+            //非满秩，则无唯一解
+            return null;
+        }
+        resolve.push(diss);
+        var coefficient = matricLeft[diss][i];
+        //本身系数归一
+        if (coefficient != 1) {
+            for (var j = 0; j < len; j++) {
+                matricLeft[diss][j] /= coefficient;
+            }
+            matricRight[diss] /= coefficient;
+        }
+        for (var k = 0; k < len; k++) {
+            if (matricLeft[k][i] == 0 || k == diss)
+                continue;
+            //第k行消元
+            var factor = -matricLeft[k][i];
+            matricRight[k] += factor * matricRight[diss];
+            for (var l = 0; l < len; l++) {
+                matricLeft[k][l] += factor * matricLeft[diss][l];
+            }
+        }
+    }
+    return resolve.map(function (v) { return v = matricRight[v]; });
+}
+exports.gaussSlutions = gaussSlutions;
 //# sourceMappingURL=Algorithm.js.map

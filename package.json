@@ -12,5 +12,7 @@
   "engines": {
     "node": ">=7.4.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@types/node": "^15.6.1"
+  }
 }

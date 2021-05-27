@@ -6,7 +6,7 @@ declare namespace threeGoldenFlower {
         STRAIGHT = 2,
         SAME_COLOR = 3,
         SAME_COLOR_STRAIGHT = 4,
-        BOMB = 5,
+        BOMB = 5
     }
     interface TypeMsg {
         yes: boolean;
