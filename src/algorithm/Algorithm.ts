@@ -436,13 +436,12 @@ export function range(from:number,to:number,step:number=1):Array<number>{
 */ 
  export function gaussSlutions(matricLeft:Array<Array<number>>,matricRight:Array<number>){
     let len = matricLeft.length
-    let iter = new Array(len).fill(true)
+    let resolve = new Array(0)
     for(let i = 0 ; i < len ; i ++){
-        //消元
-        //取出第i个不为0第行，消元
+        //任取第i个元素不为0的行消元
         let diss = -1
         for(let s = 0 ; s < len ; s++){
-            if(iter[s] && matricLeft[s][s]!=0){
+            if(resolve.indexOf(s)==-1 && matricLeft[s][i]!=0){
                 diss = s
                 break
             } 
@@ -451,9 +450,9 @@ export function range(from:number,to:number,step:number=1):Array<number>{
             //非满秩，则无唯一解
             return null
         }
-        iter[diss] = false
+        resolve.push(diss)
 
-        let coefficient = matricLeft[diss][diss]
+        let coefficient = matricLeft[diss][i]
         //本身系数归一
         if(coefficient!=1){
             for(let j = 0 ; j < len ; j ++){
@@ -463,14 +462,14 @@ export function range(from:number,to:number,step:number=1):Array<number>{
         }
 
         for(let k = 0 ; k< len ; k++){
-            if(matricLeft[k][diss] == 0 || k==diss) continue
+            if(matricLeft[k][i] == 0 || k==diss) continue
             //第k行消元
-            let factor = -matricLeft[k][diss]
+            let factor = -matricLeft[k][i]
             matricRight[k] += factor*matricRight[diss]
             for(let l = 0 ; l< len ; l++){
                 matricLeft[k][l] += factor*matricLeft[diss][l]
             }
         }
-    }
-    return matricRight
+    }        
+    return resolve.map(v=>v=matricRight[v])
 }
