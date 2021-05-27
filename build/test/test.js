@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Algorithm = require("../algorithm/Algorithm");
 var log_1 = require("../utils/log");
+var SudoKu_1 = require("../algorithm/sudoku/SudoKu");
 function test() {
     // let mPair:Poker.CardPair = new Poker.CardPair()
     // log('mPair',mPair)
@@ -67,6 +68,9 @@ function test() {
         [9, -5, 3, 6]
     ], [37, 34, 13, 26]);
     log_1.log("gaussSlutions:{}", ans);
+    console.time("SudoKu");
+    log_1.log("suduKu:{}", new SudoKu_1.SudoKu("010030000079004005000008640000001060500020007040300000085400000600200950000060020").solve());
+    console.timeEnd("SudoKu");
 }
 test();
 //# sourceMappingURL=test.js.map

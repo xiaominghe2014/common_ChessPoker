@@ -4,7 +4,7 @@ import * as common from '../utils/common';
 import * as Algorithm from '../algorithm/Algorithm';
 import { log } from '../utils/log';
 import landlords from '../algorithm/landlords/landlordsAlgorithm';
-
+import { SudoKu } from '../algorithm/sudoku/SudoKu'
 
 
 
@@ -85,6 +85,9 @@ function test(): void {
     ],[37,34,13,26])
 
     log("gaussSlutions:{}",ans)
+    console.time("SudoKu")
+    log("suduKu:{}",new SudoKu("010030000079004005000008640000001060500020007040300000085400000600200950000060020").solve())
+    console.timeEnd("SudoKu")
 }
 
 test()

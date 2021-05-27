@@ -18,15 +18,15 @@ npm install @types/node --save
 
 echo "build starting"
 
-if [ hash tsc ]; then
-	npm install typescript -g
-fi
+# if [ hash tsc ]; then
+# 	npm install typescript -g
+# fi
 
 tsc --pretty -p .
 
 echo "buld finished"
 echo "test ................"
-node --harmony-tailcalls `pwd`/${BUILD_DIR}/test/test.js
+node `pwd`/${BUILD_DIR}/test/test.js
 
 
 
