@@ -86,7 +86,7 @@ function test(): void {
 
     log("gaussSlutions:{}",ans)
     console.time("SudoKu")
-    log("suduKu:{}",new SudoKu("010030000079004005000008640000001060500020007040300000085400000600200950000060020").solve())
+    log("suduKu:{}",new SudoKu("005006370007020000690040000009800000026000530000004200000060084000070100012400600").solve())
     console.timeEnd("SudoKu")
 }
 
