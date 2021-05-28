@@ -86,8 +86,11 @@ function test(): void {
 
     log("gaussSlutions:{}",ans)
     console.time("SudoKu")
-    log("suduKu:{}",new SudoKu("005006370007020000690040000009800000026000530000004200000060084000070100012400600").solve())
+    let suduKu = new SudoKu("000000000000000012003045000000000036000000400570008000000100000000900020706000500")
+    log("suduKu:{}",suduKu.solve())
     console.timeEnd("SudoKu")
+
+    // console.log(JSON.stringify(suduKu.matrixPossible))
 }
 
 test()
