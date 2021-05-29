@@ -434,7 +434,7 @@ export function range(from:number,to:number,step:number=1):Array<number>{
 * @param matricRight 
 * @returns 
 */ 
- export function gaussSlutions(matricLeft:Array<Array<number>>,matricRight:Array<number>){
+ export function gaussSolutions(matricLeft:Array<Array<number>>,matricRight:Array<number>){
     let len = matricLeft.length
     let resolve = new Array(0)
     for(let i = 0 ; i < len ; i ++){

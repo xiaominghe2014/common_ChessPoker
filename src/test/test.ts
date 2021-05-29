@@ -77,20 +77,18 @@ function test(): void {
     //}
     log("AllN(3):{}",Algorithm.AllN(3))
 
-    let ans = Algorithm.gaussSlutions([
+    let ans = Algorithm.gaussSolutions([
         [1,0,5,8],
         [3,2,3,3],
         [-1,-3,5,7],
         [9,-5,3,6]
     ],[37,34,13,26])
 
-    log("gaussSlutions:{}",ans)
+    log("gaussSolutions:{}",ans)
     console.time("SudoKu")
-    let suduKu = new SudoKu("000000000000000012003045000000000036000000400570008000000100000000900020706000500")
-    log("suduKu:{}",suduKu.solve())
+    let sudoKu = new SudoKu("000000000000000012003045000000000036000000400570008000000100000000900020706000500")
+    log("sudoKu:{}",sudoKu.solve())
     console.timeEnd("SudoKu")
-
-    // console.log(JSON.stringify(suduKu.matrixPossible))
 }
 
 test()
