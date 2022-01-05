@@ -4,77 +4,31 @@ import * as common from '../utils/common';
 import * as Algorithm from '../algorithm/Algorithm';
 import { log } from '../utils/log';
 import landlords from '../algorithm/landlords/landlordsAlgorithm';
-import { SudoKu } from '../algorithm/sudoku/SudoKu'
+import dlx from '../algorithm/x/dlx';
 
+function getArr(i:number,v:number,gong:number){
+    let x = i%gong
+    let y = Math.floor(i/gong)
+    let gongW = Math.sqrt(gong)
+    let gongH = Math.sqrt(gong)
+    let arr = new Array(gong*gong*4).fill(0)
+    let c1 = i 
+    let c2 = gong*gong + x*gong + v-1
+    let c3 = gong*gong*2 + y*gong + v-1
+    let gongX = Math.floor(x/gongW)
+    let gongY = Math.floor(y/gongH)
+    let gongP = gongX + gongY * Math.sqrt(gong)
+    let c4 = gong*gong*3 + gongP*gong + v-1
+    arr[c1] = 1 
+    arr[c2] = 1
+    arr[c3] = 1
+    arr[c4] = 1
+    return arr
+}
 
 
 function test(): void {
-
-    // let mPair:Poker.CardPair = new Poker.CardPair()
-    // log('mPair',mPair)
-
-    // let mCards:Array<Poker.Card> = []
-    // mCards = mCards.concat(mPair.cards).concat(mPair.cards)
-    // log('mCards',mCards);
-
-    // Algorithm.pokerDefaultSort(mCards)
-    // log('mCards--pokerDefaultSort',mCards)
-
-    // Algorithm.rmArrayRepeat(mCards)
-    // log('mCards---rmArrayRepeat',mCards)
-
-    // let pokers = landlords.getPokers()
-    // log(pokers);
-    // landlords.shufflePokers(pokers)
-    // log(pokers);
-
-    // let out1:Array<Poker.Card> = []
-    // for(let i:number = 0 ; i< 9 ; i++){
-    //     out1.push({color:Poker.Color.SPADE,value:Poker.Value.v_3+Math.floor(i/3)})
-    // }
-    // log(out1)
-    // let msg1:Array<landlords.TypeMsg> = landlords.getPokersTypes(Algorithm.pokersToArray(out1))
-    // log(msg1)
-    // let out2:Array<Poker.Card> = []
-    // for(let i:number = 0 ; i< 12 ; i++){
-    //     out2.push({color:Poker.Color.SPADE,value:Poker.Value.v_3+Math.floor(i/4)})
-    // }
-    // log(out2)
-    // let msg2:Array<landlords.TypeMsg> = landlords.getPokersTypes(Algorithm.pokersToArray(out2))
-    // log(msg2)
-
-    // let out3:Array<Poker.Card> = []
-    // for(let i:number = 0 ; i< 5 ; i++){
-    //     out3.push({color:Poker.Color.SPADE,value:Poker.Value.v_3})
-    //     out3.push({color:Poker.Color.CLUB,value:Poker.Value.v_4})
-    //     out3.push({color:Poker.Color.DIAMOND,value:Poker.Value.v_5})
-    //     out3.push({color:Poker.Color.HEART,value:Poker.Value.v_6})
-    // }
-    // log(out3)
-    // let msg3:Array<landlords.TypeMsg> = landlords.getPokersTypes(Algorithm.pokersToArray(out3))
-    // log(msg3)
-
-
-    // let out4:Array<Poker.Card> = []
-    // for(let i:number = 0 ; i< 3 ; i++){
-    //     out4.push({color:Poker.Color.SPADE,value:Poker.Value.v_3})
-    //     out4.push({color:Poker.Color.CLUB,value:Poker.Value.v_4})
-    //     out4.push({color:Poker.Color.DIAMOND,value:Poker.Value.v_5})
-    //     out4.push({color:Poker.Color.HEART,value:Poker.Value.v_6})
-    //     out4.push({color:Poker.Color.SPADE,value:Poker.Value.v_7})
-    //     out4.push({color:Poker.Color.CLUB,value:Poker.Value.v_8})
-    // }
-    // out4.push({color:Poker.Color.SPADE,value:Poker.Value.v_7})
-    // out4.push({color:Poker.Color.CLUB,value:Poker.Value.v_8})
-    // log(out4)
-    // let msg4:Array<landlords.TypeMsg> = landlords.getPokersTypes(Algorithm.pokersToArray(out4))
-    // log(msg4)
-
-    //log(Algorithm.get8Queen())
     log("dfsQueen 8 is:{}",Algorithm.dfsQueen(8))
-    //for(let i = 3 ; i < 6 ; i++){
-    //Algorithm.AllN(8)
-    //}
     log("AllN(3):{}",Algorithm.AllN(3))
 
     let ans = Algorithm.gaussSolutions([
@@ -85,10 +39,68 @@ function test(): void {
     ],[37,34,13,26])
 
     log("gaussSolutions:{}",ans)
-    console.time("SudoKu")
-    let sudoKu = new SudoKu("000000000000000012003045000000000036000000400570008000000100000000900020706000500")
-    log("sudoKu:{}",sudoKu.solve())
-    console.timeEnd("SudoKu")
+    console.time("algorithm-x")
+    let sudoStr = "004100000000030060105000020680001200002000300003400058040000601030020000000004700"
+    let gong = 9
+    let sudoArr = []
+    let rowArr = []
+    for(let i = 0 ; i < gong*gong ; i++){
+        let v = parseInt(sudoStr.charAt(i))
+        if(v==0){
+            for(let j = 1 ; j <= gong ; j++){
+                sudoArr.push(getArr(i,j,gong))
+                rowArr.push([i,j])
+            }
+        }else{
+            sudoArr.push(getArr(i,v,gong))
+            rowArr.push([i,v])
+        }
+        // testGongPos(i,gong)
+    }
+
+    //找出空列，删除
+    let kongIdx:number[] = []
+    for(let i = 0 ; i < sudoArr[0].length ; i++){
+        let len = sudoArr.length
+        let kong = true
+        for(let j = 0 ; j < len ; j ++){
+            if(sudoArr[j][i]!=0){
+                kong = false
+                break
+            }
+        }
+        if(kong){
+            kongIdx.push(i)
+        }
+    }
+    let sudoArrNoBlank = []
+    let len = sudoArr.length
+    for(let j = 0 ; j < len ; j ++){
+        let noBlank = []
+        for (let i = 0 ; i < sudoArr[0].length ; i ++){
+            if(kongIdx.indexOf(i)==-1){
+                noBlank.push(sudoArr[j][i])
+            }
+        }
+        sudoArrNoBlank.push(noBlank)
+    }
+    let dx = new dlx.Dlx(sudoArr)
+    let success = dx.dancing(0)
+    log("success:{}",success)
+    let ansArr = []
+    for(let i = 0 ; i< dx.answer.length ; i++){
+        if(dx.answer[i]>0){
+            ansArr.push(dx.answer[i])
+        }
+    }
+    
+    let ansA = new Array(gong*gong).fill(0)
+    for(let i = 0 ; i < ansArr.length ; i++){
+        let a = rowArr[ansArr[i]-1]
+        ansA[a[0]] = a[1]
+    }
+    log("answer:{}",ansA.join(""))
+    console.timeEnd("algorithm-x")
 }
 
 test()
