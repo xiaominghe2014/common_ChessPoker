@@ -100,4 +100,4 @@ export declare function range(from: number, to: number, step?: number): Array<nu
 * @param matricRight
 * @returns
 */
-export declare function gaussSlutions(matricLeft: Array<Array<number>>, matricRight: Array<number>): number[] | null;
+export declare function gaussSolutions(matricLeft: Array<Array<number>>, matricRight: Array<number>): number[] | null;

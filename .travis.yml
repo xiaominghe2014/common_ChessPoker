@@ -1,5 +1,5 @@
 language: node_js
 nodejs:
-  - '0.8'
+  - '8.2.0'
 scripts:
   - node --harmony-tailcalls `pwd`/build/test/test.js

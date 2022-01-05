@@ -27,7 +27,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.gaussSlutions = exports.range = exports.rangeIterator = exports.descQueue = exports.asceQueue = exports.cycleQueue = exports.combination = exports.arrangement = exports.dfsQueen = exports.AllN = exports.get8Queen = exports.ANN = exports.binarySearch = exports.getMaxContinuousSum = exports.pokerDefaultSort = exports.arrayToPokers = exports.pokersToArray = exports.numberToPoker = exports.pokerToNumber = exports.rmArrayRepeat = exports.getArrayMessage = exports.shuffleArray = void 0;
+exports.gaussSolutions = exports.range = exports.rangeIterator = exports.descQueue = exports.asceQueue = exports.cycleQueue = exports.combination = exports.arrangement = exports.dfsQueen = exports.AllN = exports.get8Queen = exports.ANN = exports.binarySearch = exports.getMaxContinuousSum = exports.pokerDefaultSort = exports.arrayToPokers = exports.pokersToArray = exports.numberToPoker = exports.pokerToNumber = exports.rmArrayRepeat = exports.getArrayMessage = exports.shuffleArray = void 0;
 var common = require("../utils/common");
 /**
  * 数组随机排序
@@ -550,7 +550,7 @@ exports.range = range;
 * @param matricRight
 * @returns
 */
-function gaussSlutions(matricLeft, matricRight) {
+function gaussSolutions(matricLeft, matricRight) {
     var len = matricLeft.length;
     var resolve = new Array(0);
     for (var i = 0; i < len; i++) {
@@ -588,5 +588,5 @@ function gaussSlutions(matricLeft, matricRight) {
     }
     return resolve.map(function (v) { return v = matricRight[v]; });
 }
-exports.gaussSlutions = gaussSlutions;
+exports.gaussSolutions = gaussSolutions;
 //# sourceMappingURL=Algorithm.js.map
