@@ -149,6 +149,76 @@ namespace dlx {
         }
     }
 
+    export function solveStandardSudoku(subject:string,gong:number){
+        let  getSquare = (n:number)=>{
+            if(n%1!=0) return -1;
+            let i = 1;
+            for(; n>0; i+=2){
+                n -= i;
+            }
+            if(n==0) {
+                return  (i-1)/2;
+            }
+            return -1;
+        }
+        let getArr = (gongW:number, gongH:number , i:number, v:number, gong:number)=>{
+            let x = i%gong;
+            let y = Math.floor(i/gong);
+            let arr = new Array(gong*gong*4).fill(0);
+            let c1 = i;
+            let c2 = gong*gong + x*gong + v-1;
+            let c3 = gong*gong*2 + y*gong + v-1;
+            let gongX = Math.floor(x/gongW);
+            let gongY = Math.floor(y/gongH);
+            let gongP = gongX + gongY *Math.floor(gong/gongW);
+            let c4 = gong*gong*3 + gongP*gong + v-1;
+            arr[c1] = 1;
+            arr[c2] = 1;
+            arr[c3] = 1;
+            arr[c4] = 1;
+            return arr;
+        }
+        let sq = getSquare(gong)
+        let gongW = sq;
+        let gongH = sq;
+        //先固定几个
+
+        if(gong==6){
+            gongW = 3;
+            gongH = 2;
+        }
+        
+        if(subject.length!=gong*gong) return null;
+
+        if(gongW == -1) return null;
+        let sudoArr:number[][] = []
+        let rowArr:number[][] = []
+        for(let i = 0 ; i < gong*gong ; i++){
+            let v = subject.charCodeAt(i) - '0'.charCodeAt(0);
+            if(v==0){
+                for(let j = 1 ; j <= gong ; j++){
+                    sudoArr.push(getArr(gongW,gongH,i,j,gong));
+                    rowArr.push([i,j]);
+                }
+            }else{
+                sudoArr.push(getArr(gongW,gongH,i,v,gong));
+                rowArr.push([i,v]);
+            }
+        }
+        let dx = new Dlx(sudoArr);
+        let result = dx.dancing(0);
+        if(result){
+            let ansA = new Array(gong*gong).fill(0)
+            for(let i = 0 ; i< dx.answer.length ; i++){
+                if(dx.answer[i]>0){
+                    let a = rowArr[dx.answer[i]-1];
+                    ansA[a[0]] = a[1]
+                }
+            }
+           return  ansA.join("");
+        }
+        return null;
+    }
 }
 
 export default dlx

@@ -22,5 +22,6 @@ declare namespace dlx {
         uncover(node: Node): void;
         dancing(d: number): boolean;
     }
+    function solveStandardSudoku(subject: string, gong: number): string | null;
 }
 export default dlx;

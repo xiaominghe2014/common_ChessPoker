@@ -6,26 +6,20 @@ import { log } from '../utils/log';
 import landlords from '../algorithm/landlords/landlordsAlgorithm';
 import dlx from '../algorithm/x/dlx';
 
-function getArr(i:number,v:number,gong:number){
-    let x = i%gong
-    let y = Math.floor(i/gong)
-    let gongW = Math.sqrt(gong)
-    let gongH = Math.sqrt(gong)
-    let arr = new Array(gong*gong*4).fill(0)
-    let c1 = i 
-    let c2 = gong*gong + x*gong + v-1
-    let c3 = gong*gong*2 + y*gong + v-1
-    let gongX = Math.floor(x/gongW)
-    let gongY = Math.floor(y/gongH)
-    let gongP = gongX + gongY * Math.sqrt(gong)
-    let c4 = gong*gong*3 + gongP*gong + v-1
-    arr[c1] = 1 
-    arr[c2] = 1
-    arr[c3] = 1
-    arr[c4] = 1
-    return arr
-}
+function transitionStr2Matrix(str: string|null,gongW:number,gong:number){
 
+    if(str==null || str.length!=gong*gong) return str
+    let r = ""
+    for(let i = 0 ; i < str.length ; i++){
+        if(i%gong==0){
+            r += "\n"
+        }else if(i%gongW == 0){
+            r += " "
+        }
+        r+=str[i]
+    }
+    return r
+}
 
 function test(): void {
     log("dfsQueen 8 is:{}",Algorithm.dfsQueen(8))
@@ -39,70 +33,19 @@ function test(): void {
     ],[37,34,13,26])
 
     log("gaussSolutions:{}",ans)
-    console.time("algorithm-x")
-    let sudoStr = "004100000000030060105000020680001200002000300003400058040000601030020000000004700"
-    let gong = 9
-    let sudoArr = []
-    let rowArr = []
-    for(let i = 0 ; i < gong*gong ; i++){
-        let v = parseInt(sudoStr.charAt(i))
-        if(v==0){
-            for(let j = 1 ; j <= gong ; j++){
-                sudoArr.push(getArr(i,j,gong))
-                rowArr.push([i,j])
-            }
-        }else{
-            sudoArr.push(getArr(i,v,gong))
-            rowArr.push([i,v])
-        }
-        // testGongPos(i,gong)
-    }
-
-    //找出空列，删除
-    let kongIdx:number[] = []
-    for(let i = 0 ; i < sudoArr[0].length ; i++){
-        let len = sudoArr.length
-        let kong = true
-        for(let j = 0 ; j < len ; j ++){
-            if(sudoArr[j][i]!=0){
-                kong = false
-                break
-            }
-        }
-        if(kong){
-            kongIdx.push(i)
-        }
-    }
-    let sudoArrNoBlank = []
-    let len = sudoArr.length
-    for(let j = 0 ; j < len ; j ++){
-        let noBlank = []
-        for (let i = 0 ; i < sudoArr[0].length ; i ++){
-            if(kongIdx.indexOf(i)==-1){
-                noBlank.push(sudoArr[j][i])
-            }
-        }
-        sudoArrNoBlank.push(noBlank)
-    }
-    let dx = new dlx.Dlx(sudoArr)
-    let success = dx.dancing(0)
-    log("success:{}",success)
-    let ansArr = []
-    for(let i = 0 ; i< dx.answer.length ; i++){
-        if(dx.answer[i]>0){
-            ansArr.push(dx.answer[i])
-        }
-    }
-    
-    let ansA = new Array(gong*gong).fill(0)
-    for(let i = 0 ; i < ansArr.length ; i++){
-        let a = rowArr[ansArr[i]-1]
-        ansA[a[0]] = a[1]
-    }
-    log("answer:{}",ansA.join(""))
-    console.timeEnd("algorithm-x")
+    console.time("algorithm-x-9")
+    let sudoStr9 = "004100000000030060105000020680001200002000300003400058040000601030020000000004700"
+    log("answer 9 :{}",transitionStr2Matrix(dlx.solveStandardSudoku(sudoStr9,9),3,9))
+    console.timeEnd("algorithm-x-9")
+    console.time("algorithm-x-6")
+    let sudoStr6 = "015000000001030602602030400000000460";
+    log("answer 6 :{}",transitionStr2Matrix(dlx.solveStandardSudoku(sudoStr6,6),3,6))
+    console.timeEnd("algorithm-x-6")
+    console.time("algorithm-x-4")
+    let sudoStr4 = "0000300000400230"
+    log("answer 4 :{}",transitionStr2Matrix(dlx.solveStandardSudoku(sudoStr4,4),2,4))
+    console.timeEnd("algorithm-x-4")
 }
-
 test()
 
 

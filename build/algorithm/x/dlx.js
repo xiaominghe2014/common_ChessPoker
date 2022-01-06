@@ -142,6 +142,78 @@ var dlx;
         return Dlx;
     }());
     dlx.Dlx = Dlx;
+    function solveStandardSudoku(subject, gong) {
+        var getSquare = function (n) {
+            if (n % 1 != 0)
+                return -1;
+            var i = 1;
+            for (; n > 0; i += 2) {
+                n -= i;
+            }
+            if (n == 0) {
+                return (i - 1) / 2;
+            }
+            return -1;
+        };
+        var getArr = function (gongW, gongH, i, v, gong) {
+            var x = i % gong;
+            var y = Math.floor(i / gong);
+            var arr = new Array(gong * gong * 4).fill(0);
+            var c1 = i;
+            var c2 = gong * gong + x * gong + v - 1;
+            var c3 = gong * gong * 2 + y * gong + v - 1;
+            var gongX = Math.floor(x / gongW);
+            var gongY = Math.floor(y / gongH);
+            var gongP = gongX + gongY * Math.floor(gong / gongW);
+            var c4 = gong * gong * 3 + gongP * gong + v - 1;
+            arr[c1] = 1;
+            arr[c2] = 1;
+            arr[c3] = 1;
+            arr[c4] = 1;
+            return arr;
+        };
+        var sq = getSquare(gong);
+        var gongW = sq;
+        var gongH = sq;
+        //先固定几个
+        if (gong == 6) {
+            gongW = 3;
+            gongH = 2;
+        }
+        if (subject.length != gong * gong)
+            return null;
+        if (gongW == -1)
+            return null;
+        var sudoArr = [];
+        var rowArr = [];
+        for (var i = 0; i < gong * gong; i++) {
+            var v = subject.charCodeAt(i) - '0'.charCodeAt(0);
+            if (v == 0) {
+                for (var j = 1; j <= gong; j++) {
+                    sudoArr.push(getArr(gongW, gongH, i, j, gong));
+                    rowArr.push([i, j]);
+                }
+            }
+            else {
+                sudoArr.push(getArr(gongW, gongH, i, v, gong));
+                rowArr.push([i, v]);
+            }
+        }
+        var dx = new Dlx(sudoArr);
+        var result = dx.dancing(0);
+        if (result) {
+            var ansA = new Array(gong * gong).fill(0);
+            for (var i = 0; i < dx.answer.length; i++) {
+                if (dx.answer[i] > 0) {
+                    var a = rowArr[dx.answer[i] - 1];
+                    ansA[a[0]] = a[1];
+                }
+            }
+            return ansA.join("");
+        }
+        return null;
+    }
+    dlx.solveStandardSudoku = solveStandardSudoku;
 })(dlx || (dlx = {}));
 exports.default = dlx;
 //# sourceMappingURL=dlx.js.map
