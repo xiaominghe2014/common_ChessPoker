@@ -178,18 +178,10 @@ namespace dlx {
             arr[c4] = 1;
             return arr;
         }
-        let sq = getSquare(gong)
-        let gongW = sq;
-        let gongH = sq;
-        //先固定几个
-
-        if(gong==6){
-            gongW = 3;
-            gongH = 2;
-        }
-        
         if(subject.length!=gong*gong) return null;
-
+        let sq = getWH(gong)
+        let gongW = sq[0];
+        let gongH = sq[1];
         if(gongW == -1) return null;
         let sudoArr:number[][] = []
         let rowArr:number[][] = []
@@ -218,6 +210,21 @@ namespace dlx {
            return  ansA.join("");
         }
         return null;
+    }
+
+    export function getWH(g:number):Array<number>{
+       let wh = [g,1];
+       for(let i = 2 ; i <=g ; i++){
+            let j = g/i
+            if(i>j) return wh;
+            if(g%i==0){
+                if(i+j<wh[0]+wh[1]){
+                    wh[0] = j;
+                    wh[1] = i;
+                }
+            }
+       }
+       return wh;
     }
 }
 
