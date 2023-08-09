@@ -12,7 +12,7 @@ var threeGoldenFlower;
         var card = Algorithm.numberToPoker(poker);
         if (0 > card.color || 0 > card.value)
             return false;
-        return 4 /* KING */ > card.color && 13 /* v_king_small */ > card.value;
+        return 4 /* Poker.Color.KING */ > card.color && 13 /* Poker.Value.v_king_small */ > card.value;
     }
     threeGoldenFlower.isValidPokerNumber = isValidPokerNumber;
     /**
@@ -33,7 +33,7 @@ var threeGoldenFlower;
      */
     function getPokerWeight(poker) {
         var card = Algorithm.numberToPoker(poker);
-        return (card.value + 1) % (12 /* v_2 */ + 1);
+        return (card.value + 1) % (12 /* Poker.Value.v_2 */ + 1);
     }
     threeGoldenFlower.getPokerWeight = getPokerWeight;
     /**
@@ -81,7 +81,7 @@ var threeGoldenFlower;
         if (ws[0] === ws[2])
             return {
                 yes: true,
-                type: 5 /* BOMB */,
+                type: 5 /* PokerType.BOMB */,
                 weight: ws[0]
             };
         return {
@@ -98,7 +98,7 @@ var threeGoldenFlower;
         if (sameColor.yes && staright.yes) {
             return {
                 yes: true,
-                type: 4 /* SAME_COLOR_STRAIGHT */,
+                type: 4 /* PokerType.SAME_COLOR_STRAIGHT */,
                 weight: staright.weight
             };
         }
@@ -124,7 +124,7 @@ var threeGoldenFlower;
         ws.sort();
         return {
             yes: true,
-            type: 3 /* SAME_COLOR */,
+            type: 3 /* PokerType.SAME_COLOR */,
             weight: ws[0]
         };
     }
@@ -138,7 +138,7 @@ var threeGoldenFlower;
         if (ws[0] + 2 === ws[1] + 1 && ws[0] + 2 == ws[2]) {
             return {
                 yes: true,
-                type: 2 /* STRAIGHT */,
+                type: 2 /* PokerType.STRAIGHT */,
                 weight: ws[2]
             };
         }
@@ -146,12 +146,12 @@ var threeGoldenFlower;
         cards.sort(function (a, b) {
             return a.value - b.value;
         });
-        if (0 /* v_3 */ === cards[0].value
-            && 11 /* v_A */ === cards[1].value
-            && 12 /* v_2 */ === cards[2].value) {
+        if (0 /* Poker.Value.v_3 */ === cards[0].value
+            && 11 /* Poker.Value.v_A */ === cards[1].value
+            && 12 /* Poker.Value.v_2 */ === cards[2].value) {
             return {
                 yes: true,
-                type: 2 /* STRAIGHT */,
+                type: 2 /* PokerType.STRAIGHT */,
                 weight: ws[1]
             };
         }
@@ -169,7 +169,7 @@ var threeGoldenFlower;
         if (ws[0] === ws[1] || ws[1] === ws[2])
             return {
                 yes: true,
-                type: 1 /* TWINS */,
+                type: 1 /* PokerType.TWINS */,
                 weight: ws[1]
             };
         return {
@@ -185,9 +185,9 @@ var threeGoldenFlower;
         cards.sort(function (a, b) {
             return a.value - b.value;
         });
-        if (0 /* v_3 */ === cards[0].value
-            && 2 /* v_5 */ === cards[1].value
-            && 12 /* v_2 */ === cards[2].value
+        if (0 /* Poker.Value.v_3 */ === cards[0].value
+            && 2 /* Poker.Value.v_5 */ === cards[1].value
+            && 12 /* Poker.Value.v_2 */ === cards[2].value
             && cards[0].color != cards[1].color
             && cards[0].color != cards[2].color
             && cards[1].color != cards[2].color) {

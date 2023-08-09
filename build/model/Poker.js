@@ -16,13 +16,13 @@ var CardPair = /** @class */ (function () {
     };
     CardPair.prototype.initDefaultCards = function () {
         this.cards = [];
-        for (var i = 0 /* SPADE */; i < 4 /* KING */; i++) {
-            for (var j = 0 /* v_3 */; j < 13 /* v_king_small */; j++) {
+        for (var i = 0 /* Color.SPADE */; i < 4 /* Color.KING */; i++) {
+            for (var j = 0 /* Value.v_3 */; j < 13 /* Value.v_king_small */; j++) {
                 this.cards.push({ color: i, value: j });
             }
         }
-        this.cards.push({ color: 4 /* KING */, value: 13 /* v_king_small */ });
-        this.cards.push({ color: 4 /* KING */, value: 14 /* v_king_big */ });
+        this.cards.push({ color: 4 /* Color.KING */, value: 13 /* Value.v_king_small */ });
+        this.cards.push({ color: 4 /* Color.KING */, value: 14 /* Value.v_king_big */ });
         common.removeAFromB(this.moveCards, this.cards);
     };
     return CardPair;

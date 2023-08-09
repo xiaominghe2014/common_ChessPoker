@@ -5,7 +5,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -222,8 +222,8 @@ function get8Queen() {
             }
             return true;
         };
-        for (var _i = 0, _b = common.range(8); _i < _b.length; _i++) {
-            var i = _b[_i];
+        for (var _b = 0, _c = common.range(8); _b < _c.length; _b++) {
+            var i = _c[_b];
             _a = [e[i] + i, e[i] - i], line0[i] = _a[0], line1[i] = _a[1];
         }
         if (check())

@@ -26,7 +26,7 @@ var landlords;
         var card = Algorithm.numberToPoker(poker);
         if (0 > card.color || 0 > card.value)
             return false;
-        return 5 /* BACK */ > card.color && 15 /* v_back */ > card.value;
+        return 5 /* Poker.Color.BACK */ > card.color && 15 /* Poker.Value.v_back */ > card.value;
     }
     landlords.isValidPokerNumber = isValidPokerNumber;
     /**
@@ -65,9 +65,9 @@ var landlords;
      */
     function getPokerTypeWeight(type) {
         switch (type) {
-            case 2 /* BOMB_KING */:
+            case 2 /* PokerType.BOMB_KING */:
                 return 100;
-            case 5 /* BOMB */:
+            case 5 /* PokerType.BOMB */:
                 return 10;
             default:
                 return 0;
@@ -163,7 +163,7 @@ var landlords;
             ws.sort();
             return {
                 yes: true,
-                type: 0 /* SINGLE */,
+                type: 0 /* PokerType.SINGLE */,
                 weight: ws[0],
                 repeated: 1,
                 pokers: pokers
@@ -184,7 +184,7 @@ var landlords;
             if (ws[0] === ws[1]) {
                 return {
                     yes: true,
-                    type: 1 /* TWINS */,
+                    type: 1 /* PokerType.TWINS */,
                     weight: ws[0],
                     repeated: 1,
                     pokers: pokers
@@ -207,7 +207,7 @@ var landlords;
                 if (king_small == pokers[1] || king_big == pokers[1]) {
                     return {
                         yes: true,
-                        type: 2 /* BOMB_KING */,
+                        type: 2 /* PokerType.BOMB_KING */,
                         weight: ws[0],
                         repeated: 1,
                         pokers: pokers
@@ -230,7 +230,7 @@ var landlords;
             if (ws[0] === ws[2]) {
                 return {
                     yes: true,
-                    type: 3 /* THREE */,
+                    type: 3 /* PokerType.THREE */,
                     weight: ws[0],
                     repeated: 1,
                     pokers: pokers
@@ -252,7 +252,7 @@ var landlords;
             if (ws[0] === ws[2] || ws[1] === ws[3]) {
                 return {
                     yes: true,
-                    type: 4 /* THREE_BAND_1 */,
+                    type: 4 /* PokerType.THREE_BAND_1 */,
                     weight: ws[1],
                     repeated: 1,
                     pokers: pokers
@@ -274,7 +274,7 @@ var landlords;
             if (ws[0] === ws[3]) {
                 return {
                     yes: true,
-                    type: 5 /* BOMB */,
+                    type: 5 /* PokerType.BOMB */,
                     weight: ws[0],
                     repeated: 1,
                     pokers: pokers
@@ -296,7 +296,7 @@ var landlords;
             if (ws[0] === ws[2] && ws[3] === ws[4] || (ws[0] === ws[1] && ws[2] === ws[4])) {
                 return {
                     yes: true,
-                    type: 6 /* THREE_BAND_2 */,
+                    type: 6 /* PokerType.THREE_BAND_2 */,
                     weight: ws[2],
                     repeated: 1,
                     pokers: pokers
@@ -325,7 +325,7 @@ var landlords;
                 }
                 return {
                     yes: true,
-                    type: 7 /* STRAIGHT_1 */,
+                    type: 7 /* PokerType.STRAIGHT_1 */,
                     weight: ws[0],
                     repeated: len,
                     pokers: pokers
@@ -355,7 +355,7 @@ var landlords;
                 }
                 return {
                     yes: true,
-                    type: 8 /* STRAIGHT_2 */,
+                    type: 8 /* PokerType.STRAIGHT_2 */,
                     weight: ws[0],
                     repeated: len,
                     pokers: pokers
@@ -385,7 +385,7 @@ var landlords;
                 }
                 return {
                     yes: true,
-                    type: 9 /* STRAIGHT_3 */,
+                    type: 9 /* PokerType.STRAIGHT_3 */,
                     weight: ws[0],
                     repeated: len,
                     pokers: pokers
@@ -408,7 +408,7 @@ var landlords;
             if (ws[2] === ws[5] || ws[1] === ws[4] || ws[0] === ws[3]) {
                 return {
                     yes: true,
-                    type: 10 /* FOUR_WITH_2 */,
+                    type: 10 /* PokerType.FOUR_WITH_2 */,
                     weight: ws[2],
                     repeated: 1,
                     pokers: pokers
@@ -439,7 +439,7 @@ var landlords;
                     && ws[indexArr[i][4]] === ws[indexArr[i][5]]) {
                     return {
                         yes: true,
-                        type: 11 /* FOUR_WITH_4 */,
+                        type: 11 /* PokerType.FOUR_WITH_4 */,
                         weight: ws[indexArr[i][0]],
                         repeated: 1,
                         pokers: pokers
@@ -507,7 +507,7 @@ var landlords;
                 }
                 return {
                     yes: true,
-                    type: 12 /* PLANE_WITH_SINGLE */,
+                    type: 12 /* PokerType.PLANE_WITH_SINGLE */,
                     weight: max,
                     repeated: len / 4,
                     pokers: pokers
@@ -599,7 +599,7 @@ var landlords;
                     }
                     return {
                         yes: true,
-                        type: 13 /* PLANE_WITH_TWINS */,
+                        type: 13 /* PokerType.PLANE_WITH_TWINS */,
                         weight: max,
                         repeated: len / 5,
                         pokers: pokers

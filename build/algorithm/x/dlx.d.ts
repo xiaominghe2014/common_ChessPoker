@@ -23,5 +23,6 @@ declare namespace dlx {
         dancing(d: number): boolean;
     }
     function solveStandardSudoku(subject: string, gong: number): string | null;
+    function getWH(g: number): Array<number>;
 }
 export default dlx;

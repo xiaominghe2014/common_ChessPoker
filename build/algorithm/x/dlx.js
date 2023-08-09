@@ -172,16 +172,11 @@ var dlx;
             arr[c4] = 1;
             return arr;
         };
-        var sq = getSquare(gong);
-        var gongW = sq;
-        var gongH = sq;
-        //先固定几个
-        if (gong == 6) {
-            gongW = 3;
-            gongH = 2;
-        }
         if (subject.length != gong * gong)
             return null;
+        var sq = getWH(gong);
+        var gongW = sq[0];
+        var gongH = sq[1];
         if (gongW == -1)
             return null;
         var sudoArr = [];
@@ -214,6 +209,22 @@ var dlx;
         return null;
     }
     dlx.solveStandardSudoku = solveStandardSudoku;
+    function getWH(g) {
+        var wh = [g, 1];
+        for (var i = 2; i <= g; i++) {
+            var j = g / i;
+            if (i > j)
+                return wh;
+            if (g % i == 0) {
+                if (i + j < wh[0] + wh[1]) {
+                    wh[0] = j;
+                    wh[1] = i;
+                }
+            }
+        }
+        return wh;
+    }
+    dlx.getWH = getWH;
 })(dlx || (dlx = {}));
 exports.default = dlx;
 //# sourceMappingURL=dlx.js.map

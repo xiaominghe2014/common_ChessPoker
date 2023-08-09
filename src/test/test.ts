@@ -5,6 +5,7 @@ import * as Algorithm from '../algorithm/Algorithm';
 import { log } from '../utils/log';
 import landlords from '../algorithm/landlords/landlordsAlgorithm';
 import dlx from '../algorithm/x/dlx';
+import swissSys from '../algorithm/swissSys/SwissSys';
 
 function transitionStr2Matrix(str: string|null,gongW:number,gong:number){
 
@@ -21,13 +22,39 @@ function transitionStr2Matrix(str: string|null,gongW:number,gong:number){
     return r
 }
 
+function desRotation(r:swissSys.CompetitionRotation){
+    let round = r.round
+    let againsts = r.againsts;
+    let str = "";
+    for(let against of againsts){
+        str += `(${against.first.serialNumber}=`
+        if(against.bye){
+            str += `bye`;
+        }else{
+            str += `${against.second.serialNumber}`;
+        }
+        str +="),";
+    }
+    console.log( "[round:"+round+"]"+str);
+}
+
 function test(): void {
 
     // for(let i=1; i<100 ; i ++){
     //     let wh = dlx.getWH(i)
     //     console.log(i,wh[0],wh[1])
     // }
-
+    let r1 = swissSys.layoutFirst(9);
+    desRotation(r1);
+    r1.againsts[1].first.scores+=1;
+    let r2 = swissSys.layoutNext([r1]);
+    r2.againsts[2].first.scores+=1;
+    desRotation(r2);
+    let r3 = swissSys.layoutNext([r1,r2]);
+    r3.againsts[3].first.scores+=1;
+    desRotation(r3);
+    let r4 = swissSys.layoutNext([r1,r2,r3]);
+    desRotation(r4);
     log("dfsQueen 8 is:{}",Algorithm.dfsQueen(8))
     log("AllN(3):{}",Algorithm.AllN(3))
 
