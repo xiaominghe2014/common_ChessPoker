@@ -140,6 +140,8 @@ namespace SwissSys {
         // 根据scores从大到小排序选手列表
         players.sort((a, b) => b.scores - a.scores);
 
+        let byeSerialNumber = []
+
         for (let player of players) {
             if (!player.layout) {
                 player.layout = true;
@@ -161,8 +163,85 @@ namespace SwissSys {
                     player.byeCnt += 1;
                     against.bye = true;
                     against.first = player;
+                    byeSerialNumber.push(player.serialNumber);
                 }
                 againsts.push(against);
+            }
+        }
+        //检查轮空玩家,是否可以消除轮空状态，并调整
+        if(byeSerialNumber.length>1 && byeSerialNumber.length < players.length){
+            for(let i = againsts.length-1; i>=0 ; i--){
+                let a = againsts[i];
+                if(!a.bye){
+                    let s1 = a.first.serialNumber
+                    let s2 = a.second.serialNumber
+                    let s3 = -1;
+                    let s4 = -1;
+                    //满足条件的任取两个轮空玩家
+                    for(let bye of byeSerialNumber){
+                        if(!playerMatched.get(s1)?.includes(bye)){
+                            s3 = bye;
+                            break;
+                        }
+                    }
+                    if(s3!=-1){
+                        for(let bye of byeSerialNumber){
+                            if(!playerMatched.get(s2)?.includes(bye)){
+                                if(bye!=s3){
+                                    s4 = bye;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if(s4!=-1){
+                        //刚好可以重组 s1 和 s3 ,s2 和 s4
+                        //先去除bye对局
+                        let newAgainst = [];
+                        let against1 = new Against();
+                        let against2 = new Against();
+                        let p1 = null;
+                        let p2 = null;
+                        let p3 = null;
+                        let p4 = null;
+                        for(let old of againsts){
+                            let sn = old.first.serialNumber;
+                            if(sn==s1){
+                                //拆分
+                                p1 = old.first;
+                                p2 = old.second;
+                                newAgainst.push(...[against1,against2]);
+                            }else if(sn==s3){
+                                p3 = old.first
+                            }else if(sn==s4){
+                                p4 = old.first;
+                            }else{
+                                newAgainst.push(old);
+                            }
+                        }
+                        if(p1 && p2 && p3 && p4){
+                            if (p1.firstCnt > p3.firstCnt) {
+                                p1.firstCnt--;
+                                against1.first = p3;
+                                against1.second = p1;
+                            } else {
+                                p3.firstCnt--;
+                                against1.first = p1;
+                                against1.second = p3;
+                            }
+                            if (p2.firstCnt > p4.firstCnt) {
+                                against2.first = p4;
+                                against2.second = p2;
+                            } else {
+                                p2.firstCnt++;
+                                against2.first = p2;
+                                against2.second = p4;
+                            }
+                            againsts = newAgainst;
+                        }
+                        break
+                    }
+                }
             }
         }
         // 设置下一轮的轮次数和选手对阵列表

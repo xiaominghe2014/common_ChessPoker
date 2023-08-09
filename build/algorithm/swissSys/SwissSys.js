@@ -72,7 +72,7 @@ var SwissSys;
      * @return {CompetitionRotation}
      */
     function layoutNext(allRotations, max) {
-        var _a, _b;
+        var _a, _b, _c, _d;
         if (max === void 0) { max = 0; }
         var nextRotation = new CompetitionRotation();
         // 确定下一轮的轮次数
@@ -88,8 +88,8 @@ var SwissSys;
         var playerMatched = new Map();
         for (var _i = 0, allRotations_1 = allRotations; _i < allRotations_1.length; _i++) {
             var rotation = allRotations_1[_i];
-            for (var _c = 0, _d = rotation.againsts; _c < _d.length; _c++) {
-                var against = _d[_c];
+            for (var _e = 0, _f = rotation.againsts; _e < _f.length; _e++) {
+                var against = _f[_e];
                 if (against.bye) {
                     if (rotation.round == round - 1) {
                         against.first.layout = false;
@@ -124,8 +124,9 @@ var SwissSys;
         players.sort(function (a, b) { return b.byeCnt - a.byeCnt; });
         // 根据scores从大到小排序选手列表
         players.sort(function (a, b) { return b.scores - a.scores; });
-        for (var _e = 0, players_1 = players; _e < players_1.length; _e++) {
-            var player = players_1[_e];
+        var byeSerialNumber = [];
+        for (var _g = 0, players_1 = players; _g < players_1.length; _g++) {
+            var player = players_1[_g];
             if (!player.layout) {
                 player.layout = true;
                 var s1 = player.serialNumber;
@@ -148,8 +149,93 @@ var SwissSys;
                     player.byeCnt += 1;
                     against.bye = true;
                     against.first = player;
+                    byeSerialNumber.push(player.serialNumber);
                 }
                 againsts.push(against);
+            }
+        }
+        //检查轮空玩家,是否可以消除轮空状态，并调整
+        if (byeSerialNumber.length > 1 && byeSerialNumber.length < players.length) {
+            for (var i = againsts.length - 1; i >= 0; i--) {
+                var a = againsts[i];
+                if (!a.bye) {
+                    var s1 = a.first.serialNumber;
+                    var s2 = a.second.serialNumber;
+                    var s3 = -1;
+                    var s4 = -1;
+                    //满足条件的任取两个轮空玩家
+                    for (var _h = 0, byeSerialNumber_1 = byeSerialNumber; _h < byeSerialNumber_1.length; _h++) {
+                        var bye = byeSerialNumber_1[_h];
+                        if (!((_c = playerMatched.get(s1)) === null || _c === void 0 ? void 0 : _c.includes(bye))) {
+                            s3 = bye;
+                            break;
+                        }
+                    }
+                    if (s3 != -1) {
+                        for (var _j = 0, byeSerialNumber_2 = byeSerialNumber; _j < byeSerialNumber_2.length; _j++) {
+                            var bye = byeSerialNumber_2[_j];
+                            if (!((_d = playerMatched.get(s2)) === null || _d === void 0 ? void 0 : _d.includes(bye))) {
+                                if (bye != s3) {
+                                    s4 = bye;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (s4 != -1) {
+                        //刚好可以重组 s1 和 s3 ,s2 和 s4
+                        //先去除bye对局
+                        var newAgainst = [];
+                        var against1 = new Against();
+                        var against2 = new Against();
+                        var p1 = null;
+                        var p2 = null;
+                        var p3 = null;
+                        var p4 = null;
+                        for (var _k = 0, againsts_1 = againsts; _k < againsts_1.length; _k++) {
+                            var old = againsts_1[_k];
+                            var sn = old.first.serialNumber;
+                            if (sn == s1) {
+                                //拆分
+                                p1 = old.first;
+                                p2 = old.second;
+                                newAgainst.push.apply(newAgainst, [against1, against2]);
+                            }
+                            else if (sn == s3) {
+                                p3 = old.first;
+                            }
+                            else if (sn == s4) {
+                                p4 = old.first;
+                            }
+                            else {
+                                newAgainst.push(old);
+                            }
+                        }
+                        if (p1 && p2 && p3 && p4) {
+                            if (p1.firstCnt > p3.firstCnt) {
+                                p1.firstCnt--;
+                                against1.first = p3;
+                                against1.second = p1;
+                            }
+                            else {
+                                p3.firstCnt--;
+                                against1.first = p1;
+                                against1.second = p3;
+                            }
+                            if (p2.firstCnt > p4.firstCnt) {
+                                against2.first = p4;
+                                against2.second = p2;
+                            }
+                            else {
+                                p2.firstCnt++;
+                                against2.first = p2;
+                                against2.second = p4;
+                            }
+                            againsts = newAgainst;
+                        }
+                        break;
+                    }
+                }
             }
         }
         // 设置下一轮的轮次数和选手对阵列表

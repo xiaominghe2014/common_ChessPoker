@@ -46,15 +46,19 @@ function test(): void {
     // }
     let r1 = swissSys.layoutFirst(9);
     desRotation(r1);
-    r1.againsts[1].first.scores+=1;
+    // r1.againsts[1].first.scores+=1;
     let r2 = swissSys.layoutNext([r1]);
-    r2.againsts[2].first.scores+=1;
+    // r2.againsts[2].first.scores+=1;
     desRotation(r2);
     let r3 = swissSys.layoutNext([r1,r2]);
-    r3.againsts[3].first.scores+=1;
+    // r3.againsts[3].first.scores+=1;
     desRotation(r3);
     let r4 = swissSys.layoutNext([r1,r2,r3]);
     desRotation(r4);
+    let r5 = swissSys.layoutNext([r1,r2,r3,r4]);
+    desRotation(r5);
+    let r6 = swissSys.layoutNext([r1,r2,r3,r4,r5]);
+    desRotation(r6);
     log("dfsQueen 8 is:{}",Algorithm.dfsQueen(8))
     log("AllN(3):{}",Algorithm.AllN(3))
 

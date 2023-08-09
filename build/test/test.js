@@ -43,15 +43,19 @@ function test() {
     // }
     var r1 = SwissSys_1.default.layoutFirst(9);
     desRotation(r1);
-    r1.againsts[1].first.scores += 1;
+    // r1.againsts[1].first.scores+=1;
     var r2 = SwissSys_1.default.layoutNext([r1]);
-    r2.againsts[2].first.scores += 1;
+    // r2.againsts[2].first.scores+=1;
     desRotation(r2);
     var r3 = SwissSys_1.default.layoutNext([r1, r2]);
-    r3.againsts[3].first.scores += 1;
+    // r3.againsts[3].first.scores+=1;
     desRotation(r3);
     var r4 = SwissSys_1.default.layoutNext([r1, r2, r3]);
     desRotation(r4);
+    var r5 = SwissSys_1.default.layoutNext([r1, r2, r3, r4]);
+    desRotation(r5);
+    var r6 = SwissSys_1.default.layoutNext([r1, r2, r3, r4, r5]);
+    desRotation(r6);
     (0, log_1.log)("dfsQueen 8 is:{}", Algorithm.dfsQueen(8));
     (0, log_1.log)("AllN(3):{}", Algorithm.AllN(3));
     var ans = Algorithm.gaussSolutions([
