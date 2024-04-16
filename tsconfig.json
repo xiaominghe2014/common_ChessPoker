@@ -10,9 +10,11 @@
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators" : true,
     "noImplicitAny": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "baseUrl": "./src",
   },
-  "include": [ "*/**/*.ts" ],
+  "include": [ "src/**/*.ts",
+              "tests/**/*.ts"],
   "exclude": [
       "node_modules"
   ]

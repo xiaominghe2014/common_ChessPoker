@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Poker = require("../../model/Poker");
-var Algorithm = require("../Algorithm");
-var common = require("../../utils/common");
+var Poker = require("model/Poker");
+var Algorithm = require("algorithm/Algorithm");
+var common = require("utils/common");
 var landlords;
 (function (landlords) {
     var king_small = 65;

@@ -25,8 +25,12 @@ echo "build starting"
 tsc --pretty -p .
 
 echo "buld finished"
+
+npm install mocha chai --save-dev
+
 echo "test ................"
-node `pwd`/${BUILD_DIR}/test/test.js
+
+./node_modules/.bin/mocha `pwd`/${BUILD_DIR}/tests/**/*.js
 
 
 

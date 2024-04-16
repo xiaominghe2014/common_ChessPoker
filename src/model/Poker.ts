@@ -1,4 +1,4 @@
-import * as common from '../utils/common';
+import * as common from 'utils/common';
 
 /**
  * Author: Xiaoming

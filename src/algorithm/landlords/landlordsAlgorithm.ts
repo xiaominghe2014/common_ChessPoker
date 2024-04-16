@@ -1,6 +1,6 @@
-import * as Poker from '../../model/Poker';
-import * as Algorithm from '../Algorithm';
-import * as common from '../../utils/common';
+import * as Poker from 'model/Poker';
+import * as Algorithm from 'algorithm/Algorithm';
+import * as common from 'utils/common';
 
 namespace landlords {
 
