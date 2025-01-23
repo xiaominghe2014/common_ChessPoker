@@ -23,6 +23,6 @@ for(let i = 2 ; i< 10 ; i++){
     let tag = `algorithm-x-${{i}}`
     console.time(tag)
     let sudo = new Array(i*i).fill(0).map((_,idx)=>idx>i-1?0:idx+1).join('')
-    log("{}",transitionStr2Matrix(dlx.solveStandardSudoku(sudo,i),wh[0],i))
+    log("{}",transitionStr2Matrix(dlx.solveStandardSudoku("500002000400708001083000900000000390040070010065000000001000720800605009000900008",i),wh[0],i))
     console.timeEnd(tag)
 }
