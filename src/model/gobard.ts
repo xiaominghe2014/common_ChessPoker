@@ -27,7 +27,7 @@ namespace go {
         private board: Array<number>;
         private capture: [number, number];
         private turn: number;
-        private moveHistory: Array<GoMove>;
+        private moveHistory: Array<GoMove|null>;
         private AB: string;
         private AW: string;
         private originBoard:Array<number>;
@@ -122,12 +122,16 @@ namespace go {
          *
          * @param mv
          */
-        public makeMove(mv: GoMove): boolean {
+        public makeMove(mv: GoMove|null): boolean {
+            if (mv == null) {
+                this.pass();
+                return true;
+            }
             if (this.turn != mv.color) return false;
             let pos = mv.pos;
             if (pos < 0 || pos > this.board.length - 1) return false;
             if (this.board[pos] != EMPTY) return false;
-            let result: MoveResult = this.tryMove(mv);
+            let result: MoveResult|null = this.tryMove(mv);
             if (result != null) {
                 let info = result.info;
                 for (let i of info) {
@@ -185,9 +189,9 @@ namespace go {
                     let lastMvPos = info[0];
                     let lastCapturePos = pos;
                     if (this.moveHistory.length > 0) {
-                        let lastMv: GoMove = this.moveHistory[this.moveHistory.length - 1];
+                        let lastMv: GoMove|null = this.moveHistory[this.moveHistory.length - 1];
                         if (lastMv != null && lastMv.pos == lastMvPos) {
-                            if (lastMv.result.info.length == 1 && lastMv.result.info[0] == lastCapturePos) {
+                            if (lastMv.result?.info.length == 1 && lastMv.result?.info[0] == lastCapturePos) {
                                 return null;
                             }
                         }
@@ -202,7 +206,7 @@ namespace go {
         }
 
 
-        public searchNeighbors(cNeighbors: CaptureNeighbors, board: Array<number>, searchPos: number, color: number, searchList: Array<number>): void {
+        public searchNeighbors(cNeighbors: CaptureNeighbors, board: Array<number>, searchPos: number, color: number, searchList: Array<number>|null): void {
             if (searchList == null) searchList = [];
             if (searchPos < 0 || searchPos > board.length - 1) return;
             if (searchList.indexOf(searchPos) != -1) return;
@@ -299,12 +303,12 @@ namespace go {
         }
 
         public isEye(pos: number, color: number, maxArea: number) {
-            let eye = [];
+            let eye:Array<number> = [];
             this.searchEye(eye, pos, color, null, maxArea);
             return eye.length > 0;
         }
 
-        private searchEye(eye: Array<number>, searchPos: number, color: number, searchList: Array<number>, maxEyeArea: number) {
+        private searchEye(eye: Array<number>, searchPos: number, color: number, searchList: Array<number>|null, maxEyeArea: number) {
             if (searchList == null) searchList = [];
             if (searchPos < 0 || searchPos > this.board.length - 1) return;
             if (searchList.indexOf(searchPos) != -1) return;
